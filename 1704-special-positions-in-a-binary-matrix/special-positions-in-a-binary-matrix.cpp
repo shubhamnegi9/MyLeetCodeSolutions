@@ -16,12 +16,14 @@ public:
                     for(int k = 0; k < rows; k++) {
                         if(mat[k][j] == 1) {
                             isSpecial = 0;
+                            break;
                         }
                     }
                     // Checking along row
                     for(int k = 0; k < cols; k++) {
                         if(mat[i][k] == 1) {
                             isSpecial = 0;
+                            break;
                         }
                     }
                     if(isSpecial == 1)
