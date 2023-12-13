@@ -3,37 +3,35 @@ public:
     int numSpecial(vector<vector<int>>& mat) {
         int rows = mat.size();
         int cols = mat[0].size();
-        int isSpecial = 0;
-        int specialCount = 0;
 
+        // Vectors for stroing 1's along row and column
+        vector<int> rowCount(rows, 0);
+        vector<int> colCount(cols, 0);
+
+        // Traversing in matrix and filling rowCount and colCount
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
                 if(mat[i][j] == 1) {
-                    isSpecial = 1;
-                    // Making current element 0 and checking along rows and cols
-                    mat[i][j] = 0;
-                    // Checking along column
-                    for(int k = 0; k < rows; k++) {
-                        if(mat[k][j] == 1) {
-                            isSpecial = 0;
-                            break;
-                        }
-                    }
-                    // Checking along row
-                    for(int k = 0; k < cols; k++) {
-                        if(mat[i][k] == 1) {
-                            isSpecial = 0;
-                            break;
-                        }
-                    }
-                    if(isSpecial == 1)
-                        specialCount++;
-                    // Resetting current element to 1 
-                    mat[i][j] = 1;
+                    rowCount[i]+=1;
+                    colCount[j]+=1;
                 }
             }
         }
 
-        return specialCount;
+        int countSpecial = 0;
+        // Traversing in matrix again and checking for special positions
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                if(mat[i][j] == 1) {
+                    // If only single 1 along the row and column, 
+                    // then it is special position
+                    if(rowCount[i] ==  1 && colCount[j] == 1) {
+                        countSpecial++;
+                    }
+                }
+            }
+        }
+
+        return countSpecial;
     }
 };
