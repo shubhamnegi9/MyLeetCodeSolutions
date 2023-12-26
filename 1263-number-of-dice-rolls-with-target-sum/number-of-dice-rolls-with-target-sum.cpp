@@ -108,6 +108,39 @@ public:
         return dp[dices][target];
     }
 
+    // Using Space Optimized Bottom-Up Approach
+    long long numRollsToTargetBottomUpSpaceOpt(int dices, int faces, int target) {
+        
+        // previous dice row
+        vector<long long> prev(target+1, 0);
+        // current dice row
+        vector<long long> curr(target+1, 0);
+
+        // If no dice and target is also 0 then return 1
+        prev[0] = 1;
+
+        // Iterating in dices and faces
+        // in bottom-up way
+        for(int d = 1; d <= dices; d++) {
+            for(int t = 1; t <= target; t++) {
+                long long ans = 0;
+                // Iterating over each of the faces
+                for(int i = 1; i <= faces; i++) {
+                    // For the next roll dice will decrease by 1 
+                    // and target will decrease by (target - current face value)
+                    if(t-i >= 0)
+                        ans += prev[t-i] % 1000000007;
+
+                }
+                curr[t] = ans;
+            }
+            // After each iteration assign curr to prev
+            prev = curr;
+        }
+
+        return prev[target];
+    }
+
 
     int numRollsToTarget(int n, int k, int target) {
         // Using Recursive Way:
@@ -124,7 +157,13 @@ public:
         // return ans % (1000000007);
 
         // Using Bottom-Up Approach:
-        long long ans = numRollsToTargetBottomUp(n, k, target);
+        // S.C. = O(n*target)
+        // long long ans = numRollsToTargetBottomUp(n, k, target);
+        // return ans % (1000000007);
+
+        // Using Space Optimized Bottom-Up Approach:
+        // S.C. = O(target)
+        long long ans = numRollsToTargetBottomUpSpaceOpt(n, k, target);
         return ans % (1000000007);
     }
 };
