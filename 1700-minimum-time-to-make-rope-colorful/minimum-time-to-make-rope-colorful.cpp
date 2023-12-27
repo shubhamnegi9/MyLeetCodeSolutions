@@ -2,26 +2,26 @@ class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
         int minTime = 0;
-        int sum = 0;
-        int maxSum = 0;
         int n = colors.size();
-        for(int i = 0; i < n; i++) {
-            sum += neededTime[i];
-        }
-        for(int i = 0; i < n; i++) {
-            int mx = neededTime[i];
-            if(i < n-1 && colors[i] == colors[i+1]) {
-                while(i < n-1 && colors[i] == colors[i+1]) {
-                    mx = max(mx, neededTime[i+1]);
-                    i++;
-                }
+        // Taking 2 pointers 'start' and 'end'
+        int start = 0;
+        int end = 0;
+        while(start < n && end < n) {
+            // groupMax for tracking maximum time in same consecutive group color boloons
+            int groupMax = neededTime[start];
+            // groupSum for finding total time in same consecutive group color boloons
+            int groupSum = 0;
+            // Iterating in same consecutive group color boloons
+            while(end < n && colors[start] == colors[end]) {
+                groupSum += neededTime[end];
+                groupMax = max(groupMax, neededTime[end]);
+                end++;
             }
-            // cout << "mx= " << mx << endl;
-            maxSum += mx;
+            // Min time required to remove same consecutive group color boloons
+            minTime += (groupSum - groupMax);
+            // Updating start to next consecutive group color boloons
+            start = end;
         }
-        // cout << "sum = " << sum << endl;
-        // cout << "maxSum= " << maxSum << endl;
-        minTime = sum - maxSum;
         return minTime;
     }
 };
