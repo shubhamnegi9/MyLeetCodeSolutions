@@ -13,20 +13,33 @@ public:
     // Recursive Way
     int solve(string &s, int i, int prev_ch, int prev_freq, int k) {
         // Base Cases
-        if(i >= s.length()) {
-            return 0;
-        }
         if(k < 0) {
+            /* returned INT_MAX so that 
+            when min() is calculated at
+            end then this invalid case
+            will be ignored */
             return INT_MAX;
         }
 
+        // If current index goes out of string length
+        if(i >= s.length()) {
+            return 0;
+        }
+
+        // There can be 2 cases. Either 'i'th character
+        // can be deleted or kept
+
+        // If the 'i'th character is deleted:
         int delete_i = solve(s, i+1, prev_ch, prev_freq, k-1);
 
+        // If the 'i'th character is kept:
         int keep_i = 0;
         if(s[i] - 'a' != prev_ch) {
+            // If current char is different than prev char 
             keep_i = 1 + solve(s, i+1, s[i] - 'a', 1, k); 
         }
         else {
+            // If current char is same as prev char 
             int one_more_addition = 0;
             if(prev_freq == 1 || prev_freq == 9 || prev_freq == 99) {
                 one_more_addition = 1;
@@ -34,6 +47,7 @@ public:
             keep_i = one_more_addition + solve(s, i+1, prev_ch, prev_freq+1, k);
         }
 
+        // returning minimum of the 2 cases
         return min(delete_i, keep_i);
     }
 
