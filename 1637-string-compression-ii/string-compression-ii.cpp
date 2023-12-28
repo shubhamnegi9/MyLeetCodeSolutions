@@ -40,11 +40,19 @@ public:
     // Using Memoization (Top-Down Approach)
     int solveMem(string &s, int i, int prev_ch, int prev_freq, int k) {
         // Base Cases
-        if(k < 0)
+        if(k < 0) {
+            /* returned INT_MAX so that 
+            when min() is calculated at
+            end then this invalid case
+            will be ignored */
             return INT_MAX;
+        }
         
-        if(i >= s.length())
+        // If current index goes out of string length
+        if(i >= s.length()) {
+            // Min length can no longer be calculated
             return 0;
+        }
 
         // Returned from dp array
         if(dp[i][prev_ch][prev_freq][k] != -1) {
@@ -60,16 +68,19 @@ public:
         // If the 'i'th character is kept:
         int keep_i = 0;
         // If current char is different than prev char 
-         if(s[i] - 'a' == prev_ch) {
-             int one_more_added = 0;
-             if(prev_freq == 1 || prev_freq == 9 || prev_freq == 99) {
-                 one_more_added = 1;
-             }
-            keep_i = one_more_added + solveMem(s, i+1, prev_ch, prev_freq+1, k);
-        } else {
-            keep_i = 1 + solveMem(s, i+1, s[i]-'a', 1, k);
+        if(s[i] - 'a' != prev_ch) {
+            keep_i = 1 + solveMem(s, i+1, s[i] - 'a', 1, k); 
+        }
+        else {
+            // If current char is same as prev char 
+            int one_more_addition = 0;
+            if(prev_freq == 1 || prev_freq == 9 || prev_freq == 99) {
+                one_more_addition = 1;
+            }
+            keep_i = one_more_addition + solveMem(s, i+1, prev_ch, prev_freq+1, k);
         }
 
+        // returning minimum of the 2 cases
         return dp[i][prev_ch][prev_freq][k] = min(delete_i, keep_i);
     }
 
