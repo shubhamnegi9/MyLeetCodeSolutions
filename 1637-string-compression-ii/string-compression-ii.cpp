@@ -47,7 +47,7 @@ public:
             will be ignored */
             return INT_MAX;
         }
-        
+
         // If current index goes out of string length
         if(i >= s.length()) {
             // Min length can no longer be calculated
@@ -67,17 +67,17 @@ public:
 
         // If the 'i'th character is kept:
         int keep_i = 0;
-        // If current char is different than prev char 
-        if(s[i] - 'a' != prev_ch) {
-            keep_i = 1 + solveMem(s, i+1, s[i] - 'a', 1, k); 
-        }
-        else {
+        if(s[i] - 'a' == prev_ch) {
             // If current char is same as prev char 
             int one_more_addition = 0;
             if(prev_freq == 1 || prev_freq == 9 || prev_freq == 99) {
                 one_more_addition = 1;
             }
             keep_i = one_more_addition + solveMem(s, i+1, prev_ch, prev_freq+1, k);
+        }
+        else {
+            // If current char is different than prev char 
+            keep_i = 1 + solveMem(s, i+1, s[i] - 'a', 1, k); 
         }
 
         // returning minimum of the 2 cases
