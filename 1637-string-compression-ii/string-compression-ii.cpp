@@ -38,32 +38,39 @@ public:
     }
 
     // Using Memoization (Top-Down Approach)
-    int solveMem(string &s, int i, int prev, int freq, int k ){
+    int solveMem(string &s, int i, int prev_ch, int prev_freq, int k) {
+        // Base Cases
         if(k < 0)
             return INT_MAX;
         
         if(i >= s.length())
             return 0;
-        
-        if(dp[i][prev][freq][k] != -1) {
-            return dp[i][prev][freq][k];
+
+        // Returned from dp array
+        if(dp[i][prev_ch][prev_freq][k] != -1) {
+            return dp[i][prev_ch][prev_freq][k];
         }
-        
-        int delete_i = solveMem(s, i+1, prev, freq, k-1);
-        
-        int keep_i   = 0;
-        
-        if(s[i] - 'a' == prev) {
+
+        // There can be 2 cases. Either 'i'th character
+        // can be deleted or kept
+
+        // If the 'i'th character is deleted:
+        int delete_i = solveMem(s, i+1, prev_ch, prev_freq, k-1);
+
+        // If the 'i'th character is kept:
+        int keep_i = 0;
+        // If current char is different than prev char 
+         if(s[i] - 'a' == prev_ch) {
              int one_more_added = 0;
-             if(freq == 1 || freq == 9 || freq == 99) {
+             if(prev_freq == 1 || prev_freq == 9 || prev_freq == 99) {
                  one_more_added = 1;
              }
-            keep_i = one_more_added + solveMem(s, i+1, prev, freq+1, k);
+            keep_i = one_more_added + solveMem(s, i+1, prev_ch, prev_freq+1, k);
         } else {
             keep_i = 1 + solveMem(s, i+1, s[i]-'a', 1, k);
         }
-        
-        return dp[i][prev][freq][k] = min(delete_i, keep_i);
+
+        return dp[i][prev_ch][prev_freq][k] = min(delete_i, keep_i);
     }
 
     int getLengthOfOptimalCompression(string s, int k) {
