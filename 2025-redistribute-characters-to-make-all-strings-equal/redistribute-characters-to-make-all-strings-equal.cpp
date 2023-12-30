@@ -89,7 +89,5 @@ public:
         // return makeEqualUsingArray(words);
 
         return makeEqualUsingSTLLambda(words);
-
-        
     }
 };
