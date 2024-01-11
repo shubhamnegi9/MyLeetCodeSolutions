@@ -34,9 +34,33 @@ public:
         findMaxDiff(root->right);
     }
 
+    int findMaxDiffOptimal(TreeNode* root, int maxVal, int minVal) {
+        // On reaching leaf node for a particular path, 
+        // returning maxDiff for that path
+        if(root == NULL) {
+            return abs(maxVal - minVal);
+        }
+
+        // Updating maxVal and minVal at every node
+        maxVal = max(maxVal, root->val);
+        minVal = min(minVal, root->val);
+
+        // Finding maxDiff from left path
+        int l = findMaxDiffOptimal(root->left, maxVal, minVal);
+        // Fining maxDiff from right path
+        int r = findMaxDiffOptimal(root->right, maxVal, minVal);
+
+        // Returning maximum difference out of left and right paths
+        return max(l, r);
+    }
+
     int maxAncestorDiff(TreeNode* root) {
-        maxDiff = -1;
+        // Brute Force Approach:
+        /*maxDiff = -1;
         findMaxDiff(root);
-        return maxDiff;
+        return maxDiff;*/
+
+        // Optimal Approach:
+        return findMaxDiffOptimal(root, root->val, root->val);
     }
 };
