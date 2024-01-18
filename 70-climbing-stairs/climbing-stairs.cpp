@@ -79,14 +79,15 @@ public:
     }
 
     int climbStairs(int n) {
+        // Using recursion (Gives TLE)
         // return solve(n);
 
         vector<int> dp(n+1, -1);
 
         // return solveMemo(n, dp);
 
-        return solveBottomUp(n, dp);
+        // return solveBottomUp(n, dp);
 
-        // return solveUsingVariables(n);
+        return solveUsingVariables(n);
     }
 };
