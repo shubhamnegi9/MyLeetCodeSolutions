@@ -83,10 +83,10 @@ public:
 
         vector<int> dp(n+1, -1);
 
-        // return solveMemo(n, dp);
+        return solveMemo(n, dp);
 
         // return solveBottomUp(n, dp);
 
-        return solveUsingVariables(n);
+        // return solveUsingVariables(n);
     }
 };
