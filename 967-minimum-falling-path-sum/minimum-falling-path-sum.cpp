@@ -54,6 +54,7 @@ public:
         return dp[row][col] = minSum;
     }
 
+    // Using Top Down Approach
     int solveTopDown(vector<vector<int>>& matrix, vector<vector<int>>& t) {
         // Filling first row of 't' vector same as matrix
         for(int col = 0; col < n; col++) {
