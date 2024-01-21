@@ -109,7 +109,8 @@ public:
         return dp[index][d] = res;
     }
 
-    int solveTopDown(vector<int> &jd, int n, int d, vector<vector<int>> &t) {
+    // Using Bottom Up Approach
+    int solveBottomUp(vector<int> &jd, int n, int d, vector<vector<int>> &t) {
 
         // t[i][j] = Minimum difficulty of doing job from index i to index n-1 in d days
         
@@ -164,8 +165,8 @@ public:
         // memset(dp, -1, sizeof(dp));
         // return solveMem(jobDifficulty, n, 0, d);
 
-        // Top-Down Approach
+        // Bottom Up Approach
         vector<vector<int>> t(n, vector<int>(d+1, -1));
-        return solveTopDown(jobDifficulty, n, d, t);
+        return solveBottomUp(jobDifficulty, n, d, t);
     }
 };
