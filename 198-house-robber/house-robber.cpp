@@ -35,7 +35,7 @@ public:
     }
 
     // Using Bottom-Up Approach
-    int solveTopDown(vector<int> &nums, int i, int n, vector<int> &t) {
+    int solveBottomUp(vector<int> &nums, int i, int n, vector<int> &t) {
         // t[i] represents maximum stolen money till 'i'th house (or (i-1) indexed house)
 
         t[0] = 0;   
@@ -62,6 +62,6 @@ public:
 
         // Using Bottom-Up Approach
         vector<int> t(n+1, -1);
-        return solveTopDown(nums, 0, n, t);
+        return solveBottomUp(nums, 0, n, t);
     }                              
 };
