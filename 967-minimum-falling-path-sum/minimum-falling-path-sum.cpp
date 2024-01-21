@@ -26,7 +26,7 @@ public:
         return minSum;
     }
 
-    // Using Bottom Up Memoization
+    // Using Top Down Memoization
     // (New test Case has been added, this will give TLE in last Test Case) 
     int solveMemo(vector<vector<int>>& matrix, int row, int col) {
         // Base case
@@ -54,8 +54,8 @@ public:
         return dp[row][col] = minSum;
     }
 
-    // Using Top Down Approach
-    int solveTopDown(vector<vector<int>>& matrix, vector<vector<int>>& t) {
+    // Using Bottom Up Approach
+    int solveBottomUp(vector<vector<int>>& matrix, vector<vector<int>>& t) {
         // Filling first row of 't' vector same as matrix
         for(int col = 0; col < n; col++) {
             t[0][col] = matrix[0][col];
@@ -93,15 +93,15 @@ public:
         //     minSum = min(minSum, solve(matrix, row, col));
         // }
 
-        // Using Bottom Up Memoization 
+        // Using Top Down Memoization 
         // memset(dp, -1, sizeof(dp));
         // for(int col = 0; col < n; col++) {
         //     minSum = min(minSum, solveMemo(matrix, row, col));
         // }
 
-        // Using Top Down Approach
+        // Using Bottom Up Approach
         vector<vector<int>> t(n, vector<int>(n));
-        minSum = solveTopDown(matrix, t);
+        minSum = solveBottomUp(matrix, t);
 
         return minSum;
     }
