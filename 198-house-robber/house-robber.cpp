@@ -34,14 +34,34 @@ public:
         return dp[i] = max(steal, skip);
     }
 
+    // Using Bottom-Up Approach
+    int solveTopDown(vector<int> &nums, int i, int n, vector<int> &t) {
+        // t[i] represents maximum stolen money till 'i'th house (or (i-1) indexed house)
+
+        t[0] = 0;   
+        t[1] = nums[0];
+
+        for(int i = 2; i <= n; i++) {
+            int steal = nums[i-1] + t[i-2];
+            int skip = t[i-1];
+            t[i] = max(steal, skip);
+        }
+        
+        return t[n];
+    }
+
     int rob(vector<int>& nums) {
         int n = nums.size();
         // Using recursion
         // return solve(nums, 0, n);
 
         // Using recursion + Memoization (Top-Down Approach)
-        int dp[101];
-        memset(dp, -1, sizeof(dp));
-        return solveMemo(nums, 0, n, dp);
-    }                                  
+        // int dp[101];
+        // memset(dp, -1, sizeof(dp));
+        // return solveMemo(nums, 0, n, dp);
+
+        // Using Bottom-Up Approach
+        vector<int> t(n+1, -1);
+        return solveTopDown(nums, 0, n, t);
+    }                              
 };
