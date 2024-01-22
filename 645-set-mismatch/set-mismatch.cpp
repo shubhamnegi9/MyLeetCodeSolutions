@@ -23,6 +23,7 @@ public:
     }
 
     // Optimal Approach
+    // T.C. = O(n), S.C. = O(1)
     vector<int> findErrorNumsOptimal(vector<int>& nums) {
         int n = nums.size();
         long long Sn = n*(n+1)/2;
