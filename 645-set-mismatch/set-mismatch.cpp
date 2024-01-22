@@ -22,8 +22,30 @@ public:
         return {repeating, missing};
     }
 
+    // Optimal Approach
+    vector<int> findErrorNumsOptimal(vector<int>& nums) {
+        int n = nums.size();
+        long long Sn = n*(n+1)/2;
+        long long S2n = ((long long)n * (long long)(n+1) * (long long)(2*n+1))/6;
+
+        long long S = 0, S2 = 0;
+        for(int i = 0; i < n; i++) {
+            S += nums[i];
+            S2+= (long long)nums[i] * (long long)nums[i];
+        }
+        long long diff = S - Sn;              // repeating - missing
+        long long add = (S2 - S2n) / diff;    // repeating + missing
+        long long repeating = (diff + add)/2;
+        long long missing = repeating - diff;
+        return {(int) repeating,  (int) missing};
+
+    }
+
     vector<int> findErrorNums(vector<int>& nums) {
         // Better Approach
-        return findErrorNumsBetter(nums);
+        // return findErrorNumsBetter(nums);
+
+        // Optimal Approach
+        return findErrorNumsOptimal(nums);
     }
 };
