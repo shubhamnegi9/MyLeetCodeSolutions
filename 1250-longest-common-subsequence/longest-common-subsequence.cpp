@@ -40,6 +40,39 @@ public:
         }
     }
 
+     // Using Bottom Up Approach
+     int solveBottomUp(string &s1, string &s2, int m, int n, vector<vector<int>> &t) {
+         
+        // t[i][j] represents length of longest LCS in string s1 of length 'i' and string s2 of length 'j'
+        // t[m][n] represents length of longest LCS in string s1 of length 'm' and string s2 of length 'n'
+
+        // s2 is of length 0
+        // s1 and s2 have no characters in common
+        for(int i = 0; i <= m; i++) {
+            t[i][0] = 0;   
+        }
+        
+        // s1 is of length 0
+        // s1 and s2 have no characters in common
+        for(int j = 0; j <= n; j++) {
+            t[0][j] = 0;
+        }
+
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
+                // Common character found
+                if(s1[i-1] == s2[j-1]) {
+                    t[i][j] = 1 + t[i-1][j-1];     // 1 + t[i+1][j+1] cannot be written as t[i+1][j+1] is not evaluated yet
+                }
+                else {
+                    t[i][j] = max(t[i-1][j], t[i][j-1]);
+                }
+            }
+        }
+
+        return t[m][n];
+     }
+
     int longestCommonSubsequence(string s1, string s2) {
         int m = s1.length(), n = s2.length();
         
@@ -47,8 +80,12 @@ public:
         //  return solve(s1, s2, 0, 0, m, n);
 
         // Using Top Down Approach (Recursion + Memoization)
-        int dp[1001][1001];
-        memset(dp, -1, sizeof(dp));
-        return solveMemo(s1, s2, 0, 0, m, n, dp);
+        // int dp[1001][1001];
+        // memset(dp, -1, sizeof(dp));
+        // return solveMemo(s1, s2, 0, 0, m, n, dp);
+
+        // Using Bottom Up Approach
+        vector<vector<int>> t(m+1, vector<int>(n+1));
+        return solveBottomUp(s1, s2, m, n, t);
     }
 };
