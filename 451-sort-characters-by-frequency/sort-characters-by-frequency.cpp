@@ -33,10 +33,46 @@ public:
         return res;
     }
 
+    typedef pair<char, int> P;  // Defining type as P to get clean code
+    string frequencySortUsingVectorOfPairs(string s) {
+        // Creating vector of size 123 as ASCII value of 'z' is 122
+        vector<P> v(123);
+
+        // Storing the character and its frequency as pair in v
+        for(char& ch: s) {
+            int freq = v[ch].second;
+            v[ch] = {ch, freq+1};
+        }
+
+        // Lambda function for returning the pairs in decreasing order of second value in pair
+        // (& is passed to [&] to pass by reference)
+        auto cmp = [&] (P &p1, P &p2) {
+            return p1.second > p2.second;
+        };
+        
+        // Sorting the vector based on comparator
+        sort(v.begin(), v.end(), cmp);
+
+        string res = "";
+        for(int i = 0; i < 123; i++) {
+            int ch = v[i].first;
+            int freq = v[i].second;
+            // Creating a new string using ch times freq
+            // Eg. if ch = 'a' and freq = 3, then temp = "aaa"
+            string temp = string(freq, ch);
+            res+=temp;
+        }
+
+        return res;
+    }
+
     string frequencySort(string s) {
         
         // Using Multi Map
-        return frequencySortUsingMultiMap(s);
+        // return frequencySortUsingMultiMap(s);
+
+        // Using vector of pairs
+        return frequencySortUsingVectorOfPairs(s);
 
     }
 };
