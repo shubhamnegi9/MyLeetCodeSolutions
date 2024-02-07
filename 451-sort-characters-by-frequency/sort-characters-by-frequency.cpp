@@ -66,13 +66,52 @@ public:
         return res;
     }
 
+    // Comparator lambda 
+    struct lambda {
+        bool operator()(P &p1, P &p2) {
+            // Creates a Max heap by placing smaller values at bottom and larger values at top
+            return p1.second < p2.second;    
+            // For creating Min Heap: return p1.second > p2.second
+        }
+    };
+
+    string frequencySortUsingMaxHeap(string s) {
+        unordered_map<char, int> mpp;
+
+        // Storing character's frequency in map
+        for(char& ch: s) {
+            mpp[ch]++;
+        }
+
+        // Defining priority queue of type P (where P is pair<int, char>) and comparator lambda
+        // to make it a Max Heap
+        priority_queue<P, vector<P>, lambda> pq;
+
+        // Inserting values from map to Max Heap
+        for(auto it: mpp) {
+            pq.push({it.first, it.second});
+        }
+
+        string res = "";
+        while(!pq.empty()) {
+            P temp = pq.top();  // returns maximum frequency pair
+            pq.pop();
+            res += string(temp.second, temp.first); // Creating string from pair and adding to res
+        }
+
+        return res;
+    }
+
     string frequencySort(string s) {
         
         // Using Multi Map
         // return frequencySortUsingMultiMap(s);
 
         // Using vector of pairs
-        return frequencySortUsingVectorOfPairs(s);
+        // return frequencySortUsingVectorOfPairs(s);
+
+        // Using priority queue (Max Heap)
+        return frequencySortUsingMaxHeap(s);
 
     }
 };
