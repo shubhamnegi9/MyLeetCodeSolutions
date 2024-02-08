@@ -23,10 +23,30 @@ public:
         return dp[n] = minCount;
     }
 
+    // Bottom Up Approach
+    int solveBottomUp(int n, vector<int> &t) {
+
+        // t[i] represents minimum count of perfect squares to get i
+
+        t[0] = 0;
+
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j*j <= i; j++) {
+                t[i] = min(t[i], 1 + t[i-j*j]);
+            }
+        }
+
+        return t[n];
+    }
+
     int numSquares(int n) {
         // Top Down Approach (Recursion+Memoization)
-        int dp[10001];
-        memset(dp, -1, sizeof(dp));
-        return solve(n, dp);
+        // int dp[10001];
+        // memset(dp, -1, sizeof(dp));
+        // return solve(n, dp);
+
+        // Bottom Up Approach
+        vector<int> t(n+1, 100000);
+        return solveBottomUp(n, t);
     }
 };
