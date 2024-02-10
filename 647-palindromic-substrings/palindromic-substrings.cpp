@@ -133,6 +133,7 @@ public:
         }
     }
 
+    // Smart Approach
     int countSubstringsSmartApproach(string &s) {
         int n = s.length();
         int count = 0;
