@@ -124,6 +124,26 @@ public:
         return count;
     }
 
+    void checkPalindrome(string &s, int i, int j, int n, int &count) {
+
+        while(i >= 0 && j < n && s[i] == s[j]) {
+            count+=1;
+            i--;    // Moving i to left
+            j++;    // Moving j to right
+        }
+    }
+
+    int countSubstringsSmartApproach(string &s) {
+        int n = s.length();
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            checkPalindrome(s, i, i, n, count);   // Checing for odd length palindromes with center i
+            checkPalindrome(s, i, i+1, n, count); // Checing for even length palindromes with center i and i+1
+        }
+
+        return count;
+    }
+
     int countSubstrings(string s) {
         // Iterative Way
         // return countSubstringsIterative(s);
@@ -135,6 +155,9 @@ public:
         // return countSubstringsMemo(s);
 
         // Bottom Up Approach
-        return countSubstringsBottomUp(s);
+        // return countSubstringsBottomUp(s);
+
+        // Smart Approach
+        return countSubstringsSmartApproach(s);
     }
 };
