@@ -88,6 +88,42 @@ public:
         return count;
     }
 
+    // Bottom Up Approach
+    int countSubstringsBottomUp(string &s) {
+
+        int n = s.length();
+        vector<vector<bool>> t(n, vector<bool>(n, false));
+
+        int count = 0;
+
+        for(int L = 1; L <= n; L++) {
+            for(int i = 0; i + L <= n; i++) {    // i + L - 1 < n for getting valid j
+                int j = i + L - 1;
+
+                // 0 length substring 
+                if(i == j) {
+                    t[i][i] = true;    // Always palindromic
+                }
+
+                // 1 length substring 
+                else if(i+1 == j) {
+                    t[i][j] = (s[i] == s[j]);   // Check for s[i] == s[j]
+                }
+
+                // 2 length substring
+                else {
+                    t[i][j] = (s[i] == s[j] && t[i+1][j-1]);    // Check for s[i] == s[j] and substring between 'i' and 'j' to be palindromic
+                }
+
+                if(t[i][j] == true)
+                    count++;
+
+            }
+        }
+
+        return count;
+    }
+
     int countSubstrings(string s) {
         // Iterative Way
         // return countSubstringsIterative(s);
@@ -96,7 +132,9 @@ public:
         // return countSubstringsRecursive(s);
 
         // Recursion + Memoization
-        return countSubstringsMemo(s);
-    
+        // return countSubstringsMemo(s);
+
+        // Bottom Up Approach
+        return countSubstringsBottomUp(s);
     }
 };
