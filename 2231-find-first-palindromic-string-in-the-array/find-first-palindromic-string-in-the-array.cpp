@@ -19,7 +19,7 @@ public:
 
     string firstPalindrome(vector<string>& words) {
         for(string &s: words) {
-            if(isPalindromic(s))
+            if(isPalindromic2(s))
                 return s;
         }
         return "";
