@@ -31,12 +31,27 @@ public:
         return ((n & (n-1)) == 0);
     }  
 
+    // Using Built-In Function
+    bool isPowerOfTwoBuiltInFunc(int n) {
+        if(n<=0)
+            return false;
+        /* 
+            __builtin_popcount(n) : Returns the count of set bits in n 
+            If n is long long, then use : __builtin_popcountll(n)
+        */
+        int countOf1 =  __builtin_popcount(n);
+        // If count of set bits is 1, then it is power of 2
+        return countOf1 == 1;
+    }
+
     bool isPowerOfTwo(int n) {
 
         // return isPowerOfTwoUsingLoop(n);
 
-        return isPowerOfTwoUsingRecursion(n);
+        // return isPowerOfTwoUsingRecursion(n);
 
         // return isPowerOfTwoUsingBits(n);
+
+        return isPowerOfTwoBuiltInFunc(n);
     }
 };
