@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // Using Loop
     bool isPowerOfTwoUsingLoop(int n) {
         int ans = 1;
         for(int i = 0; i <= 30; i++) {
@@ -11,8 +12,19 @@ public:
         return false;
     }
 
+    // Using Bit Manipulation
+    bool isPowerOfTwoUsingBits(int n) {
+        // Corner Case
+        if(n <= 0)
+            return false;
+        
+        return ((n & (n-1)) == 0);
+    } 
+
     bool isPowerOfTwo(int n) {
 
-        return isPowerOfTwoUsingLoop(n);
+        // return isPowerOfTwoUsingLoop(n);
+
+        return isPowerOfTwoUsingBits(n);
     }
 };
