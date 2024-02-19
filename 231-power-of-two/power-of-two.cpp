@@ -12,6 +12,16 @@ public:
         return false;
     }
 
+    // Using Recursion
+    bool isPowerOfTwoUsingRecursion(int n) {
+        if(n <= 0)
+            return false;
+        if(n == 1)
+            return true;
+        
+        return n%2==0 && isPowerOfTwoUsingRecursion(n/2);
+    }
+
     // Using Bit Manipulation
     bool isPowerOfTwoUsingBits(int n) {
         // Corner Case
@@ -19,12 +29,14 @@ public:
             return false;
         
         return ((n & (n-1)) == 0);
-    } 
+    }  
 
     bool isPowerOfTwo(int n) {
 
         // return isPowerOfTwoUsingLoop(n);
 
-        return isPowerOfTwoUsingBits(n);
+        return isPowerOfTwoUsingRecursion(n);
+
+        // return isPowerOfTwoUsingBits(n);
     }
 };
