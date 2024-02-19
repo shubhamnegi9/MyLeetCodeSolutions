@@ -44,6 +44,16 @@ public:
         return countOf1 == 1;
     }
 
+    // Shortcut Approach (Better not to tell in interviews)
+    bool isPowerOfTwoShortcut(int n) {
+        if(n<=0)
+            return false;
+        int mx = pow(2,30); // Maximum power of 2 in given constraint 
+
+        // Any number which divides 2^30 will always be in power of 2
+        return (mx%n) == 0; 
+    }
+
     bool isPowerOfTwo(int n) {
 
         // return isPowerOfTwoUsingLoop(n);
@@ -52,6 +62,8 @@ public:
 
         // return isPowerOfTwoUsingBits(n);
 
-        return isPowerOfTwoBuiltInFunc(n);
+        // return isPowerOfTwoBuiltInFunc(n);
+
+        return isPowerOfTwoShortcut(n);
     }
 };
