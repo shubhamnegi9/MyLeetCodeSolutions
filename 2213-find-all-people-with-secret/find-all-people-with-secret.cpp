@@ -150,12 +150,71 @@ public:
 
     }
 
+    // Approach 3: Without using ordered map of meeting times + DFS
+
+    void DFS(int person, int time, unordered_map<int, vector<P>>& adj, vector<int>& timeToKnowSecret) {
+
+        for(auto &ngbr: adj[person]) {
+            int nextPerson = ngbr.first;    // Next person to whom secret needs to be spread
+            int meetTime = ngbr.second;     // Time when the next person knows the secret
+
+            // Spread secret to nextPerson only when the time when the next person knows the secret
+            // is greater than or equal to time when the current person knows the secret, as well as
+            // it is less than the minimum time when the nextPerson knows the secret
+            if(meetTime >= time && meetTime < timeToKnowSecret[nextPerson]) {
+                timeToKnowSecret[nextPerson] = meetTime;    // Update the minimum time when next person knows the secret
+                DFS(nextPerson, meetTime, adj, timeToKnowSecret);      // Calling DFS for nextPerson so we can spread secret further from it
+            }
+        }
+    }
+
+    vector<int> findAllPeopleUtil3(int n, vector<vector<int>>& meetings, int firstPerson) {
+
+        // Adjacency list for doing BFS
+        unordered_map<int, vector<P>> adj;  // firstPerson -> [[secondPerson, time], ...], ...
+
+        // Filling adjacency list
+        for(vector<int> meeting: meetings) {
+            int person1 = meeting[0];
+            int person2 = meeting[1];
+            int time = meeting[2];
+
+            // Both persons can share secret to each other
+            adj[person1].push_back({person2, time});
+            adj[person2].push_back({person1, time});
+        }
+
+        // Vector to store the minimum times when each person knows secret
+        vector<int> timeToKnowSecret(n, INT_MAX);
+        timeToKnowSecret[0] = 0;            // Person 0 knows the secret at time 0
+        timeToKnowSecret[firstPerson] = 0;  // firstPerson knows the secret at time 0
+
+        // Now spread the secret using DFS
+        // Initially person 0 and firstPerson knows the secret. So start spreading from them.
+        DFS(0, 0, adj, timeToKnowSecret);
+        DFS(firstPerson, 0, adj, timeToKnowSecret);
+
+        vector<int> result;
+        // Finally iterate in timeToKnowSecret vector and check who all knows the secret
+        for(int i = 0; i < n; i++) {
+            if(timeToKnowSecret[i] != INT_MAX) {
+                result.push_back(i);
+            }
+        }
+
+        return result;
+
+    }
+
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
         
         // Approach 1
         // return findAllPeopleUtil1(n, meetings, firstPerson);
 
         // Approach 2
-        return findAllPeopleUtil2(n, meetings, firstPerson);
+        // return findAllPeopleUtil2(n, meetings, firstPerson);
+
+        // Approach 3
+        return findAllPeopleUtil3(n, meetings, firstPerson);
     }
 };
