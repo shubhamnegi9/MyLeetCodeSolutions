@@ -170,7 +170,7 @@ public:
 
     vector<int> findAllPeopleUtil3(int n, vector<vector<int>>& meetings, int firstPerson) {
 
-        // Adjacency list for doing BFS
+        // Adjacency list for doing DFS
         unordered_map<int, vector<P>> adj;  // firstPerson -> [[secondPerson, time], ...], ...
 
         // Filling adjacency list
@@ -206,6 +206,78 @@ public:
 
     }
 
+    // Approach 4: Using priority queue
+    /*
+        Instead of using ordered map for sorting meetings according to time as in approach 1, 
+        we can use min-heap priority queue for the same. 
+    */
+    vector<int> findAllPeopleUtil4(int n, vector<vector<int>>& meetings, int firstPerson) {
+
+        // Adjacency list
+        unordered_map<int, vector<P>> adj;  // firstPerson -> [[secondPerson, time], ...], ...
+
+        // Filling adjacency list
+        for(vector<int> meeting: meetings) {
+            int person1 = meeting[0];
+            int person2 = meeting[1];
+            int time = meeting[2];
+
+            // Both persons can share secret to each other
+            adj[person1].push_back({person2, time});
+            adj[person2].push_back({person1, time});
+        }
+
+        // Vector for marking the visited persons
+        // Note that we will mark the person as visited only when all its neigbours in adjacency list
+        // are marked as visited
+        vector<bool> visited(n, false);
+
+        // Min-Heap priorty queue of {time, person} pairs
+        // It will store the persons in increasing order of times 
+        priority_queue<P, vector<P>, greater<P>> pq; 
+        pq.push({0, 0});    // Person 0 knows the secret at time 0
+        pq.push({0, firstPerson}); // firstPerson knows the secret at time 0
+
+        while(!pq.empty()) {
+            auto [time, person] = pq.top();
+            pq.pop();
+
+            // If current person who knows the secret have already shared it with all its neighbours
+            // then no need to check again
+            if(visited[person]) {
+                continue;
+            }
+
+            for(auto &ngbr: adj[person]) {
+                int nextPerson = ngbr.first;    // Next person to whom secret needs to be spread
+                int meetTime = ngbr.second;     // Time when the next person knows the secret
+
+                // Spread secret to nextPerson only when the time when the next person knows the secret
+                // is greater than or equal to time when the current person knows the secret, as well as
+                // nextPerson is not already visited
+                if(meetTime >= time && !visited[nextPerson]) {
+                    pq.push({meetTime, nextPerson});      // Push nextPerson in min heap so we can spread secret further from it
+                }
+            }
+
+            // Finally marking current person as visited when all its neigbours in adjacency list 
+            // are marked as visited
+            visited[person] = true;
+        }
+
+        vector<int> result;
+        // Finally iterate in visited vector and check who all knows the secret
+        for(int i = 0; i < n; i++) {
+            if(visited[i]) {
+                result.push_back(i);
+            }
+        }
+
+        return result;
+
+    }
+
+
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
         
         // Approach 1
@@ -215,6 +287,9 @@ public:
         // return findAllPeopleUtil2(n, meetings, firstPerson);
 
         // Approach 3
-        return findAllPeopleUtil3(n, meetings, firstPerson);
+        // return findAllPeopleUtil3(n, meetings, firstPerson);
+
+        // Approach 4
+        return findAllPeopleUtil4(n, meetings, firstPerson);
     }
 };
