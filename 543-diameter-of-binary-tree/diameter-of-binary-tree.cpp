@@ -18,10 +18,12 @@ public:
         
         // Length of longest path in left subtree
         int l = findDiameter(root->left, res);
-        
+        // Length of longest path in right subtree
         int r = findDiameter(root->right, res);
+        // Diameter at current node 
         res = max(res, l+r);
 
+        // Diameter returned to parent node
         return 1+max(l, r);
     }
 
