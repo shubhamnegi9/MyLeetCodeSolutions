@@ -31,13 +31,34 @@ public:
         findUsingDFS(root->right, depth+1);
     }
 
+    // Using BFS
+    void findUsingBFS(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
 
+        while(!q.empty()) {
+            TreeNode* node = q.front();
+            q.pop();
+            bottomLeftVal = node->val;
+
+            // Pusing right child in queue first and then left child
+            // so that the last node in queue will be bootom left tree node
+            if(node->right)
+                q.push(node->right);
+            if(node->left)
+                q.push(node->left);
+        }
+    }
 
     int findBottomLeftValue(TreeNode* root) {
 
         // Using DFS
-        maxDepth = -1;
-        findUsingDFS(root, 0);
+        // maxDepth = -1;
+        // findUsingDFS(root, 0);
+        // return bottomLeftVal;
+
+        // Using BFS
+        findUsingBFS(root);
         return bottomLeftVal;
     }
 };
