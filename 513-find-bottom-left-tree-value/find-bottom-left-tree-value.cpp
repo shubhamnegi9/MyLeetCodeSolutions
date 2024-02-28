@@ -39,14 +39,42 @@ public:
         while(!q.empty()) {
             TreeNode* node = q.front();
             q.pop();
+            // Updating bottomLeftVal to value of node popped
             bottomLeftVal = node->val;
 
             // Pusing right child in queue first and then left child
-            // so that the last node in queue will be bootom left tree node
+            // so that the last node in queue will be bottom left tree node
+            // in the last row
             if(node->right)
                 q.push(node->right);
             if(node->left)
                 q.push(node->left);
+        }
+    }
+
+    // Using Level Wise BFS
+    void findUsingBFSLevelWise(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while(!q.empty()) {
+            
+            int n = q.size();   // Number of nodes at current level
+            // Process all nodes at once in current level
+            while(n--) {
+                TreeNode* node = q.front();
+                q.pop();
+                // Updating bottomLeftVal to value of node popped
+                bottomLeftVal = node->val;
+
+                // Pusing right child in queue first and then left child
+                // so that the last node in queue will be bottom left tree node
+                // in the last row
+                if(node->right)
+                    q.push(node->right);
+                if(node->left)
+                    q.push(node->left);
+            }
         }
     }
 
@@ -59,6 +87,10 @@ public:
 
         // Using BFS
         findUsingBFS(root);
+        return bottomLeftVal;
+
+        // Using Level Wise BFS
+        findUsingBFSLevelWise(root);
         return bottomLeftVal;
     }
 };
