@@ -74,6 +74,8 @@ public:
     }
 
     // Using level wise BFS with better space 
+    // T.C. = O(n) for traversing to each node once
+    // S.C. = O(n) for queue
     bool isEvenOddTreeUsingBFS2(TreeNode* root) {
         queue<TreeNode*> q;
         q.push(root);
