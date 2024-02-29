@@ -28,14 +28,12 @@ public:
         return true;
     }
 
-    bool isEvenOddTree(TreeNode* root) {
-
-        // Using BFS
+    // Using level wise BFS
+    bool isEvenOddTreeUsingBFS(TreeNode* root) {
         queue<TreeNode*> q;
         q.push(root);
         int level = 0;
         while(!q.empty()) {
-            cout << level << endl;
             int n = q.size();
             vector<int> v;
             while(n--) {
@@ -73,5 +71,52 @@ public:
             level++;
         }
         return true;
+    }
+
+    // Using level wise BFS with better space 
+    bool isEvenOddTreeUsingBFS2(TreeNode* root) {
+        queue<TreeNode*> q;
+        q.push(root);
+        bool evenLevel = true;
+        while(!q.empty()) {
+            int n = q.size();
+            int prev;   // For tracking previous node in this level
+            if(evenLevel) {
+                prev = INT_MIN;
+            }
+            else {
+                prev = INT_MAX;
+            }
+            while(n--) {
+                TreeNode* curr = q.front();
+                q.pop();
+                // Even Level
+                if(evenLevel && (curr->val % 2 == 0 || curr->val <= prev)) {
+                    return false;
+                }
+                // Odd Level
+                if(!evenLevel && (curr->val % 2 == 1 || curr->val >= prev)) {
+                    return false;
+                }
+                // Assigning current node value to prev
+                prev = curr->val;   
+                if(curr->left)
+                    q.push(curr->left);
+                if(curr->right)
+                    q.push(curr->right);
+            }
+            // Changing level
+            evenLevel = !evenLevel;
+        }
+        return true;
+    }
+
+    bool isEvenOddTree(TreeNode* root) {
+
+        // Using level wise BFS
+        // return isEvenOddTreeUsingBFS(root);
+
+        // Using level wise BFS with better space
+        return isEvenOddTreeUsingBFS2(root);
     }
 };
