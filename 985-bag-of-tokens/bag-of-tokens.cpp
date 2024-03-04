@@ -18,7 +18,7 @@ public:
                 i++;
             }
             else if(score >= 1) {
-                
+                // Gain power and loose score
                 power += tokens[j];
                 score-=1;
                 j--;
@@ -29,6 +29,5 @@ public:
         }
 
         return maxScore;
-
     }
 };
