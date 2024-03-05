@@ -10,11 +10,12 @@ public:
             while(i < j && s[i] == ch) {
                 i++;
             }
-            
+            // Move j to next character before suffix
             while(i <= j && s[j] == ch) {   // i <= j in case i reaches to j because of previous while loop
                 j--;
             }
         }
+        
         return j-i+1;
     }
 };
