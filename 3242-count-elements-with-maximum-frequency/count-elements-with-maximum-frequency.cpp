@@ -1,20 +1,19 @@
 class Solution {
 public:
     int maxFrequencyElements(vector<int>& nums) {
-        int mx = *max_element(nums.begin(), nums.end());
-
         // Hash array of size (maxElement+1)
-        vector<int> hash(mx+1, 0);
+        vector<int> hash(101, 0);
 
-        // Storing freq of elements in hash array
+        // Storing freq of elements in hash array and keeping track of maxFreq element
+        int maxFreq = -1;
         for(int ele: nums) {
             hash[ele]++;
+            maxFreq = max(maxFreq, hash[ele]);
         }
 
         // Finding max freq element and increasing its freq count
-        int maxFreq = *max_element(hash.begin(), hash.end());
         int count = 0;
-        for(int i = 0; i <= mx; i++) {
+        for(int i = 0; i < 101; i++) {
             if(hash[i] == maxFreq) {
                 count += hash[i];
             }
