@@ -10,15 +10,29 @@
  */
 class Solution {
 public:
-    ListNode* middleNode(ListNode* head) {
-        ListNode* first  = head;
-        ListNode* second = head;
-        
-        while(first && second && second->next) {
-            first = first->next;
-            second = second->next->next;
+    ListNode* middleNodeUsingBrute(ListNode* head) {
+        int len = 0;
+        ListNode* temp = head;
+        while(temp != NULL) {
+            len++;
+            temp = temp -> next;
         }
-        
-        return first;
+
+        int mid = len/2;
+        temp = head;
+        int i = 0;
+        while(temp != NULL) {
+            if(i == mid)
+                head = temp;
+            i++;
+            temp = temp -> next;
+        } 
+
+        return head;
+    }
+
+    ListNode* middleNode(ListNode* head) {
+        // Using Brute Force
+        return middleNodeUsingBrute(head);
     }
 };
