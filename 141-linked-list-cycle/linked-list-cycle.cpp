@@ -35,8 +35,36 @@ public:
         return false;
     }
 
+    // Using Slow and Fast Pointers
+    bool hasCycleUsingOptimal(ListNode* head) {
+        // Empty node and single node cannot make cycle
+        if(head == NULL || head->next == NULL) {
+            return NULL;
+        }
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            // Cycle is detected in linked list
+            if(slow == fast)
+                return true;
+        }
+
+        // In case while loop is not returned due to slow==fast, 
+        // it means that there is no cycle in linked list.
+        return false;
+    }
+
     bool hasCycle(ListNode *head) {
         // Using Brute Force
-        return hasCycleUsingBrute(head);
+        // return hasCycleUsingBrute(head);
+
+        // Using Optimal Approach
+        return hasCycleUsingOptimal(head);
+
     }
 };
