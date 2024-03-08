@@ -49,19 +49,25 @@ public:
             slow = slow->next;
             fast = fast->next->next;
 
+            // Cycle is detected in linked list
             if(slow == fast)
                 break;
         }
 
+        // In case while loop is not break due to slow==fast, 
+        // it means that there is no cycle in linked list.
         if(slow != fast)
             return NULL;
         
+        // At this point, it is confirmed that cycle must be present.
+        // Initialize pointer p and move slow and p pointers by one step.
+        // The point where they both meet must be the beginning node of cycle.
         ListNode* p = head;
         while(p != slow) {
             p = p->next;
             slow = slow->next;
         }
-        return p;
+        return p;    // or return slow;
     }
 
     ListNode *detectCycle(ListNode *head) {
