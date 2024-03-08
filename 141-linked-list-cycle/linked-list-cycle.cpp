@@ -8,20 +8,35 @@
  */
 class Solution {
 public:
-    bool hasCycle(ListNode *head) {
-        if(!head || !(head->next))
+    // Using Brute Force
+    // T.C. = O(n), S.C. = O(n)
+    bool hasCycleUsingBrute(ListNode *head) {
+
+        // Empty node and single node cannot make cycle
+        if(head == NULL || head->next == NULL) {
             return false;
-        
-        ListNode* slow = head;
-        ListNode* fast = head;
-        
-        while(fast && fast->next) {
-            slow = slow->next;
-            fast = fast->next->next;
-            if(slow == fast)
-                return true;
         }
-        
+
+        // Set for storing the nodes traversed so far
+        set<ListNode*> s;
+
+        while(head) {
+            // If node found in set, then we have reached to same node again.
+            // This node is begining of cycle.
+            if(s.find(head) != s.end()) {
+                return true;
+            }
+            // Insert current node in set
+            s.insert(head);
+            head = head->next;
+        }
+
+        // No cycle is present 
         return false;
+    }
+
+    bool hasCycle(ListNode *head) {
+        // Using Brute Force
+        return hasCycleUsingBrute(head);
     }
 };
