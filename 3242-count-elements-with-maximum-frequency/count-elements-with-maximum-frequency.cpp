@@ -12,13 +12,16 @@ public:
         }
 
         // Finding max freq element and increasing its freq count
-        int count = 0;
-        for(int i = 0; i < 101; i++) {
-            if(hash[i] == maxFreq) {
-                count += hash[i];
-            }
-        }
+        int res = 0;
+        // for(int i = 0; i < 101; i++) {
+        //     if(hash[i] == maxFreq) {
+        //         res += hash[i];
+        //     }
+        // }
 
-        return count;
+        // Finding count of maxFreq elements using count() STL function
+        res = count(hash.begin(), hash.end(), maxFreq) * maxFreq;
+
+        return res;
     }
 };
