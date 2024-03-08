@@ -9,7 +9,14 @@
 class Solution {
 public:
     // Using Brute Force
+    // T.C. = O(n), S.C. = O(n)
     ListNode* detectCycleUsingBrute(ListNode *head) {
+
+        // Empty node and single node cannot make cycle
+        if(head == NULL || head->next == NULL) {
+            return NULL;
+        }
+
         // Set for storing the nodes traversed so far
         set<ListNode*> s;
 
@@ -28,8 +35,40 @@ public:
         return NULL;
     }
 
+    // Using Slow and Fast Pointers
+    ListNode* detectCycleUsingOptimal(ListNode* head) {
+        // Empty node and single node cannot make cycle
+        if(head == NULL || head->next == NULL) {
+            return NULL;
+        }
+
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if(slow == fast)
+                break;
+        }
+
+        if(slow != fast)
+            return NULL;
+        
+        ListNode* p = head;
+        while(p != slow) {
+            p = p->next;
+            slow = slow->next;
+        }
+        return p;
+    }
+
     ListNode *detectCycle(ListNode *head) {
         // Using Brute Force
-        return detectCycleUsingBrute(head);
+        // return detectCycleUsingBrute(head);
+
+        // Using Optimal Approach
+        return detectCycleUsingOptimal(head);
     }
 };
