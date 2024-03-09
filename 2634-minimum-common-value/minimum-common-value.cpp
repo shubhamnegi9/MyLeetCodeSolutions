@@ -82,9 +82,9 @@ public:
         // return getCommonUsingSet(nums1, nums2);
 
         // Using Binary Search
-        return getCommonUsingBinarySearch(nums1, nums2);
+        // return getCommonUsingBinarySearch(nums1, nums2);
 
         // Using 2 pointer approach
-        // return getCommonUsing2Pointer(nums1, nums2);
+        return getCommonUsing2Pointer(nums1, nums2);
     }
 };
