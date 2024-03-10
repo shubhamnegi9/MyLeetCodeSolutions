@@ -91,6 +91,44 @@ public:
     }
 
     // Approach 5: using 2 pointers
+    vector<int> intersectionUsing2Pointer(vector<int>& nums1, vector<int>& nums2) {
+        // Sort elements of nums1 and nums2
+        sort(nums1.begin(), nums1.end());
+        sort(nums2.begin(), nums2.end());
+
+        int p1 = 0, p2 = 0;
+        int m = nums1.size(), n = nums2.size();
+        vector<int> res;
+
+        while(p1 < m && p2 < n) {
+            if(nums1[p1] == nums2[p2]) {
+                res.push_back(nums1[p1]);
+                
+                // Move p1 pointer ahead till we get same elements ahead
+                while(p1 < m-1 && nums1[p1] == nums1[p1+1]) {
+                    p1++;
+                }
+
+                // Move p2 pointer ahead till we get same elements ahead
+                while(p2 < n-1 && nums2[p2] == nums2[p2+1]) {
+                    p2++;
+                }
+
+                // Move p1 and p2 ahead by one if we get same elements at both
+                p1++;
+                p2++;
+            }
+            else if(nums1[p1] <= nums2[p2]) {
+                p1++;   // Move p1
+            }
+            else {
+                p2++;   // Move p2
+            }
+        }
+
+        return res;
+    }
+
 
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
 
@@ -104,6 +142,9 @@ public:
         // return intersectionUsingApproach3(nums1, nums2);
 
         // Approach 4: using Binary search
-        return intersectionUsingBinarySearch(nums1, nums2);
+        // return intersectionUsingBinarySearch(nums1, nums2);
+        
+        // Approach 5: using 2 pointers
+        return intersectionUsing2Pointer(nums1, nums2);
     }
 };
