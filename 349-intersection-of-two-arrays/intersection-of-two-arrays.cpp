@@ -43,9 +43,9 @@ public:
     vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
 
         // Approach 1: taking sets for nums1 and res
-        return intersectionUsingApproach1(nums1, nums2);
+        // return intersectionUsingApproach1(nums1, nums2);
 
         // Approach 2 : taking sets for nums1 and nums2
-        // return intersectionUsingApproach2(nums1, nums2);
+        return intersectionUsingApproach2(nums1, nums2);
     }
 };
