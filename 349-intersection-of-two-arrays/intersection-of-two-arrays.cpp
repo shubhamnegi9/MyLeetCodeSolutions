@@ -35,6 +35,22 @@ public:
     }
 
     // Approach 3: taking set for nums1 only
+    vector<int> intersectionUsingApproach3(vector<int>& nums1, vector<int>& nums2) {
+        // Adding elements of nums1 in set to get unique elements
+        unordered_set<int> s1(nums1.begin(), nums1.end());
+        vector<int> res;
+
+        // Iterating in nums2 and finding element in s1
+        for(int ele: nums2) {  
+            if(s1.find(ele) != s1.end()) {
+                res.push_back(ele);
+                // Remove the element from set s1 to get unique common element in both
+                s1.erase(ele);
+            }
+        }
+
+        return res;
+    }
 
     // Approach 4: using Binary search
 
@@ -46,6 +62,9 @@ public:
         // return intersectionUsingApproach1(nums1, nums2);
 
         // Approach 2 : taking sets for nums1 and nums2
-        return intersectionUsingApproach2(nums1, nums2);
+        // return intersectionUsingApproach2(nums1, nums2);
+
+        // Approach 3: taking set for nums1 only
+        return intersectionUsingApproach3(nums1, nums2);
     }
 };
