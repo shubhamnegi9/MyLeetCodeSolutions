@@ -53,6 +53,42 @@ public:
     }
 
     // Approach 4: using Binary search
+    bool binarySearch(vector<int> &nums, int target) {
+        int n = nums.size();
+        int low = 0, high = n-1;
+        while(low <= high) {
+            int mid = (low+high)/2;
+            if(nums[mid] == target) {
+                return true;
+            }
+            else if(target <= nums[mid]) {
+                high = mid-1;
+            }
+            else {
+                low = mid+1;
+            }
+        }
+
+        return false;
+    }
+
+    vector<int> intersectionUsingBinarySearch(vector<int>& nums1, vector<int>& nums2) {
+        // Sort elements of nums1 to apply Binary Search on it
+        sort(nums1.begin(), nums1.end());
+        // Set for adding unqiue common elements
+        set<int> s;
+
+        // Iterating in nums2 and finding element in nums1 using binary search
+        for(int ele: nums2) {  
+            if(binarySearch(nums1, ele)) {
+                s.insert(ele);
+            }
+        }
+
+        // Adding elements of set s in vector res
+        vector<int> res(s.begin(), s.end());
+        return res;
+    }
 
     // Approach 5: using 2 pointers
 
@@ -65,6 +101,9 @@ public:
         // return intersectionUsingApproach2(nums1, nums2);
 
         // Approach 3: taking set for nums1 only
-        return intersectionUsingApproach3(nums1, nums2);
+        // return intersectionUsingApproach3(nums1, nums2);
+
+        // Approach 4: using Binary search
+        return intersectionUsingBinarySearch(nums1, nums2);
     }
 };
