@@ -1,8 +1,8 @@
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        unordered_map<char, char> mp1;  // Map characters of s to t
-        unordered_map<char, char> mp2;  // Map characters of t to s
+        unordered_map<char, char> mp1;  
+        unordered_map<char, char> mp2; 
 
         int m = s.length();
 
@@ -17,6 +17,8 @@ public:
                     return false;
             }
 
+            // Map character of s to t
+            // Map character of t to s
             mp1[ch1] = ch2;
             mp2[ch2] = ch1;
         }
