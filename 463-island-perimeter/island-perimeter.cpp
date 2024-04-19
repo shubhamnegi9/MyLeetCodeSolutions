@@ -31,14 +31,16 @@ public:
         queue<pair<int, int>> q;
         // Pushing currrent cell position in queue
         q.push({i, j});
-        
+        // Marking current cell as visited
         grid[i][j] = -1;
 
         while(!q.empty()) {
+            // Taking out front element from queue and doing BFS on its neighbours
             auto it = q.front();
             q.pop();
 
             for(auto &dir: directions) {
+                
                 int new_i = it.first + dir[0];
                 int new_j = it.second + dir[1];
 
