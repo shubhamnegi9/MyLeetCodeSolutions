@@ -15,7 +15,7 @@ public:
         if(grid[i][j] == -1)
             return;
         
-        // Mark current cell as visited
+        // Mark current cell as visited using -1
         // If we don't mark it as visited then we will stuck in infinite loop during traversal
         grid[i][j] = -1;
 
@@ -31,7 +31,7 @@ public:
         queue<pair<int, int>> q;
         // Pushing currrent cell position in queue
         q.push({i, j});
-        // Marking current cell as visited
+        // Marking current cell as visited using -1
         grid[i][j] = -1;
 
         while(!q.empty()) {
@@ -40,18 +40,22 @@ public:
             q.pop();
 
             for(auto &dir: directions) {
-                
+                // Coordinates for adjacent cells
                 int new_i = it.first + dir[0];
                 int new_j = it.second + dir[1];
 
+                // In case of going out of grid boundary or going to water cell,
+                // increase the perimeter by 1 as there would be wall in between
                 if(new_i < 0 || new_i >= m || new_j < 0 || new_j >= n || grid[new_i][new_j] == 0) {
                     peri++;
                     continue;
                 }
+                // Continue from already visited cell
                 else if(grid[new_i][new_j] == -1) {
                     continue;
                 }
                 else {
+                    // Marking adjacent cells as visited and pushing its position in queue
                     grid[new_i][new_j] = -1;
                     q.push({new_i, new_j});
                 }
