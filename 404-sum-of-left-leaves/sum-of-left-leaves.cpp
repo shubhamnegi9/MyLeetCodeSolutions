@@ -15,9 +15,8 @@ public:
     // Approach 1 : Using Parent Pointer
     int solve1(TreeNode* curr, TreeNode* parent) {
 
-        // NULL node 
         if(curr == NULL)
-            return 0;
+            return 0;       // Return 0 as sum
         
         // Leaf Node
         if(curr->left == NULL && curr->right == NULL) {
@@ -35,8 +34,28 @@ public:
         return left+right;
     }
 
+    // Approach 2: Using flag
+    int solve2(TreeNode* curr, bool isLeftLeaf) {
+
+        if(curr == NULL)
+            return 0;       // Return 0 as sum
+
+        // Leaf node and left leaf
+        if(curr->left == NULL && curr->right == NULL && isLeftLeaf) {
+            return curr->val;
+        }
+
+        int left = solve2(curr->left, true);        // Passing true for leftLeaf
+        int right = solve2(curr-> right, false);    // Passing false for leftLeaf
+
+        return left+right;
+    }
+
     int sumOfLeftLeaves(TreeNode* root) {
         // Approach 1 : Using Parent Pointer
-        return solve1(root, NULL);
+        // return solve1(root, NULL);
+
+        // Approach 2: Using flag
+        return solve2(root, false);
     }
 };
