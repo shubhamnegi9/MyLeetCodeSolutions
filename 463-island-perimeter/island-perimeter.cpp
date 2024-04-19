@@ -26,6 +26,7 @@ public:
         DFS(grid, i, j-1, m, n, peri);
     }
 
+    // Using BFS
     void BFS(vector<vector<int>>& grid, int i, int j, int m, int n, vector<vector<int>> directions, int &peri) {
 
         queue<pair<int, int>> q;
@@ -63,6 +64,33 @@ public:
         }
     }
 
+    // Using iterative Approach
+    void islandPerimeterIterative(vector<vector<int>>& grid, int m, int n, int &peri) {
+
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(grid[i][j] == 1) {
+                    // On going right if out of boundary or water cell
+                    if(i+1 >= m || grid[i+1][j] == 0) {     
+                        peri++;
+                    }
+                    // On going left if out of boundary or water cell
+                    if(i-1 < 0 || grid[i-1][j] == 0) {      
+                        peri++;
+                    }
+                    // On going top if out of boundary or water cell
+                    if(j+1 >= n || grid[i][j+1] == 0) {     
+                        peri++;
+                    }
+                    // On going bottom if out of boundary or water cell
+                    if(j-1 < 0 || grid[i][j-1] == 0) {      
+                        peri++;
+                    }
+                }
+            }
+        }
+    }
+
     int islandPerimeter(vector<vector<int>>& grid) {
         int m = grid.size();        // Rows
         int n = grid[0].size();     // Columns
@@ -79,16 +107,18 @@ public:
         // }
 
         // Using BFS
-        vector<vector<int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                // Start BFS from the cell containing 1
-                if(grid[i][j] == 1) {
-                    BFS(grid, i, j, m, n, directions, perimeter);
-                }
-            }
-        }
+        // vector<vector<int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        // for(int i = 0; i < m; i++) {
+        //     for(int j = 0; j < n; j++) {
+        //         // Start BFS from the cell containing 1
+        //         if(grid[i][j] == 1) {
+        //             BFS(grid, i, j, m, n, directions, perimeter);
+        //         }
+        //     }
+        // }
 
+        // Using Iterative Approach
+        islandPerimeterIterative(grid, m, n, perimeter);
 
         return perimeter;
     }
