@@ -34,10 +34,46 @@ public:
         DFS(root->right, curr, result);
     }
 
+    // Using BFS
+    void BFS(TreeNode* root, string curr, string &result) {
+        
+        // Since at every node, we need node and the string formed till that node, so taking queue of type pair<TreeNode*, string>
+        queue<pair<TreeNode*, string>> q;
+        // Converting node to string and appending it before curr string
+        curr = string(1, char((root->val)+'a')) + curr;
+        q.push({root, curr});
+
+        while(!q.empty()) {
+            auto [node, str] = q.front();
+            q.pop();
+
+            // Leaf node 
+            if(!node->left && !node->right) {   // if(node->left == NULL && node->right==NULL)
+                // If result string is empty or curr string is lexicographically smaller string than result string
+                if(result == "" || str < result) {
+                    result = str;
+                }
+            }
+
+            // Pushing left child to queue
+            if(node->left) {    // if(node->left != NULL)
+                q.push({node->left, string(1, char((node->left->val)+'a')) + str});
+            }
+
+            // Pushing right child to queue
+            if(node->right) {   // if(node->right != NULL)
+                q.push({node->right, string(1, char((node->right->val)+'a')) + str});
+            }
+        }
+    }
+
     string smallestFromLeaf(TreeNode* root) {
         string result = "";
         // Using DFS
-        DFS(root, "", result);
+        // DFS(root, "", result);
+
+        // Using BFS
+        BFS(root, "", result);
 
         return result;
     }
