@@ -54,12 +54,56 @@ public:
         }
     }
 
+    // Using Iterative Approach (Without DFS and BFS)
+    vector<vector<int>> findFarmlandIterative(vector<vector<int>>& land, int m, int n) {
+        vector<vector<int>> result;
+
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                // Group found
+                if(land[i][j] == 1) {
+                    // Current i and j will be top left coordinates of group
+                    // Intializing bottom right coordinates as i and j
+                    int r1 = i, c1 = j, r2 = i, c2 = j;
+
+                    // Finding bottom most row of current group
+                    // Keep moving down until 1 is found
+                    while(r2 < m && land[r2][j] == 1) {
+                        r2++;
+                    }
+                    // Finding right most column of current group
+                    // Keep moving right until 1 is found
+                    while(c2 < n && land[i][c2] == 1) {
+                        c2++;
+                    }
+
+                    // Once above while loop ends, r2 and c2 will be one more than actual r2 and c2 (Because of r2++ and c2++)
+                    // In case r2 and c2 are 0s initially, then we need to keep as same
+                    r2 = r2==0 ? r2 : r2-1;
+                    c2 = c2==0 ? c2 : c2-1;
+                    
+                    result.push_back({r1, c1, r2, c2});
+
+                    // Marking all the 1s in the group as visited, so we don't traverse them again
+                    for(int k = r1; k <= r2; k++) {
+                        for(int l = c1; l <= c2; l++) {
+                            land[k][l] = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
     vector<vector<int>> findFarmland(vector<vector<int>>& land) {
         int m = land.size();
         int n = land[0].size();
         vector<vector<int>> result;
         vector<vector<int>> directions = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
+        // Using DFS and BFS
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
                 // Group found
@@ -72,12 +116,15 @@ public:
                     // DFS(land, i, j, m, n, r2, c2, directions);
 
                     // Finding bottom right coordinates of group using BFS
-                    BFS(land, i, j, m, n, r2, c2, directions);
+                    // BFS(land, i, j, m, n, r2, c2, directions);
 
-                    result.push_back({r1, c1, r2, c2});
+                    // result.push_back({r1, c1, r2, c2});
                 }
             }
         }
+
+        // Using Iterative Approach (Without DFS and BFS)
+        result = findFarmlandIterative(land, m, n);
 
         return result;
     }
