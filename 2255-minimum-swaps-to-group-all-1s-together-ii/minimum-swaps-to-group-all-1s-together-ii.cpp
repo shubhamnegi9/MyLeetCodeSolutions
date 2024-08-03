@@ -1,7 +1,9 @@
 class Solution {
 public:
-    int minSwaps(vector<int>& nums) {
-        int n = nums.size();
+    
+    // Approach-1 (Using extra space + Khandani Sliding Window)
+    int minSwapsUsingExtraSpace(vector<int>& nums) {
+         int n = nums.size();
         vector<int> temp(2*n);  // Creating another array of twice the size
         
         // For appending same array at the end to handle circular array case
@@ -31,5 +33,9 @@ public:
         
         // Returning min. no. of swaps
         return (windowSize - maxCountOf1s);
+    }
+    
+    int minSwaps(vector<int>& nums) {
+        return minSwapsUsingExtraSpace(nums);
     }
 };
