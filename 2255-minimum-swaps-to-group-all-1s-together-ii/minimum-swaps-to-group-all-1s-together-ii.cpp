@@ -13,6 +13,7 @@ public:
         
         // Applying Sliding Window 
         int windowSize = count(nums.begin(), nums.end(), 1); // Window size using original nums array
+        // OR int windowSize = accumulate(begin(nums), end(nums), 0);
         int currCountOf1s = 0;
         int maxCountOf1s = 0;
         int i = 0, j = 0;
@@ -35,7 +36,38 @@ public:
         return (windowSize - maxCountOf1s);
     }
     
+    // Approach-2 (Without using extra space + Khandani Sliding Window)
+    int minSwapsWithoutExtraSpace(vector<int>& nums) {
+        int n = nums.size();
+        
+        // Applying Sliding Window 
+        int windowSize = count(nums.begin(), nums.end(), 1); // Window size using original nums array
+        // OR int windowSize = accumulate(begin(nums), end(nums), 0);
+        int currCountOf1s = 0;
+        int maxCountOf1s = 0;
+        int i = 0, j = 0;
+        
+        while(j < 2*n) {
+            currCountOf1s+=nums[j%n];
+            
+            if(j-i+1 > windowSize) {
+                // Shrink the window
+                currCountOf1s-=nums[i%n];
+                i++;
+            }
+            
+            // Keeping track of max count of 1s for each window
+            maxCountOf1s = max(maxCountOf1s, currCountOf1s);
+            j++;
+        }
+        
+        // Returning min. no. of swaps
+        return (windowSize - maxCountOf1s);
+    }
+    
     int minSwaps(vector<int>& nums) {
-        return minSwapsUsingExtraSpace(nums);
+        
+        // return minSwapsUsingExtraSpace(nums);
+        return minSwapsWithoutExtraSpace(nums);
     }
 };
