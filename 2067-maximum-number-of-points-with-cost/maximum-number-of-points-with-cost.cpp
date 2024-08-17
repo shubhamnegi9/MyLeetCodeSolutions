@@ -34,6 +34,8 @@ public:
     }
     
     // Approach 2: Optimal Approach
+    // T.C. = O(m*n)
+    // S.C. = O(n)
     long long maxPointsOptimal(vector<vector<int>>& points) {
         
         vector<long long> prev(n);
