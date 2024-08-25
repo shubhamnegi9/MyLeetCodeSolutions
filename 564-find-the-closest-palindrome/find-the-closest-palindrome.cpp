@@ -1,23 +1,28 @@
 class Solution {
 public:
-    long halfToPalindrome(long left, bool even) {
-        long resultNum = left;
-        if (!even) {
-            left = left / 10;
+    
+    long firstHalfToPalindrome(long halfNum, bool isEven) {
+        long result = halfNum;
+        if(!isEven) {
+            halfNum /= 10;  // For skipping the middle number to be mirrored in case original num is of odd length. 
+                            // For eg: 123 -> 12321
         }
-
-        while (left > 0) {
-            int digit = left % 10;
-            resultNum = (resultNum * 10) + digit;
-            left /= 10;
+        
+        // Mirroring the first half on other side
+        while(halfNum > 0) {
+           int rem = halfNum%10;
+           result = (result*10)+rem; 
+           halfNum/=10; 
         }
-        return resultNum;
-    }
-
-    string nearestPalindromic(string n) {
-        int len = n.size();
-        int mid = len / 2;
-        long firstHalf = stol(n.substr(0, len % 2 == 0 ? mid : mid + 1));
+        
+        return result;
+    } 
+    
+    string nearestPalindromic(string s) {
+        int L = s.length();
+        int halfLength = (L%2==0) ? L/2 : (L/2)+1;
+        long firstHalf = stol(s.substr(0, halfLength));
+        
         /*
           Generate possible palindromic candidates:
           1. Palindrome by mirroring the first half.
@@ -27,26 +32,35 @@ public:
              and 100...001
         */
         vector<long> possibleResults;
-        possibleResults.push_back(halfToPalindrome(firstHalf, len % 2 == 0));
-        possibleResults.push_back(halfToPalindrome(firstHalf + 1, len % 2 == 0));
-        possibleResults.push_back(halfToPalindrome(firstHalf - 1, len % 2 == 0));
-        possibleResults.push_back((long)pow(10, len - 1) - 1);
-        possibleResults.push_back((long)pow(10, len) + 1);
-
-        long diff         = LONG_MAX;
-        long result       = 0;
-        long originalNum  = stol(n);
-
-        for (long &num : possibleResults) {
-            if (num == originalNum) continue;
-            if (abs(num - originalNum) < diff) {
-                diff = abs(num - originalNum);
-                result = num;
-            } else if (abs(num - originalNum) == diff) {
-                result = min(result, num);
+        possibleResults.push_back(firstHalfToPalindrome(firstHalf, L%2==0));
+        possibleResults.push_back(firstHalfToPalindrome(firstHalf+1, L%2==0));
+        possibleResults.push_back(firstHalfToPalindrome(firstHalf-1, L%2==0));
+        // Cases like: 99, 999, 9999, ....
+        possibleResults.push_back((long)pow(10, L)+1);
+        // Cases like: 101, 1001, 10001, ....
+        possibleResults.push_back((long)pow(10, L-1)-1);
+        
+        long originalNum = stol(s);
+        long minDiff = LONG_MAX;
+        long closest = 0;
+        for(long &num: possibleResults) {
+            cout << num << endl;
+            // Skipping same palindrome
+            if(num == originalNum)
+                continue;
+            
+            long diff = abs(num - originalNum);
+            // Finding closest palindrome
+            if(diff < minDiff) {
+                minDiff = diff;
+                closest = num;
+            }
+            // Else If tie between 2 palindromes, return the smallest one
+            else if(diff == minDiff) {
+                closest = min(closest, num);
             }
         }
-
-        return to_string(result);
+        
+        return to_string(closest);  // Converting long/int to string using to_string()
     }
 };
