@@ -14,7 +14,7 @@ public:
     // Approach 2
     int findComplement2(int num) {
         int numOfBits = log2(num)+1;
-        unsigned int mask = (1U << numOfBits) - 1;   // Taking unsigned int as (1 << numOfBits) will make it go out of int bound
+        unsigned int mask = (1U << numOfBits) - 1;   // Taking mask as unsigned int and making 1 as unsigned int as (1 << numOfBits) will make it go out of int bound
         return num ^ mask;
     }
     
@@ -32,9 +32,9 @@ public:
         // return findComplement1(num);
         
         // Approach 2
-        return findComplement2(num);
+        // return findComplement2(num);
         
         // Approach 3
-        // return findComplement2(num);
+        return findComplement2(num);
     }
 };
