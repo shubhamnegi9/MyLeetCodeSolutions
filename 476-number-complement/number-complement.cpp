@@ -21,8 +21,13 @@ public:
         // Approach 3
     int findComplement3(int num) {
         int complement = 0;
+        int i = 0;
         while(num) {
-            complement |= !(num & 1);
+            if(!(num&1)) {  // If the bit at rightmost position is 0, then we need to flip it in its complement 
+                 complement |= (1 << i);
+            }
+            i++;
+            num >>= 1;   // right shifting num
         }
         return complement;
     }
@@ -35,6 +40,6 @@ public:
         // return findComplement2(num);
         
         // Approach 3
-        return findComplement2(num);
+        return findComplement3(num);
     }
 };
