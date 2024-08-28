@@ -64,7 +64,7 @@ public:
         int subIslands = 0;
         for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                if(grid2[i][j] == 1 && isSubIslandDFS(grid1, grid2, i, j)) {
+                if(grid2[i][j] == 1 && isSubIslandBFS(grid1, grid2, i, j)) {
                     subIslands++;
                 }
             }
