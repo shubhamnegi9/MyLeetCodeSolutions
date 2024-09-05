@@ -16,6 +16,7 @@ public:
         int avg = nSum/n;
         int rem = nSum%n;
         vector<int> missing(n, 0);
+        // Filling each entry of missing array with avg first, and then filling remainder value one by one in each entry
         for(int i = 0; i < n; i++) {
             missing[i] = avg;
             if(rem > 0) {
