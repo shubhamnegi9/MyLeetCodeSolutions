@@ -2,6 +2,10 @@ class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
         
+        if(n == 0) {
+            return {};
+        }
+        
         vector<vector<int>> matrix(n, vector<int> (n, 0));
         
         int left = 0;
