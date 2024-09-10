@@ -10,7 +10,8 @@
  */
 class Solution {
 public:
-    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+    
+    ListNode* insertGreatestCommonDivisorsIterative(ListNode* head) {
         if(head->next == NULL)
             return head;
         
@@ -25,5 +26,28 @@ public:
         }
         
         return head;
+    }
+    
+    // Recursive Approach
+    ListNode* insertGreatestCommonDivisorsRecursive(ListNode* head) {
+        // Base Case
+        if(head == NULL || head->next == NULL)
+            return head;
+        
+        ListNode* temp = insertGreatestCommonDivisorsRecursive(head->next);
+        int gcd = __gcd(head->val, head->next->val);
+        ListNode* newNode = new ListNode(gcd);
+        newNode->next = temp;
+        head->next = newNode;
+        
+        return head;
+    }
+    
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        // Iterative Approach
+        // return insertGreatestCommonDivisorsIterative(head);
+        
+        // Recursive Approach
+        return insertGreatestCommonDivisorsRecursive(head);
     }
 };
