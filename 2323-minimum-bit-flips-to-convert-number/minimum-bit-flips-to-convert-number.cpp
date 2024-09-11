@@ -32,12 +32,29 @@ public:
         return count;
     }
     
+    // Approach-3: Using Brian Kernighan’s Algorithm 
+    int minBitFlips3(int start, int goal) {
+    
+        int XOR = start ^ goal;
+        int count = 0;
+        
+        while(XOR) {
+            XOR = XOR & (XOR-1);
+            count++;
+        }
+        
+        return count;
+    }
+    
     
     int minBitFlips(int start, int goal) {
         // Approach 1
         // return minBitFlips1(start, goal);
         
         // Approach 2
-        return minBitFlips2(start, goal);
+        // return minBitFlips2(start, goal);
+        
+        // Approach 3
+        return minBitFlips3(start, goal);
     }
 };
