@@ -46,6 +46,13 @@ public:
         return count;
     }
     
+    // Approach-4: Using __builtin_popcount()
+    int minBitFlips4(int start, int goal) {
+        
+        int XOR = start ^ goal;
+        return __builtin_popcount(XOR);
+    }
+    
     
     int minBitFlips(int start, int goal) {
         // Approach 1
@@ -55,6 +62,9 @@ public:
         // return minBitFlips2(start, goal);
         
         // Approach 3
-        return minBitFlips3(start, goal);
+        // return minBitFlips3(start, goal);
+        
+        // Approach 4
+        return minBitFlips4(start, goal);
     }
 };
