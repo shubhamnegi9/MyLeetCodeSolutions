@@ -26,9 +26,38 @@ public:
         return count;
     }
     
+    // Using Vector
+    int countConsistentStrings2(string allowed, vector<string>& words) {
+        vector<bool> allowedVector(26, false);
+        
+        for(char ch: allowed) {
+            allowedVector[ch-'a'] = true;
+        }
+        
+        int count = 0;
+        for(string str: words) {
+            bool isConsistent = true;
+            for(char ch: str) {
+                if(!allowedVector[ch-'a']) {
+                    isConsistent = false;
+                    break;
+                }
+            }
+            if(isConsistent) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
+    
+    
     int countConsistentStrings(string allowed, vector<string>& words) {
        
         // Using Map
-        return countConsistentStrings1(allowed, words);
+        // return countConsistentStrings1(allowed, words);
+        
+        // Using Vector
+        return countConsistentStrings2(allowed, words);
     }
 };
