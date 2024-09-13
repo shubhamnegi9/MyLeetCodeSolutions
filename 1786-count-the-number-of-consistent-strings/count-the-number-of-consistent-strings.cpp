@@ -10,9 +10,9 @@ public:
         }
         
         int count = 0;
-        for(string str: words) {
+        for(string word: words) {
             bool isConsistent = true;
-            for(char ch: str) {
+            for(char ch: word) {
                 if(!allowedMap[ch]) {
                     isConsistent = false;
                     break;
@@ -35,9 +35,9 @@ public:
         }
         
         int count = 0;
-        for(string str: words) {
+        for(string word: words) {
             bool isConsistent = true;
-            for(char ch: str) {
+            for(char ch: word) {
                 if(!allowedVector[ch-'a']) {
                     isConsistent = false;
                     break;
@@ -56,9 +56,9 @@ public:
         set<char> allowedSet(allowed.begin(), allowed.end());
         
         int count = 0;
-        for(string str: words) {
+        for(string word: words) {
             bool isConsistent = true;
-            for(char ch: str) {
+            for(char ch: word) {
                 if(allowedSet.find(ch) == allowedSet.end()) {   // Character not found in set
                     isConsistent = false;
                     break;
@@ -72,6 +72,32 @@ public:
         return count;
     }
     
+    // Using Bit Manipulation
+    int countConsistentStrings4(string allowed, vector<string>& words) {
+        
+        // Creating mask using allowed string
+        int mask = 0;
+        for(char ch: allowed) {
+            mask |= (1 << (ch-'a'));
+        }
+        
+        // Iterating in words vector and checking for each word, if the particular bit is set in mask
+        int count = 0;
+        for(string word: words) {
+            bool isConsistent = true;
+            for(char ch: word) {
+                if(((mask >> (ch-'a')) & 1) == 0) {
+                    isConsistent = false;
+                    break;
+                }
+            }
+            if(isConsistent) {
+                count++;
+            }
+        }
+        
+        return count;
+    }
     
     int countConsistentStrings(string allowed, vector<string>& words) {
        
@@ -82,6 +108,9 @@ public:
         // return countConsistentStrings2(allowed, words);
         
         // Using Set
-        return countConsistentStrings3(allowed, words);
+        // return countConsistentStrings3(allowed, words);
+        
+        // Using Bit Manipulation
+        return countConsistentStrings4(allowed, words);
     }
 };
