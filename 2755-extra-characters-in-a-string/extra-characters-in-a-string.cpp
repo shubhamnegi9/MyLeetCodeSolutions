@@ -4,7 +4,7 @@ public:
     int t[51];  // Since only one variable is changing in recursion, so taking 1D array
     
     // Approach 1: Using Recursion
-    // T.C. = O(n^2 * n * n)
+    // T.C. = O(2^n * n * n)
     int solve(int i, int n, string &s, unordered_set<string> &st) {
         
         // Base Case
@@ -110,6 +110,34 @@ public:
         return solveMemo(0, n, s, st, mpp);
     }
     
+    // Approach 4: Using Bottom Up Approach
+    //T.C : O(n^3)
+    //S.C : O(n)
+    int minExtraCharBottomUp(string s, vector<string>& dict) {
+        int n = s.length();
+        unordered_set<string> st(dict.begin(), dict.end());
+        vector<int> dp(n+1, 0);
+        // dp[i] = min extra characters in s from index = i to index = n-1
+        // We need to return dp[0]
+        
+        // Filling dp vector in reverse order so we can calculate dp[0] and return it
+        for(int i = n-1; i >= 0; i--) {
+            // If the character at ith index in string is considered as extra character
+            dp[i] = 1 + dp[i+1];
+            
+            // If the character at ith index is not considered as extra character
+            // Iterating from i to last index to check if any substring is present in dictionary
+            for(int j = i; j < n; j++) {
+                string str = s.substr(i, j-i+1);   
+                if(st.count(str)) {     // substring is present in dictionary
+                    dp[i] = min(dp[i], dp[j+1]);
+                }
+            }
+        }
+        
+        return dp[0];
+    }
+    
     int minExtraChar(string s, vector<string>& dict) {
         // Approach 1: Using Recursion
         // return minExtraCharRecur(s, dict);
@@ -118,6 +146,9 @@ public:
         // return minExtraCharTopDown(s, dict);
         
         // Approach 3: Using Top Down Memoization Using Map
-        return minExtraCharTopDownMap(s, dict);
+        // return minExtraCharTopDownMap(s, dict);
+        
+        // Approach 4: Using Bottom Up Approach
+        return minExtraCharBottomUp(s, dict);
     }
 };
