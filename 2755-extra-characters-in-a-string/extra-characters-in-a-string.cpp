@@ -35,7 +35,8 @@ public:
     }
     
     // Approach 2: Using Top Down Memoization
-    // T.C. = O(n^2 * n * n)
+    // T.C. = O(n * n * n)
+    // S.C : O(total numberof characters in dictionary words + n for memoization array)
     int solveMemo(int i, int n, string &s, unordered_set<string> &st) {
         
         // Base Case
@@ -44,6 +45,7 @@ public:
             return 0;
         }
         
+        // If the result is already present in dp array, return from it
         if(t[i] != -1) {
             return t[i];
         }
@@ -70,11 +72,52 @@ public:
         return solveMemo(0, n, s, st);
     }
     
+    // Approach 3: Using Top Down Memoization Using Map
+    // T.C. = O(n * n * n)
+    // S.C : O(total numberof characters in dictionary words + n for memoization map)
+    int solveMemo(int i, int n, string &s, unordered_set<string> &st, unordered_map<int, int> &mpp) {
+        
+        // Base Case
+        // If out of range then no extra characters
+        if(i >= n) {
+            return 0;
+        }
+        
+        // If the result is already present in map at key 'i', return from it
+        if(mpp.count(i)) {
+            return mpp[i];
+        }
+        
+        // If the character at ith index in string is considered as extra character
+        int result = 1 + solveMemo(i+1, n, s, st, mpp);      // Adding 1 to result for the extra character at ith index
+        
+        // If the character at ith index is not considered as extra character
+        // Iterating from i to last index to check if any substring is present in dictionary
+        for(int j = i; j < n; j++) {
+            string str = s.substr(i, j-i+1);   
+            if(st.count(str)) {     // substring is present in dictionary
+                result = min(result, solveMemo(j+1, n, s, st, mpp));
+            }
+        }
+        
+        return mpp[i] = result;
+    }
+    
+    int minExtraCharTopDownMap(string s, vector<string>& dict) {
+        int n = s.length();
+        unordered_set<string> st(dict.begin(), dict.end());
+        unordered_map<int, int> mpp;
+        return solveMemo(0, n, s, st, mpp);
+    }
+    
     int minExtraChar(string s, vector<string>& dict) {
         // Approach 1: Using Recursion
         // return minExtraCharRecur(s, dict);
         
         // Approach 2: Using Top Down Memoization
-        return minExtraCharTopDown(s, dict);
+        // return minExtraCharTopDown(s, dict);
+        
+        // Approach 3: Using Top Down Memoization Using Map
+        return minExtraCharTopDownMap(s, dict);
     }
 };
