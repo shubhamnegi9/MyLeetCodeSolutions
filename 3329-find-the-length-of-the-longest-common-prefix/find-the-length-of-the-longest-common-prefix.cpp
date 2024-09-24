@@ -1,8 +1,8 @@
 class Solution {
 public:
     // Approach 1: Using set to store all possible prefixes
-    //T.C : O(m⋅log10*M + n⋅log10*N)
-    //S.C : O(m⋅log10*M) for set 
+    //T.C : O(m*log10(M) + n*log10(N))
+    //S.C : O(m*log10(M)) for set 
     int longestCommonPrefix1(vector<int>& arr1, vector<int>& arr2) {
         
         unordered_set<int> st;
@@ -34,6 +34,10 @@ public:
         
     }
     
+    
+    // Approach 2: Using Trie Data Structure
+    //T.C : O(m*log10(M) + n*log10(N))
+    //S.C : O(m*log10(M)) for storing elements of arr1 in Trie
     struct TrieNode {
         // int data;    // Not required as we can check using child pointers
         TrieNode* children[10];
