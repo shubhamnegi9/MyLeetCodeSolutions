@@ -21,7 +21,9 @@ public:
         return true;
     }
     
-    
+    // Optimal Approach
+    // T.C. = O(nlogn)
+    // S.C. = O(n)
     bool bookOptimal(int start, int end) {
         
         //Find the first event that starts after or at the same time of {start, end}
