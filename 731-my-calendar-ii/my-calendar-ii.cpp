@@ -1,7 +1,7 @@
 class MyCalendarTwo {
 public:
-    vector<pair<int, int>> booking;         // Vector for storing overall booking regions
-    vector<pair<int, int>> doubleBooking;   // Vector for storing double booking regions
+    vector<pair<int, int>> overallBookings;         // Vector for storing overall booking regions
+    vector<pair<int, int>> doubleBookings;   // Vector for storing double booking regions
     
     MyCalendarTwo() {
         
@@ -10,7 +10,7 @@ public:
     bool book(int start, int end) {
         
         // Checking if tripple booking is created by any of the double booking regions 
-        for(auto [s, e]: doubleBooking) {
+        for(auto [s, e]: doubleBookings) {
             if(max(s, start) < min(e, end)) {
                 // Triple booking created
                 return false;
@@ -18,14 +18,14 @@ public:
         }
         
         // Checking for double bookings and adding the overlapped regions to doubleBooking vector
-        for(auto [s, e]: booking) {
+        for(auto [s, e]: overallBookings) {
             if(max(s, start) < min(e, end)) {
-                doubleBooking.push_back({max(s, start), min(e, end)});
+                doubleBookings.push_back({max(s, start), min(e, end)});
             }
         }
         
         // Add to overall booking 
-        booking.push_back({start, end});
+        overallBookings.push_back({start, end});
         return true;
     }
 };
