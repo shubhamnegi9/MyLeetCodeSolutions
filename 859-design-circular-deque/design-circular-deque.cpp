@@ -1,16 +1,11 @@
 class MyCircularDeque {
 public:
-    vector<int> deq;
-    int K;
-    int front;
-    int rear;
+    list<int> deq;
     int size;
+    int K;
     
     MyCircularDeque(int k) {
         K = k;
-        deq = vector<int> (k, 0);
-        front = 0;
-        rear = k-1;
         size = 0;
     }
     
@@ -18,9 +13,7 @@ public:
         if(isFull()) {
             return false;
         }
-        
-        front = (front-1+K)%K;
-        deq[front] = value;
+        deq.push_front(value);
         size++;
         return true;
     }
@@ -29,9 +22,7 @@ public:
         if(isFull()) {
             return false;
         }
-        
-        rear = (rear+1)%K;
-        deq[rear] = value;
+        deq.push_back(value);
         size++;
         return true;
     }
@@ -40,16 +31,16 @@ public:
         if(isEmpty()) {
             return false;
         }
-        front = (front+1)%K;
+        deq.pop_front();
         size--;
         return true;
     }
     
     bool deleteLast() {
-        if(isEmpty()) {
+         if(isEmpty()) {
             return false;
         }
-        rear = (rear-1+K)%K;
+        deq.pop_back();
         size--;
         return true;
     }
@@ -58,14 +49,14 @@ public:
         if(isEmpty()) {
             return -1;
         }
-        return deq[front];
+        return deq.front();
     }
     
     int getRear() {
-        if(isEmpty()) {
+         if(isEmpty()) {
             return -1;
         }
-        return deq[rear];
+        return deq.back();
     }
     
     bool isEmpty() {
