@@ -13,7 +13,7 @@ public:
             sum+=num;
         }
         
-        int teams = skill.size()/2;     // Total teams
+        int teams = n/2;     // Total teams
         int teamSum = sum/teams;        // Sum of each team
         
         sort(skill.begin(), skill.end());
@@ -55,11 +55,53 @@ public:
         return result;
     }
     
+    // Approach 3: Using Counting Sort
+    // T.C. = o(n), S.C. = O(n)
+    long long dividePlayers3(vector<int>& skill) {
+        int n = skill.size();
+        if(n == 2) {
+            return skill[0]*skill[1];
+        }
+        
+        vector<int> freq(1001, 0);
+        int sum = 0;
+        
+        for(int ele: skill) {
+            freq[ele]++;
+            sum+=ele;
+        }
+        
+        int teams = n/2;     // Total teams
+        
+        if(sum%teams != 0) {    // Not possible to divide players into teams of equal skill
+            return -1;
+        }
+        
+        int teamSum = sum/teams;        // Sum of each team
+        
+        long long result = 0;
+        for(int i = 0; i < n; i++) {
+            int first = skill[i];
+            int second = teamSum-skill[i];
+            if(freq[second] <= 0) {
+                return -1;
+            }
+            
+            result += ((long long) first * (long long) second);
+            freq[second]--;
+        }
+        
+        return result/2;
+    }
+    
     long long dividePlayers(vector<int>& skill) {
         // Approach 1: Using Sorting 
         // return dividePlayers1(skill);
         
         // Approach 2: Using Sorting+2-Pointer
-        return dividePlayers2(skill);
+        // return dividePlayers2(skill);
+        
+        // Approach 3: Using Counting Sort
+        return dividePlayers3(skill);
     }
 };
