@@ -32,7 +32,57 @@ public:
         
     }
     
+    // Optimal Approach
+    // T.C. = O(nlogn)
+    // S.C. = O(n)
+    typedef pair<int, int> P;
+    int smallestChair2(vector<vector<int>>& times, int targetFriend) {
+    
+        // Min Heap for occupied chairs
+        priority_queue<P, vector<P>, greater<P>> occupied;
+        // Min Heap for free chairs
+        priority_queue<int, vector<int>, greater<int>> free;
+        
+        int chair = 0;
+        
+        int targetFriendArrivalTime = times[targetFriend][0];
+        
+        sort(times.begin(), times.end());
+        
+        for(vector<int> &time: times) {
+            int arrival = time[0];
+            int depart = time[1];
+            
+            while(!occupied.empty() && arrival >= occupied.top().first) {
+                free.push(occupied.top().second);
+                occupied.pop();
+            }
+            
+            if(free.empty()) {
+                if(arrival == targetFriendArrivalTime) {
+                    return chair;
+                }
+                occupied.push({depart, chair});
+                chair++;
+            } else {
+                int freeChair = free.top();
+                free.pop();
+                if(arrival == targetFriendArrivalTime) {
+                    return freeChair;
+                }
+                occupied.push({depart, freeChair});
+            }
+        }
+        
+        return -1;
+        
+    }
+    
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
-        return smallestChair1(times, targetFriend);
+         // Brute Force Approach
+        // return smallestChair1(times, targetFriend);
+        
+        // Optimal Approach
+        return smallestChair2(times, targetFriend);
     }
 };
