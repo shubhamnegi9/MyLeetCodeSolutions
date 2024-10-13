@@ -101,6 +101,8 @@ public:
     }
     
     // Optimal Approach
+    // T.C. = O(nlogk)
+    // S.C. = O(k)
     vector<int> smallestRange3(vector<vector<int>>& nums) {
         
         int k = nums.size();
@@ -110,11 +112,33 @@ public:
         priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
         
         vector<int> range = {-1000000, 1000000};
+        int maxEle = INT_MIN;
         
-        
+        for(int i = 0; i < k; i++) {
+            pq.push({nums[i][0], i, 0});
+            maxEle = max(maxEle, nums[i][0]);
+        }
         
         while(!pq.empty()) {
+            vector<int> currMin = pq.top();
+            pq.pop();
             
+            int minEle = currMin[0];
+            int minEleListIndex = currMin[1];
+            int minEleIndex = currMin[2];
+            
+            if(maxEle - minEle < range[1] - range[0]) {
+                range[0] = minEle;
+                range[1] = maxEle;
+            }
+            
+            if(minEleIndex+1 >= nums[minEleListIndex].size()) {
+                break;
+            } else {
+                int nextElement = nums[minEleListIndex][minEleIndex+1];
+                pq.push({nextElement, minEleListIndex, minEleIndex+1});
+                maxEle = max(maxEle, nextElement);
+            }
         }
         
         return range;
@@ -125,9 +149,9 @@ public:
         // return smallestRange1(nums);
         
         // Better Approach
-        return smallestRange2(nums);
+        // return smallestRange2(nums);
         
         // Optimal Approach
-        // return smallestRange2(nums);
+        return smallestRange3(nums);
     }
 };
