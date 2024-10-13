@@ -66,8 +66,8 @@ public:
         
         while(true) {                                           // O(n)
 
-            int smallest = INT_MAX;
-            int largest = INT_MIN;
+            int minEle = INT_MAX;
+            int maxEle = INT_MIN;
             int minEleListIndex = 0;
             
             for(int i = 0; i < k; i++) {                        // O(k)
@@ -75,17 +75,17 @@ public:
                 int eleIndex = v[i];   // Index of current element in current list
                 int element = nums[listIndex][eleIndex];  // Current element in current list
                 
-                if(element < smallest) {
-                    smallest = element;
-                    minEleListIndex = i;     // Increasing the index of the smallest element containing list
+                if(element < minEle) {
+                    minEle = element;
+                    minEleListIndex = i;    
                 }
                 
-                largest = max(largest, element);
+                maxEle = max(maxEle, element);
             }
             
-            if(largest - smallest < range[1] - range[0]) {
-                range[0] = smallest;
-                range[1] = largest;
+            if(maxEle - minEle < range[1] - range[0]) {
+                range[0] = minEle;
+                range[1] = maxEle;
             }
 
             int nextIndex = v[minEleListIndex]+1;
@@ -100,11 +100,34 @@ public:
         return range;
     }
     
+    // Optimal Approach
+    vector<int> smallestRange3(vector<vector<int>>& nums) {
+        
+        int k = nums.size();
+        
+        // Min heap to store min element in range where each element is of type vector<int>
+        // In each vector element, we store <min_element, min_element_list_index, min_element_index>
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        
+        vector<int> range = {-1000000, 1000000};
+        
+        
+        
+        while(!pq.empty()) {
+            
+        }
+        
+        return range;
+    }
+        
     vector<int> smallestRange(vector<vector<int>>& nums) {
         // Brute Force Approach
         // return smallestRange1(nums);
         
         // Better Approach
         return smallestRange2(nums);
+        
+        // Optimal Approach
+        // return smallestRange2(nums);
     }
 };
