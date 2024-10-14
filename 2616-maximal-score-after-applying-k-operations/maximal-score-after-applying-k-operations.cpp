@@ -16,24 +16,21 @@ public:
                 }
             }
             result += (long long) maxEle;
-            nums[maxEleIndex] = ceil((double)nums[maxEleIndex]/3);
+            nums[maxEleIndex] = ceil(nums[maxEleIndex]/3.0);   // or ceil((float)nums[maxEleIndex]/3)
         }
         return result;
     }
     
     long long maxKelements2(vector<int>& nums, int k) {
-        priority_queue<int> pq;
         
-        for(int ele: nums) {
-            pq.push(ele);
-        }
+        priority_queue<int> pq(nums.begin(), nums.end());   // Heapify
         
         long long result = 0;
         while(k--) {
             int maxEle = pq.top();
             pq.pop();
             result += (long long) maxEle;
-            pq.push(ceil((double)maxEle/3));
+            pq.push(ceil(maxEle/3.0));     // or ceil((float)maxEle/3)
         }
         
         return result;
