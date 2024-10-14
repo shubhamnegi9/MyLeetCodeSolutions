@@ -1,6 +1,8 @@
 class Solution {
 public:
-    
+    // Brute Force Approach
+    // T.C. = O(k*n)
+    // S.c. = O(1)
     long long maxKelements1(vector<int>& nums, int k) {
         int n = nums.size();
         int maxEle, maxEleIndex;
@@ -21,6 +23,9 @@ public:
         return result;
     }
     
+    // Optimal Approach
+    // T.C. = O(n) + O(k*logn) = O(n+k*logn)
+    // S.c. = O(n)
     long long maxKelements2(vector<int>& nums, int k) {
         
         priority_queue<int> pq(nums.begin(), nums.end());   // Heapify
