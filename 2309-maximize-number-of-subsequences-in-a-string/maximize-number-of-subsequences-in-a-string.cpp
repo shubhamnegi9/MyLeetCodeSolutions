@@ -32,13 +32,6 @@ public:
         // If both the characters of pattern are equal 
         if(pattern[0] == pattern[1]) {
             long long m = countPatternFirstChar;
-            long long n = countPatternSecondChar;
-            firstSubsequence = m*(m-1)/2;
-            lastSubsequence = n*(n-1)/2;
-        }
-        
-        if(pattern[0] == pattern[1]) {
-            long long m = countPatternFirstChar;
             return m*(m-1)/2;
         }
         
