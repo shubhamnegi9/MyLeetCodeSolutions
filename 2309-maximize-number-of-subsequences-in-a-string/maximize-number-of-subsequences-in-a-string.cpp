@@ -20,7 +20,7 @@ public:
         // Finding count of subsequence of pattern in 'last' string
         long long countPatternSecondChar = 0;
         long long lastSubsequence = 0;
-        for(int i = last.length(); i >= 0; i--) {
+        for(int i = last.length()-1; i >= 0; i--) {
             if(last[i] == pattern[1]) {
                 countPatternSecondChar++;
             } else if(last[i] == pattern[0]){
@@ -35,6 +35,11 @@ public:
             long long n = countPatternSecondChar;
             firstSubsequence = m*(m-1)/2;
             lastSubsequence = n*(n-1)/2;
+        }
+        
+        if(pattern[0] == pattern[1]) {
+            long long m = countPatternFirstChar;
+            return m*(m-1)/2;
         }
         
         return max(firstSubsequence, lastSubsequence);
