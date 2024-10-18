@@ -33,12 +33,28 @@ public:
         return prev;
     
     }
+    
+    vector<int> getRow3(int rowIndex) {
+        int numColumns = rowIndex+1;
+        vector<int> result(numColumns, 1);
+        
+        for(int i = 1; i < numColumns; i++) {
+            long long temp = (long long)result[i-1] * (numColumns-i);
+            temp/=i;
+            result[i] = (int)temp;
+        }
+        
+        return result;
+    }
+    
     vector<int> getRow(int rowIndex) {
         // Approach 1
         // return getRow1(rowIndex);
         
         
         // Approach 2
-        return getRow2(rowIndex);
+        // return getRow2(rowIndex);
+        
+        return getRow3(rowIndex);
     }
 };
