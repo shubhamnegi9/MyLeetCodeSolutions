@@ -19,7 +19,7 @@ public:
         return result;
     }
     
-    // Better Approach
+    // Optimal Approach
     // T.C. = O(n) for loop + O(1) for find/insert in unordered map
     //      = O(n)
     // S.C. = O(n) for map
@@ -41,7 +41,7 @@ public:
         // Brute Force Approach
         // return twoSum1(nums, target);
         
-        // Better Approach
+        // Optimal Approach
         return twoSum2(nums, target);
     }
 };
