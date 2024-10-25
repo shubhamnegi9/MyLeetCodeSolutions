@@ -1,17 +1,26 @@
 class Solution {
 public:
-    vector<int> twoSum(vector<int>& nums, int target) {
+    
+    // Brute Force Approach
+    // T.C. = O(n^2)
+    // S.C. = O(1)
+    vector<int> twoSum1(vector<int>& nums,  int target) {
         int n = nums.size();
-        map<int, int> mpp;
-        vector<int> res;
-        for(int i = 0; i < n; i++) {
-            int secondNum = target - nums[i];
-            if(mpp.find(secondNum) != mpp.end()) {
-                res.push_back(i);
-                res.push_back(mpp[secondNum]);
+        vector<int> result;
+        for(int i = 0; i < n-1; i++) {
+            for(int j = i+1; j < n; j++) {
+                if(nums[i] + nums[j] == target) {
+                    result = {i, j};
+                    break;
+                }
             }
-            mpp[nums[i]] = i;
         }
-        return res;
+        
+        return result;
+    }
+    
+    vector<int> twoSum(vector<int>& nums, int target) {
+        // Brute Force Approach
+        return twoSum1(nums, target);
     }
 };
