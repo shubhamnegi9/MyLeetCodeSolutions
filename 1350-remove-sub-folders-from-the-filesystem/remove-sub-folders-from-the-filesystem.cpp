@@ -27,7 +27,32 @@ public:
         return result;
     }
     
+    // Approach 2: Using sorting
+    vector<string> removeSubfolders2(vector<string>& folder) {
+        // Doing sorting so that the parent folder (if present) can be found before the current folder
+        sort(folder.begin(), folder.end());
+        vector<string> result;
+        
+        result.push_back(folder[0]);    // Since folders are sorted, so folder[0] have no parent folder before that. So it cannot be a subfolder
+        
+        for(int i = 1; i < folder.size(); i++) {
+            string currFolder = folder[i];
+            string lastFolder = result.back();  // Last element of result vector
+            lastFolder+='/';
+            if(currFolder.find(lastFolder) != 0) {  // lastFolder is not found in currFolder. 
+                                                    // So currFolder cannot be subfolder
+                result.push_back(currFolder);
+            }
+        }
+        
+        return result;
+    }
+    
     vector<string> removeSubfolders(vector<string>& folder) {
-        return removeSubfolders1(folder);
+        // Approach 1: Using Set
+        // return removeSubfolders1(folder);
+        
+        // Approach 2: Using sorting
+        return removeSubfolders2(folder);
     }
 };
