@@ -28,6 +28,8 @@ public:
     }
     
     // Approach 2: Using sorting
+    // T.C. = O(n*logn + n*L) 
+    // S.C. = O(1)
     vector<string> removeSubfolders2(vector<string>& folder) {
         // Doing sorting so that the parent folder (if present) can be found before the current folder
         sort(folder.begin(), folder.end());
@@ -35,9 +37,9 @@ public:
         
         result.push_back(folder[0]);    // Since folders are sorted, so folder[0] have no parent folder before that. So it cannot be a subfolder
         
-        for(int i = 1; i < folder.size(); i++) {
+        for(int i = 1; i < folder.size(); i++) {            // O(n)
             string currFolder = folder[i];
-            string lastFolder = result.back();  // Last element of result vector
+            string lastFolder = result.back();  // Last element of result vector        // O(L)
             lastFolder+='/';
             if(currFolder.find(lastFolder) != 0) {  // lastFolder is not found in currFolder. 
                                                     // So currFolder cannot be subfolder
