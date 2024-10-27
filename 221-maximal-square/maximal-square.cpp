@@ -72,12 +72,40 @@ public:
         return maxSide*maxSide;
     }
     
+    // Bottom Up Approach
+    int maximalSquare3(vector<vector<char>>& matrix) {
+        m = matrix.size();
+        n = matrix[0].size();
+        int maxSide = 0;
+        
+        vector<vector<int>> t(m, vector<int>(n, 0));
+        
+        // t[i][j] = total square submmatrix having all 1s and ending at cell [i][j]
+        
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if(i == 0 || j == 0) {
+                    t[i][j] = (matrix[i][j] - '0');
+                }
+                else if(matrix[i][j] == '1') {
+                    t[i][j] = 1+ min({t[i-1][j], t[i-1][j-1], t[i][j-1]});
+                }
+                maxSide = max(maxSide, t[i][j]);
+            }
+        }
+        
+        return maxSide*maxSide;
+    }
+    
     int maximalSquare(vector<vector<char>>& matrix) {
         
         // Recursive Approach
         // return maximalSquare1(matrix);
         
         // Top Down Memoization
-        return maximalSquare2(matrix);
+        // return maximalSquare2(matrix);
+        
+        // Bottom Up Approach
+        return maximalSquare3(matrix);
     }
 };
