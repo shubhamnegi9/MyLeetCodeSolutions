@@ -4,6 +4,8 @@ public:
     int n;
     
     // Brute Force Approach using 2D matrix traversal
+    // T.C. = O(m×n×min(m,n)^2) 
+    // S.C. = O(1)
     int countSquares1(vector<vector<int>>& matrix) {
         m = matrix.size();
         n = matrix[0].size();
@@ -39,7 +41,9 @@ public:
         return count;
     }
     
-    // Better Approach using Recursion
+    // Brute Force Approach using Recursion
+    // T.C. = O(3^(m×n))
+    // S.C. = O(max(m,n))
     int solve(int i, int j, vector<vector<int>>& matrix) {
         
         if(i >= m || j >= n) {
@@ -73,6 +77,8 @@ public:
     }
     
      // Optimal Approach using Top Down DP (Memoization)
+    //T.C : O(m*n)
+    //S.C : O(m*n)
     int solveMemo(int i, int j, vector<vector<int>>& matrix, vector<vector<int>>& dp) {
         
         if(i >= m || j >= n) {
@@ -111,7 +117,9 @@ public:
         return count;
     }
     
-    // Optimal Approaoch using Bottom Up DP
+    // Optimal Approach using Bottom Up DP
+    //T.C : O(m*n)
+    //S.C : O(m*n)
     int countSquares4(vector<vector<int>>& matrix) {
         m = matrix.size();
         n = matrix[0].size();
@@ -140,13 +148,13 @@ public:
         // Brute Force Approach
         // return countSquares1(matrix);
         
-        // Better Approach using Recursion
+        // Brute Force Approach using Recursion
         // return countSquares2(matrix);
         
         // Optimal Approach using Top Down DP (Memoization)
         // return countSquares3(matrix);
         
-        // Optimal Approaoch using Bottom Up DP
+        // Optimal Approach using Bottom Up DP
         return countSquares4(matrix);
     }
 };
