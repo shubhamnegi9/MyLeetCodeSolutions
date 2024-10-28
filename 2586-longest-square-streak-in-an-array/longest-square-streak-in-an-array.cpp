@@ -1,12 +1,14 @@
 class Solution {
 public:
-    
+    // Apporach 1: Using Sorting + Map
+    // T.C. = O(nlogn) + O(n) = O((nlogn)
+    // S.C. = O(n)
     int longestSquareStreak1(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
+        sort(nums.begin(), nums.end());     // O(nlogn)
         unordered_map<int, int> mp;
         int maxStreak = 0;
         
-        for(int num: nums) {
+        for(int num: nums) {                // O(n)
             int sqrtNum = sqrt(num);
             if(sqrtNum * sqrtNum == num && mp.find(sqrtNum) != mp.end()) {
                 mp[num] = mp[sqrtNum]+1;
@@ -19,7 +21,38 @@ public:
         return maxStreak >= 2 ? maxStreak : -1;
     }
     
+    // Approach 2: Without sorting + Set
+    // T.C. = O(n)
+    // S.C. = O(n)
+    int longestSquareStreak2(vector<int>& nums) {
+        unordered_set<int> st(nums.begin(), nums.end());
+        int maxStreak = 0;
+        
+        for(int num: nums) {            // O(n)
+            int streak = 0;
+            long long curr = num;
+            
+            while(st.find(curr) != st.end()) {      // O(5)
+                streak++;
+                
+                if(curr*curr > 1e5) {   // 1e5 = 10^5
+                    break;    
+                }
+                
+                curr = curr*curr;
+            }
+            
+            maxStreak = max(maxStreak, streak);
+        }
+        
+        return maxStreak >= 2 ? maxStreak : -1;
+    }
+    
     int longestSquareStreak(vector<int>& nums) {
-        return longestSquareStreak1(nums);
+        // Apporach 1: Using Sorting + Map
+        // return longestSquareStreak1(nums);
+        
+        // Approach 2: Without sorting + Set
+        return longestSquareStreak2(nums);
     }
 };
