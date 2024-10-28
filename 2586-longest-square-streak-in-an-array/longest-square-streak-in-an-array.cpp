@@ -48,7 +48,10 @@ public:
         return maxStreak >= 2 ? maxStreak : -1;
     }
     
-    bool find(long long curr, vector<int>& nums) {
+    // Approach 3: Sorting + Binary Search
+    // T.C. = O(nlogn) + O(n * 5*logn)
+    // S.C. = O(1)
+    bool find(long long curr, vector<int>& nums) {  // O(logn)
         
         int l = 0;
         int r = nums.size()-1;
@@ -70,17 +73,17 @@ public:
     }
     
     int longestSquareStreak3(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
+        sort(nums.begin(), nums.end());     // O(nlogn)
         int maxStreak = 0;
         
-        for(int &num: nums) {
+        for(int &num: nums) {       // O(n)
             int streak = 0;
             long long curr = num;
             
-            while(find(curr, nums)) {
+            while(find(curr, nums)) {     // O(5)
                 streak++;
                 
-                if(curr*curr > 1e5) {
+                if(curr*curr > 1e5) {   // 1e5 = 10^5
                     break;
                 }
                 
@@ -100,6 +103,7 @@ public:
         // Approach 2: Without sorting + Set
         // return longestSquareStreak2(nums);
         
+        // Approach 3: Sorting + Binary Search
         return longestSquareStreak3(nums);
     }
 };
