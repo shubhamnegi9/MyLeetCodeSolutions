@@ -53,6 +53,24 @@ public:
         return max(take, skip);
     }
     
+    int solveBottomUp(vector<int> &nums, vector<int> &t) {
+        int maxLIS = 1;     // In case whole nums vector have no LIS, max length of LIS should be 1
+                            // Eg. nums = [7,7,7,7,7,7,7], LIS = {7}
+        
+        // t[i] ->  Max length of LIS ending at index j
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i]) {
+                    t[i] = max(t[i], t[j]+1);
+                }
+                maxLIS = max(maxLIS, t[i]);
+            }
+        }
+        
+        return maxLIS;
+    }
+    
     int lengthOfLIS(vector<int>& nums) {
         n = nums.size();
         
@@ -60,8 +78,12 @@ public:
         // return solve(nums, 0, -1);
         
         // Top Down Memoization Approach
-        vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
-        return solveMemo(nums,  0, -1, dp);
+        // vector<vector<int>> dp(n+1, vector<int>(n+1, -1));
+        // return solveMemo(nums,  0, -1, dp);
+        
+        // Bottom Up Approach
+        vector<int> t(n, 1);    // Initially filled with 1s as each element will make LIS on its own
+        return solveBottomUp(nums, t);
         
     }
 };
