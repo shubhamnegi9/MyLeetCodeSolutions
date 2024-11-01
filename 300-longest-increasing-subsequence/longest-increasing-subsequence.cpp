@@ -53,6 +53,9 @@ public:
         return max(take, skip);
     }
     
+    // Bottom Up Approach
+    // T.C. = O(n*n)
+    // S.C. = O(n)
     int solveBottomUp(vector<int> &nums, vector<int> &t) {
         int maxLIS = 1;     // In case whole nums vector have no LIS, max length of LIS should be 1
                             // Eg. nums = [7,7,7,7,7,7,7], LIS = {7}
@@ -71,6 +74,24 @@ public:
         return maxLIS;
     }
     
+    // Using Patience Sorting
+    // T.C. = O(n*logn)
+    // S.C. = O(length of sorted vector)
+    int lengthOfLISUsingPatienceSorting(vector<int>& nums) {
+        vector<int> sorted;
+        
+        for(int i = 0; i < nums.size(); i++) {                                  // O(n)
+            auto lb = lower_bound(sorted.begin(), sorted.end(), nums[i]);       // O(logn)
+            if(lb == sorted.end()) {            // Lower Bound of nums[i] not found in sorted vector
+                sorted.push_back(nums[i]);      // PUSH
+            } else {                            // Lower Bound of nums[i] found in sorted vector
+                *lb = nums[i];                  // REPLACE
+            }
+        }
+        
+        return sorted.size();   // Max length of LIS
+    }
+    
     int lengthOfLIS(vector<int>& nums) {
         n = nums.size();
         
@@ -82,8 +103,10 @@ public:
         // return solveMemo(nums,  0, -1, dp);
         
         // Bottom Up Approach
-        vector<int> t(n, 1);    // Initially filled with 1s as each element will make LIS on its own
-        return solveBottomUp(nums, t);
+        // vector<int> t(n, 1);    // Initially filled with 1s as each element will make LIS on its own
+        // return solveBottomUp(nums, t);
         
+        // Using Patience Sorting
+        return lengthOfLISUsingPatienceSorting(nums);
     }
 };
