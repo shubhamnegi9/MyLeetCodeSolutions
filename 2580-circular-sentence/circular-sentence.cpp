@@ -28,7 +28,24 @@ public:
         return true;
     }
     
+    // Approach 2: Space Optimized Approach
+    // T.C. = O(n)
+    // S.C. = O(1)
+    bool isCircularSentence2(string sentence) {
+        int n = sentence.length();
+        for(int i = 0; i < n; i++) {
+            if(sentence[i] == ' ' && sentence[i-1] != sentence[i+1])
+                return false;
+        }
+        
+        return sentence[0] == sentence[n-1];
+    }
+    
     bool isCircularSentence(string sentence) {
-        return isCircularSentence1(sentence);
+        // Approach 1: By spliting the sentence 
+        // return isCircularSentence1(sentence);
+        
+        // Approach 2: Space Optimized Approach
+        return isCircularSentence2(sentence);
     }
 };
