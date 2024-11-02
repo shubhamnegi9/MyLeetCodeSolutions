@@ -10,33 +10,25 @@ public:
         return wordList;
     }
     
-    bool isCircularSentence(string sentence) {
+    // Approach 1: By spliting the sentence 
+    // T.C. = O(n)
+    // S.C. = O(n)
+    bool isCircularSentence1(string sentence) {
         vector<string> wordList = split(sentence);
         int n = wordList.size();
         
-        if(n==1) {
-            string word = wordList[0];
-            return word[0] == word[word.length()-1];
+        char last = wordList[n-1].back();
+        
+        for(int i = 0; i < n; i++) {
+            if(last != wordList[i].front())
+                return false;
+            last = wordList[i].back();
         }
         
-        bool isCircular = true;
-        
-        string firstWord = wordList[0];
-        string lastWord = wordList[n-1];
-        if(firstWord[0] != lastWord[lastWord.length()-1])
-            isCircular = false;
-        
-        if(isCircular) {
-            for(int i = 0; i < n-1; i++) {
-                string currWord = wordList[i];
-                string nextWord = wordList[i+1];
-                if(currWord[currWord.length()-1] != nextWord[0]) {
-                    isCircular = false;
-                    break;
-                }
-            }
-        }
-        
-        return isCircular;
+        return true;
+    }
+    
+    bool isCircularSentence(string sentence) {
+        return isCircularSentence1(sentence);
     }
 };
