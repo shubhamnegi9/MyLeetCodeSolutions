@@ -37,11 +37,11 @@ public:
             return false;
         
         for(int i = 0; i < n; i++) {
-            if(s == goal)
-                return true;
-            
             // Rotating the string to left using rotate STL
             rotate(s.begin(), s.begin()+1, s.end());
+            
+            if(s == goal)
+                return true;
         }
         
         return false;
@@ -68,8 +68,8 @@ public:
     bool rotateString(string s, string goal) {
        // return rotateString1(s, goal);
         
-        // return rotateString2(s, goal);
+        return rotateString2(s, goal);
         
-        return rotateString3(s, goal);
+        // return rotateString3(s, goal);
     }
 };
