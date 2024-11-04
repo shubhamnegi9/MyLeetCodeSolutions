@@ -38,12 +38,11 @@ public:
         string result = "";
         while(i < n) {
             int count = 1;
-            while(i < n-1 && count < 9 && word[i] == word[i+1]) {
+            while(i < n-1 && count < 9 && word[i] == word[i+1]) {   // Count and skips all same characters
                 count++;
                 i++;
             }
-            result+=to_string(count);
-            result+=word[i];
+            result += (to_string(count) + word[i]);
             i++;
         }
         
