@@ -27,9 +27,9 @@ public:
     }
     int findKthLargest(vector<int>& nums, int k) {
         // Using Max heap
-        return findKthLargest1(nums, k);
+        // return findKthLargest1(nums, k);
         
         // Using Min heap
-        // return findKthLargest2(nums, k);
+        return findKthLargest2(nums, k);
     }
 };
