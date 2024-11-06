@@ -92,29 +92,25 @@ public:
         int maxPrevSegment = INT_MIN;
         
         for(int i = 1; i < n; i++) {
-            // if(nums[i] > nums[i-1]) {
-            //     continue;
-            // } else {
-                if(__builtin_popcount(nums[i]) == prevSetBits) {
-                     // Element belongs to the same segment
-                    // Update min and max values of the segment
-                    maxCurrSegment = max(maxCurrSegment, nums[i]);
-                    minCurrSegment = min(minCurrSegment, nums[i]);
-                } else {
-                    // Element belongs to a new segment
-                    // Check if the segments are arranged properly
-                    if(maxPrevSegment > minCurrSegment) {
-                        return false;
-                    }
-                    
-                    // Update the previous segment's max
-                    maxPrevSegment = maxCurrSegment;
-                    // Start a new segment with the current element
-                    maxCurrSegment = nums[i];
-                    minCurrSegment = nums[i];
-                    prevSetBits = __builtin_popcount(nums[i]);
+            if(__builtin_popcount(nums[i]) == prevSetBits) {
+                 // Element belongs to the same segment
+                // Update min and max values of the segment
+                maxCurrSegment = max(maxCurrSegment, nums[i]);
+                minCurrSegment = min(minCurrSegment, nums[i]);
+            } else {
+                // Element belongs to a new segment
+                // Check if the segments are arranged properly
+                if(maxPrevSegment > minCurrSegment) {
+                    return false;
                 }
-            // }
+
+                // Update the previous segment's max
+                maxPrevSegment = maxCurrSegment;
+                // Start a new segment with the current element
+                maxCurrSegment = nums[i];
+                minCurrSegment = nums[i];
+                prevSetBits = __builtin_popcount(nums[i]);
+            }
         }
         
          // Final check for proper segment arrangement
