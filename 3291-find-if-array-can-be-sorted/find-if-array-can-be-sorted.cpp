@@ -1,6 +1,8 @@
 class Solution {
 public:
     // Approach 1: Using Modified Bubble Sort
+    // T.C. = O(n^2)
+    // S.C. = O(1)
     bool canSortArray1(vector<int>& nums) {
         int n = nums.size();
         
@@ -78,13 +80,59 @@ public:
         return true;
     }
     
+    // Approach 3: By creating segments and checking if segments are sorted (without set and map)
+    // T.C. = O(n)
+    // S.C. = O(1)
+    bool canSortArray3(vector<int>& nums) {
+        int n = nums.size();
+        
+        int prevSetBits = __builtin_popcount(nums[0]);
+        int maxCurrSegment = nums[0];
+        int minCurrSegment = nums[0];
+        int maxPrevSegment = INT_MIN;
+        
+        for(int i = 1; i < n; i++) {
+            // if(nums[i] > nums[i-1]) {
+            //     continue;
+            // } else {
+                if(__builtin_popcount(nums[i]) == prevSetBits) {
+                     // Element belongs to the same segment
+                    // Update min and max values of the segment
+                    maxCurrSegment = max(maxCurrSegment, nums[i]);
+                    minCurrSegment = min(minCurrSegment, nums[i]);
+                } else {
+                    // Element belongs to a new segment
+                    // Check if the segments are arranged properly
+                    if(maxPrevSegment > minCurrSegment) {
+                        return false;
+                    }
+                    
+                    // Update the previous segment's max
+                    maxPrevSegment = maxCurrSegment;
+                    // Start a new segment with the current element
+                    maxCurrSegment = nums[i];
+                    minCurrSegment = nums[i];
+                    prevSetBits = __builtin_popcount(nums[i]);
+                }
+            // }
+        }
+        
+         // Final check for proper segment arrangement
+        if(maxPrevSegment > minCurrSegment) {
+            return false;
+        }
+        
+        return true;
+    }
+    
     bool canSortArray(vector<int>& nums) {
         // Approach 1
-        return canSortArray1(nums); 
+        // return canSortArray1(nums); 
         
         // Approach 2
         // return canSortArray2(nums);
         
-        
+        // Approach 3
+        return canSortArray3(nums);
     }
 };
