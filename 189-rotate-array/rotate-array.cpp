@@ -40,6 +40,9 @@ public:
         }
     }
     
+    // Optimal Approach
+    // T.C. = O(n+k) = O(n+n) = O(n)
+    // S.C. = O(1)
     void rotate3(vector<int>& nums, int k) {
         int n = nums.size();
         k = k % n;
@@ -68,6 +71,7 @@ public:
         // Better Approach
         // rotate2(nums, k);
         
+        // Optimal Approach
         rotate3(nums, k);
         
         // Using rotate() STL function
