@@ -40,6 +40,17 @@ public:
         }
     }
     
+    void rotate3(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+        
+        reverse(nums.begin(), nums.end());
+        
+        reverse(nums.begin(), nums.begin()+k);
+        
+        reverse(nums.begin()+k, nums.end());
+    }
+    
     // Using rotate() STL function
     // T.C. = O(n)
     // S.C. = O(1)
@@ -55,7 +66,9 @@ public:
         // rotate1(nums, k);
         
         // Better Approach
-        rotate2(nums, k);
+        // rotate2(nums, k);
+        
+        rotate3(nums, k);
         
         // Using rotate() STL function
         // rotate4(nums, k);
