@@ -16,7 +16,7 @@ public:
             int power = -1;
             vector<int> temp(nums.begin()+i, nums.begin()+i+k);
             if(isSortedAndConsecutive(temp)) {
-                power = *max_element(nums.begin()+i, nums.begin()+i+k);
+                power = nums[i+k-1];    // Last element of subarray will be maximum 
             }
             result.push_back(power);
         }
