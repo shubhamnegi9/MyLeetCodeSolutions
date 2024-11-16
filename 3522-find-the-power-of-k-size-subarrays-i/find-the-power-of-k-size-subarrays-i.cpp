@@ -70,11 +70,46 @@ public:
         return result;
     }
     
+    // Optimal Approach using Monotonic Deque
+    // T.C. = O(n)
+    // S.C. = O(k)
+    vector<int> resultsArray3(vector<int>& nums, int k) {
+        int n = nums.size();
+        deque<int> deq;
+        vector<int> result;
+        
+        for(int i = 0; i < n; i++) {
+            
+            if(deq.size() >= k) {
+                deq.pop_front();    // Pop the element from front to maintain deque of size k
+            }
+            
+            if(!deq.empty() && nums[i] != deq.back()+1) {   // Current element is not consecutive
+                deq.clear();    // Remove all previous elements from deque
+            }
+            
+            deq.push_back(nums[i]);
+            
+            if(i >= k-1) {
+                if(deq.size() == k) {
+                    result.push_back(deq.back());
+                } else {
+                    result.push_back(-1);
+                }
+            }
+        }
+        
+        return result;
+    }
+    
     vector<int> resultsArray(vector<int>& nums, int k) {
         // Brute Force Approach
         // return resultsArray1(nums, k);
         
-        // Optimal Approach
-        return resultsArray2(nums, k);
+        // Optimal Approach using Sliding Window
+        // return resultsArray2(nums, k);
+        
+        // Optimal Approach using Monotonic Deque
+        return resultsArray3(nums, k);
     }
 };
