@@ -53,6 +53,19 @@ public:
         return -1;
     }
     
+     // Approach 4: Optimal Approach by finding sum
+    int missingNumber4(vector<int>& nums) {
+        int n = nums.size();
+        int sum = (n*(n+1))/2;
+        
+        int currSum = 0;
+        for(int& ele: nums) {
+            currSum+=ele;
+        }
+            
+        return sum - currSum;
+    }
+    
     int missingNumber(vector<int>& nums) {
         // Approach 1: Brute Force
         // return missingNumber1(nums);
@@ -61,6 +74,9 @@ public:
         // return missingNumber2(nums);
         
         // Approach 3: Better Approach using Set
-        return missingNumber3(nums);
+        // return missingNumber3(nums);
+        
+        // Approach 4: Optimal Approach by finding sum
+        return missingNumber4(nums);
     }
 };
