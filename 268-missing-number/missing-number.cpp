@@ -53,7 +53,7 @@ public:
         return -1;
     }
     
-     // Approach 4: Optimal Approach by finding sum
+    // Approach 4: Optimal Approach by finding sum
     int missingNumber4(vector<int>& nums) {
         int n = nums.size();
         int sum = (n*(n+1))/2;
@@ -64,6 +64,20 @@ public:
         }
             
         return sum - currSum;
+    }
+    
+    // Approach 5: Optimal Approach by finding XOR
+    int missingNumber5(vector<int>& nums) {
+        int n = nums.size(); 
+        int XOR1 = 0, XOR2 = 0;
+        
+        for(int i = 0; i < n; i++) {
+            XOR2 ^= nums[i];
+            XOR1 ^= i;
+        }
+        XOR1 ^= n;
+        
+        return XOR1 ^ XOR2;
     }
     
     int missingNumber(vector<int>& nums) {
@@ -77,6 +91,9 @@ public:
         // return missingNumber3(nums);
         
         // Approach 4: Optimal Approach by finding sum
-        return missingNumber4(nums);
+        // return missingNumber4(nums);
+        
+        // Approach 5: Optimal Approach by finding XOR
+        return missingNumber5(nums);
     }
 };
