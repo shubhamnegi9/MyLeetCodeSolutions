@@ -26,21 +26,21 @@ public:
     // T.C. = O(n)
     // S.C. = O(1)
     void moveZeroes2(vector<int>& nums) {
-        
-        int j = -1;
         int n = nums.size();
-        for(int i = 0; i < n; i++) {
-            if(nums[i] == 0) {
-                j = i;
+        int i = -1;
+
+        for(int j = 0; j < n; j++) {
+            if(nums[j] == 0) {
+                i = j;
                 break;
             }
         }
-        
-        if(j != -1) {
-            for(int i = j+1; i < n; i++) {
-                if(nums[i] != 0) {
-                    swap(nums[j], nums[i]);
-                    j++;
+
+        if(i != -1) {
+            for(int j = i+1; j < n; j++) {
+                if(nums[j] != 0) {
+                    swap(nums[i], nums[j]);
+                    i++;
                 }
             }
         }
