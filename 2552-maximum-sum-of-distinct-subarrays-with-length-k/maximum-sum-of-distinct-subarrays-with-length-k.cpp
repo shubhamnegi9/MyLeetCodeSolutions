@@ -5,7 +5,7 @@ public:
         int n = nums.size();
         long long sum = 0;
         long long maxSum = 0;
-        unordered_set<int> st;
+        unordered_set<int> st;  // For tracking duplicate elements
         
         while(j < n) {
             
@@ -17,11 +17,10 @@ public:
             }
             
             // Add only unique elements in window
-            if(st.find(nums[j]) == st.end()) {
-                sum+=nums[j];
-                st.insert(nums[j]);   
-            }
+            sum+=nums[j];
+            st.insert(nums[j]);   
             
+            // Update maxSum once k size window is found
             if(j-i+1 == k) {
                 maxSum = max(maxSum, sum);
                 
