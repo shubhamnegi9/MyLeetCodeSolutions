@@ -51,6 +51,21 @@ public:
         return false;
     }
     
+    // Approach 3: Using Set
+    bool checkIfExist3(vector<int>& arr) {
+        unordered_set<int> st;
+        int n = arr.size();
+        
+        for(int i = 0; i < n; i++) {
+            if(st.find(arr[i]*2) != st.end() || (arr[i]%2 == 0 && st.find(arr[i]/2) != st.end())) {
+                return true;
+            }
+            st.insert(arr[i]);
+        }
+        
+        return false;
+    }
+    
     
     bool checkIfExist4(vector<int>& arr) {
         unordered_map<int, int> mp;
@@ -71,7 +86,10 @@ public:
         // return checkIfExist1(arr);
         
         // Approach 2: Using Binary Search
-        return checkIfExist2(arr);
+        // return checkIfExist2(arr);
+        
+        // Approach 3: Using Set
+        return checkIfExist3(arr);
         
         // Approach 4: Using map
         // return checkIfExist4(arr);
