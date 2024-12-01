@@ -6,14 +6,51 @@ public:
     bool checkIfExist1(vector<int>& arr) {
         int n = arr.size();
         for(int i = 0; i < n; i++) {
-            for(int j = 1; j < n; j++) {
-                if(i != j && (arr[j] == 2*arr[i] || (arr[i] % 2 == 0 && arr[j] == arr[i]/2))) {
+            for(int j = 0; j < n; j++) {
+                if(i != j && arr[j] == 2*arr[i]) {
                     return true;
                 }
             }
         }
         return false;
     }
+    
+    // Approach 2: Using Binary Search
+    // T.C. = O(nlogn)
+    // S.C. = O(1)
+    int bSearch(vector<int>& arr, int target) {
+        int l = 0; 
+        int r = arr.size()-1;
+        
+        while(l <= r) {
+            int mid = l+(r-l)/2;
+            if(arr[mid] == target) {
+                return mid;
+            }
+            else if(target < arr[mid]) {
+                r = mid-1;
+            } else {
+                l = mid+1;
+            }
+        }
+        
+        return -1;
+    }
+    
+    bool checkIfExist2(vector<int>& arr) {
+        int n = arr.size();
+        // Sort the array to apply binary search
+        sort(arr.begin(), arr.end());
+        
+        for(int i = 0; i < n; i++) {
+            int j = bSearch(arr, arr[i]*2);
+            if(j != -1 && i != j) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     
     bool checkIfExist4(vector<int>& arr) {
         unordered_map<int, int> mp;
@@ -31,7 +68,10 @@ public:
     
     bool checkIfExist(vector<int>& arr) {
         // Approach 1: Using brute force
-        return checkIfExist1(arr);
+        // return checkIfExist1(arr);
+        
+        // Approach 2: Using Binary Search
+        return checkIfExist2(arr);
         
         // Approach 4: Using map
         // return checkIfExist4(arr);
