@@ -50,12 +50,33 @@ public:
     
         return res;
     }
+    
+    // Approach 3: Using iStringStream and find() function 
+    int isPrefixOfWord3(string sentence, string searchWord) {
+        string word = "";
+        istringstream iss(sentence);
+        int index = 0;
+        
+        while(iss >> word) {
+            index++;
+            if(word.find(searchWord) == 0) {    // find() returns 0 if searchWord is at the start
+                return index;
+            }
+        }
+    
+        return -1;
+    }
+    
+    
 
     int isPrefixOfWord(string sentence, string searchWord) {
         // Approach 1
         // return isPrefixOfWord1(sentence, searchWord);
         
         // Approach 2: Using iStringStream 
-        return isPrefixOfWord2(sentence, searchWord);
+        // return isPrefixOfWord2(sentence, searchWord);
+        
+        // Approach 3: Using iStringStream and find() function 
+        return isPrefixOfWord3(sentence, searchWord);
     }
 };
