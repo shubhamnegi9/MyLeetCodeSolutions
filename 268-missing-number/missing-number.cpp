@@ -31,9 +31,25 @@ public:
         return -1;
     }
     
+    int missingNumber3(vector<int>& nums) {
+        int XOR = 0;
+        int n = nums.size();
+        for(int i = 0; i <= n; i++) {
+            XOR ^= i;
+        }
+        
+        for(int ele: nums) {
+            XOR ^= ele;
+        }
+        
+        return XOR;
+    }
+    
     int missingNumber(vector<int>& nums) {
         // return missingNumber1(nums);
         
-        return missingNumber2(nums);
+        // return missingNumber2(nums);
+        
+        return missingNumber3(nums);
     }
 };
