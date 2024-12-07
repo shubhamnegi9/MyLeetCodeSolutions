@@ -5,6 +5,7 @@ public:
         sort(nums.begin(), nums.end());
     }
     
+    // T.C. = O(2n)
     void sortColors2(vector<int>& nums) {
         int n = nums.size();
         int count0 = 0, count1 = 0, count2 = 0;
@@ -34,9 +35,32 @@ public:
         }
     }
     
+    // T.C. = O(n)
+    void sortColors3(vector<int>& nums) {
+        int n = nums.size();
+        int low = 0, mid = 0, high = n-1;
+        
+        while(mid <= high) {
+            if(nums[mid] == 0) {
+                swap(nums[low], nums[mid]);
+                low++;
+                mid++;
+            }
+            else if(nums[mid] == 1) {
+                mid++;
+            }
+            else {
+                swap(nums[mid], nums[high]);
+                high--;
+            }
+        }
+    }
+    
     void sortColors(vector<int>& nums) {
         // sortColors1(nums);
         
-        sortColors2(nums);
+        // sortColors2(nums);
+        
+        sortColors3(nums);
     }
 };
