@@ -1,24 +1,22 @@
 class Solution {
 public:
-    // Brute Force 
-    void moveZeroes1(vector<int>& nums) {
-        vector<int> nz;
-        for(int num: nums) {
-            if(num != 0) {
-                nz.push_back(num);
+    void moveZeroes(vector<int>& nums) {
+        int i = 0;
+        int n = nums.size();
+        
+        while(i < n && nums[i] != 0) {
+            i++;
+        }
+        
+        if(i == n) {
+            return;
+        }
+        
+        for(int j = i+1; j < n; j++) {
+            if(nums[j] != 0) {
+                swap(nums[i], nums[j]);
+                i++;
             }
         }
-        
-        for(int i = 0; i < nz.size(); i++) {
-            nums[i] = nz[i];
-        }
-        
-        for(int i = nz.size(); i < nums.size(); i++) {
-            nums[i] = 0;
-        }
-    }
-    
-    void moveZeroes(vector<int>& nums) {
-        moveZeroes1(nums);
     }
 };
