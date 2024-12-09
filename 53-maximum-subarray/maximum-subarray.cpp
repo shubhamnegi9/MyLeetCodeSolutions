@@ -1,45 +1,36 @@
 class Solution {
 public:
-    // Brute Force Aproach
-    // T.C. = O(n^2)
-    // S.C. = O(1)
-    int maxSubArray1(vector<int>& nums) {
-        int n = nums.size();
+    int maxSubArray(vector<int>& nums) {
+        int sum = 0;
         int maxSum = INT_MIN;
+        int n = nums.size();
+        int start = 0, ansStart = -1, ansEnd = -1;
         
         for(int i = 0; i < n; i++) {
-            int sum = 0;
-            for(long j = i; j < n; j++) {
-                sum += nums[j];
-                maxSum = max(maxSum, sum);
+            
+            if(sum == 0) {
+                start = i;
+            }
+            
+            sum+=nums[i];
+            
+            if(sum > maxSum) {
+                maxSum = sum;
+                ansStart = start;
+                ansEnd = i;
+            }
+            
+            if(sum < 0) {
+                sum = 0;
             }
         }
         
-        return maxSum;
-    }
-    
-    // Optimal Approach using Kadane's Algo
-    // T.C. = O(n)
-    // S.C. = O(1)
-    int maxSubArray2(vector<int>& nums) {
-        int n = nums.size();
-        int sum = 0;
-        int maxSum = INT_MIN;
-        for(int i = 0; i < n; i++) {
-            sum+=nums[i];
-            maxSum = max(maxSum, sum);
-            if(sum < 0)
-                sum=  0;
-        }
+        // In case it is given that subarray can also be empty
+        // if(maxSum < 0) {
+        //     maxSum = 0;
+        // }
         
+        cout << "start= " << ansStart << " " << " end= " << ansEnd << endl;
         return maxSum;
-    }
-    
-    int maxSubArray(vector<int>& nums) {
-        // Brute Force Aproach
-        // return maxSubArray1(nums);
-        
-        // Optimal Approach using Kadane's Algo
-        return maxSubArray2(nums);
     }
 };
