@@ -1,22 +1,31 @@
 class Solution {
 public:
-    vector<int> rearrangeArray(vector<int>& nums) {
+    // Approach 1: Brute Force
+    // T.C. = O(n) + O(n/2)
+    // S.C. = O(n)
+    vector<int> rearrangeArray1(vector<int>& nums) {
+        vector<int> positives;
+        vector<int> negatives;
+        
+        for(int& ele: nums) {
+            if(ele < 0) {
+                negatives.push_back(ele);
+            } else {
+                positives.push_back(ele);
+            }
+        }
+        
         int n = nums.size();
-        vector<int> res(n, 0);
-        int pos = 0, neg = 1;
-
-        for(int i = 0; i < n; i++) {
-            if(nums[i] > 0) {
-                res[pos] = nums[i];
-                pos+=2;
-            }
-            else {
-                res[neg] = nums[i];
-                neg+=2;
-            }
-        } 
-
-        return res;
-
+        for(int i = 0; i < n/2; i++) {
+            nums[2*i] = positives[i];
+            nums[2*i+1] = negatives[i];
+        }
+        
+        return nums;
+    }
+    
+    vector<int> rearrangeArray(vector<int>& nums) {
+        // Approach 1: Brute Force
+        return rearrangeArray1(nums);
     }
 };
