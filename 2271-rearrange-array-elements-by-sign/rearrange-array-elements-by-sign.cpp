@@ -24,8 +24,31 @@ public:
         return nums;
     }
     
+    // Approach 2: Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(n)
+    vector<int> rearrangeArray2(vector<int>& nums) {
+        vector<int> result(nums.size(), 0);
+        int posIndex = 0, negIndex = 1;
+        
+        for(int& ele: nums) {
+            if(ele < 0) {
+                result[negIndex] = ele;
+                negIndex+=2;
+            } else {
+                result[posIndex] = ele;
+                posIndex+=2;
+            }
+        }
+        
+        return result;
+    }
+    
     vector<int> rearrangeArray(vector<int>& nums) {
         // Approach 1: Brute Force
-        return rearrangeArray1(nums);
+        // return rearrangeArray1(nums);
+        
+        // Approach 2: Optimal Approach
+        return rearrangeArray2(nums); 
     }
 };
