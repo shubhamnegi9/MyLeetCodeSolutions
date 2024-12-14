@@ -74,9 +74,9 @@ public:
     
     long long continuousSubarrays(vector<int>& nums) {
         // Approach 1: Using ordered map
-        return continuousSubarrays1(nums);
+        // return continuousSubarrays1(nums);
         
         // Approach 2: Using heap
-        // return continuousSubarrays2(nums);
+        return continuousSubarrays2(nums);
     }
 };
