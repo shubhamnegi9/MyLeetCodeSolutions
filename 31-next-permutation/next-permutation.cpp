@@ -1,35 +1,73 @@
 class Solution {
 public:
-    void nextPermutation(vector<int>& nums) {
-        int n = nums.size();
-
-        // Step 1: Finding the breakpoint index
-        int index = -1;
-        for(int i = n-2; i >= 0; i--) {
-            if(nums[i] < nums[i+1]) {
-                index = i;
-                break;
-            }
-        }
-
-        // If no breakpoint index exists then the given array is in decreasing order.
-        // In this case reverse the array to get next greater permutation.
-        if(index == -1) {
-            reverse(nums.begin(), nums.end());
+    void solve(vector<int>& nums, vector<int>& visited, vector<int>& ans, set<vector<int>>& result, int n) {
+        // Base Case
+        if(ans.size() == nums.size()) {
+            result.insert(ans);
             return;
         }
-
-        // Step 2: Find the element > element at breakpoint index 
-        // on the right and swap it
-        for(int i = n-1; i > index; i--) {
-            if(nums[i] > nums[index]) {
-                swap(nums[i], nums[index]);
-                break;
+        
+        for(int i = 0; i < n; i++) {
+            if(visited[i] == 0) {
+                ans.push_back(nums[i]);
+                visited[i] = 1;
+                solve(nums, visited, ans, result, n);
+                ans.pop_back();
+                visited[i] = 0;
             }
         }
-
-        // Step 3: Reverse the remaining portion after breakpoint index
-        reverse(nums.begin()+index+1, nums.end());
         
+    }
+    
+    set<vector<int>> getAllPermutations(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> visited(n, 0);
+        vector<int> ans;
+        set<vector<int>> result;
+        
+        solve(nums, visited, ans, result, n);
+        
+        return result;
+    }
+    
+    /*
+        Brute Force Approach
+        T.C. = O(N! * N) + O(N!)
+        S.C. = O(N) + O(N!) 
+    */
+    void nextPermutation1(vector<int>& nums) {
+        // Set of vector is taken to get all unique and ordered permuations
+        set<vector<int>> allPermutations = getAllPermutations(nums);
+        
+        // for(vector<int> v: allPermutations) {
+        //     for(int& ele: v) {
+        //         cout << ele << " ";
+        //     }
+        //     cout << endl;
+        // }
+        
+        auto it = allPermutations.find(nums);
+        if(it != allPermutations.end()) {
+            auto nextIt = next(it);
+            
+            if(nextIt != allPermutations.end()) {
+                nums = *nextIt;
+            } else {
+                nums = *allPermutations.begin();
+            }
+        }   
+    }
+    
+    // Better Approach
+    void nextPermutation2(vector<int>& nums) {
+        next_permutation(nums.begin(), nums.end());
+    }
+    
+    void nextPermutation(vector<int>& nums) {
+        // Brute Force Approach
+        // return nextPermutation1(nums);
+        
+        // Better Approach
+        return nextPermutation2(nums);
     }
 };
