@@ -32,8 +32,8 @@ public:
     
     /*
         Brute Force Approach
-        T.C. = O(N! * N) + O(N!)
-        S.C. = O(N) + O(N!) 
+        T.C. = O(n! * n) + O(n!)
+        S.C. = O(n) + O(n!) 
     */
     void nextPermutation1(vector<int>& nums) {
         // Set of vector is taken to get all unique and ordered permuations
@@ -58,16 +58,49 @@ public:
         }   
     }
     
-    // Better Approach
+    // Optimal Approach using STL
+    // T.C. = O(n)
+    // S.C. = O(1)
     void nextPermutation2(vector<int>& nums) {
         next_permutation(nums.begin(), nums.end());
+    }
+    
+    // Optimal Approach without STL
+    // T.C. = O(3*n)
+    // S.C. = O(1)
+    void nextPermutation3(vector<int>& nums) {
+        int index = -1;
+        int n = nums.size();
+        
+        for(int i = n-2; i >= 0; i--) {
+            if(nums[i] < nums[i+1]) {
+                index = i;
+                break;
+            }
+        }
+        
+        if(index == -1) {
+            reverse(nums.begin(), nums.end());
+        } else {
+            for(int i = n-1; i > index; i--) {
+                if(nums[i] > nums[index]) {
+                    swap(nums[index], nums[i]);
+                    break;
+                }
+             }
+            
+            reverse(nums.begin()+index+1, nums.end());
+        }
     }
     
     void nextPermutation(vector<int>& nums) {
         // Brute Force Approach
         // return nextPermutation1(nums);
         
-        // Better Approach
-        return nextPermutation2(nums);
+        // Optimal Approach using STL
+        // return nextPermutation2(nums);
+        
+        // Optimal Approach without STL
+        return nextPermutation3(nums);
     }
 };
