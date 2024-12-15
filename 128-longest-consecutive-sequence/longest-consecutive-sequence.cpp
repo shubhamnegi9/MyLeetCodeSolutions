@@ -65,11 +65,42 @@ public:
         return maxLen;
     }
     
+    // Optimal Approach
+    int longestConsecutive3(vector<int>& nums) {
+        int n = nums.size();
+        
+        // Corner case
+        if(n==0)
+            return 0;
+        
+        unordered_set<int> st(nums.begin(), nums.end());
+        int maxLen = 1;
+        
+        for(int ele: st) {
+            // (ele-1) is not found. Then ele will be the first element in consecutive sequence
+            if(st.find(ele-1) == st.end()) {
+                int currEle = ele;
+                int count = 1;
+
+                while(st.find(currEle+1) != st.end()) {
+                    count++;
+                    currEle++;
+                }   
+                maxLen = max(maxLen, count);
+            }
+        }
+        
+        return maxLen;
+    }
+    
     int longestConsecutive(vector<int>& nums) {
         // Brute Force Approach
         // return longestConsecutive1(nums);
         
         // Better Approach
-        return longestConsecutive2(nums);
+        // return longestConsecutive2(nums);
+        
+        // Optimal Approach
+        return longestConsecutive3(nums);
     }
 };
