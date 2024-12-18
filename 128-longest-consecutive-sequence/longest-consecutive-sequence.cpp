@@ -1,31 +1,21 @@
 class Solution {
 public:
     
-    bool nextConsecutiveExist(vector<int>& nums, int x) {
-        for(int& ele: nums) {
-            if(ele == x)
+    bool findNextConsecutive(vector<int>& nums, int ele) {
+        for(int i = 0; i < nums.size(); i++) {
+            if(nums[i] == ele)
                 return true;
-        }
+        }    
         return false;
     }
     
-    // Brute Force Approach
-    // T.C. = O(n^2)
-    // S.C. = O(1)
     int longestConsecutive1(vector<int>& nums) {
         int n = nums.size();
-        
-        // Corner case
-        if(n==0)
-            return 0;
-        
-        int maxLen = 1;
-            
+        int maxLen = 0;
         for(int i = 0; i < n; i++) {
             int currEle = nums[i];
             int count = 1;
-            
-            while(nextConsecutiveExist(nums, currEle+1)) {
+            while(findNextConsecutive(nums, currEle+1)) {
                 count++;
                 currEle++;
             }
@@ -35,72 +25,34 @@ public:
         return maxLen;
     }
     
-    // Better Approach
-    // T.C. = O(nlogn) + O(n)
-    // S.C. = O(1)
     int longestConsecutive2(vector<int>& nums) {
         int n = nums.size();
         
-        // Corner case
         if(n==0)
             return 0;
         
         sort(nums.begin(), nums.end());
-        
-        int lastConsecutiveEle = INT_MIN, count = 1, maxLen = 1;
-        
-        for(int& ele: nums) {
-            if(ele == lastConsecutiveEle+1) {
+        int count = 1;
+        int maxLen = 0;
+        int lastConsecutive = INT_MIN;
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == lastConsecutive+1) {
                 count++;
-                lastConsecutiveEle = ele;
-            } else if(ele == lastConsecutiveEle) {
+                lastConsecutive = nums[i];
+            } else if(nums[i] == lastConsecutive) {
                 continue;
             } else {
                 count = 1;
-                lastConsecutiveEle = ele;
+                lastConsecutive = nums[i];
             }
             maxLen = max(maxLen, count);
         }
-        
-        return maxLen;
-    }
-    
-    // Optimal Approach
-    int longestConsecutive3(vector<int>& nums) {
-        int n = nums.size();
-        
-        // Corner case
-        if(n==0)
-            return 0;
-        
-        unordered_set<int> st(nums.begin(), nums.end());
-        int maxLen = 1;
-        
-        for(int ele: st) {
-            // (ele-1) is not found. Then ele will be the first element in consecutive sequence
-            if(st.find(ele-1) == st.end()) {
-                int currEle = ele;
-                int count = 1;
-
-                while(st.find(currEle+1) != st.end()) {
-                    count++;
-                    currEle++;
-                }   
-                maxLen = max(maxLen, count);
-            }
-        }
-        
         return maxLen;
     }
     
     int longestConsecutive(vector<int>& nums) {
-        // Brute Force Approach
         // return longestConsecutive1(nums);
         
-        // Better Approach
-        // return longestConsecutive2(nums);
-        
-        // Optimal Approach
-        return longestConsecutive3(nums);
+        return longestConsecutive2(nums);
     }
 };
