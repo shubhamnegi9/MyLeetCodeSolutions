@@ -1,77 +1,49 @@
 class Solution {
 public:
-    void solve(vector<int>& nums, vector<int>& visited, vector<int>& ans, set<vector<int>>& result, int n) {
-        // Base Case
-        if(ans.size() == nums.size()) {
-            result.insert(ans);
+    void solve(vector<int>& nums, int i, vector<int>& ans, vector<int>& visited, set<vector<int>>& st, int n) {
+        // Base case
+        if(ans.size() == n) {
+            st.insert(ans);
             return;
         }
         
         for(int i = 0; i < n; i++) {
-            if(visited[i] == 0) {
-                ans.push_back(nums[i]);
+            if(!visited[i]) {
                 visited[i] = 1;
-                solve(nums, visited, ans, result, n);
-                ans.pop_back();
+                ans.push_back(nums[i]);
+                solve(nums, i+1, ans, visited, st, n);
                 visited[i] = 0;
+                ans.pop_back();
             }
         }
-        
     }
     
-    set<vector<int>> getAllPermutations(vector<int>& nums) {
+    set<vector<int>> generateAllPermutations(vector<int>& nums) {
         int n = nums.size();
-        vector<int> visited(n, 0);
         vector<int> ans;
-        set<vector<int>> result;
-        
-        solve(nums, visited, ans, result, n);
-        
-        return result;
+        vector<int> visited(n, 0);
+        set<vector<int>> st;
+        solve(nums, 0, ans, visited, st, n);
+        return st;
     }
     
-    /*
-        Brute Force Approach
-        T.C. = O(n! * n) + O(n!)
-        S.C. = O(n) + O(n!) 
-    */
     void nextPermutation1(vector<int>& nums) {
-        // Set of vector is taken to get all unique and ordered permuations
-        set<vector<int>> allPermutations = getAllPermutations(nums);
+        set<vector<int>> allPermutations = generateAllPermutations(nums);
         
-        // for(vector<int> v: allPermutations) {
-        //     for(int& ele: v) {
-        //         cout << ele << " ";
-        //     }
-        //     cout << endl;
-        // }
+        auto itr = allPermutations.find(nums);
+        auto nextItr = next(itr);
         
-        auto it = allPermutations.find(nums);
-        if(it != allPermutations.end()) {
-            auto nextIt = next(it);
-            
-            if(nextIt != allPermutations.end()) {
-                nums = *nextIt;
-            } else {
-                nums = *allPermutations.begin();
-            }
-        }   
+        if(nextItr != allPermutations.end()) {
+            nums = *nextItr;
+        } else {
+            nums = *allPermutations.begin();
+        }
     }
     
-    // Optimal Approach using STL
-    // T.C. = O(n)
-    // S.C. = O(1)
     void nextPermutation2(vector<int>& nums) {
-        next_permutation(nums.begin(), nums.end());
-    }
-    
-    // Optimal Approach without STL
-    // T.C. = O(3*n)
-    // S.C. = O(1)
-    void nextPermutation3(vector<int>& nums) {
-        int index = -1;
         int n = nums.size();
         
+        int index = -1;
         for(int i = n-2; i >= 0; i--) {
             if(nums[i] < nums[i+1]) {
                 index = i;
@@ -80,27 +52,22 @@ public:
         }
         
         if(index == -1) {
-            reverse(nums.begin(), nums.end());
-        } else {
-            for(int i = n-1; i > index; i--) {
-                if(nums[i] > nums[index]) {
-                    swap(nums[index], nums[i]);
-                    break;
-                }
-             }
-            
-            reverse(nums.begin()+index+1, nums.end());
+            return reverse(nums.begin(), nums.end());
         }
+        
+        for(int i = n-1; i > index; i--) {
+            if(nums[i] > nums[index]) {
+                swap(nums[i], nums[index]);
+                break;
+            }
+        }
+        
+        reverse(nums.begin()+index+1, nums.end());
     }
     
     void nextPermutation(vector<int>& nums) {
-        // Brute Force Approach
         // return nextPermutation1(nums);
         
-        // Optimal Approach using STL
-        // return nextPermutation2(nums);
-        
-        // Optimal Approach without STL
-        return nextPermutation3(nums);
+        return nextPermutation2(nums);
     }
 };
