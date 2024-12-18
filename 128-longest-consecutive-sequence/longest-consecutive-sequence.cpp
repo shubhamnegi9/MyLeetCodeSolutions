@@ -50,9 +50,30 @@ public:
         return maxLen;
     }
     
+    int longestConsecutive3(vector<int>& nums) {
+        unordered_set<int> st(nums.begin(), nums.end());
+        int maxLen = 0;
+        
+        for(int& ele: nums) {
+            if(st.find(ele-1) == st.end()) {
+                int count = 1;
+                int currEle = ele;
+                while(st.find(currEle+1) != st.end()) {
+                    count++;
+                    currEle++;
+                }
+                maxLen = max(maxLen, count);
+            }
+        }
+        
+        return maxLen;
+    }
+    
     int longestConsecutive(vector<int>& nums) {
         // return longestConsecutive1(nums);
         
-        return longestConsecutive2(nums);
+        // return longestConsecutive2(nums);
+        
+        return longestConsecutive3(nums);
     }
 };
