@@ -1,19 +1,26 @@
 class Solution {
 public:
-    void rotate(vector<vector<int>>& matrix) {
+    // Brute Force Approach
+    // T.C. = O(n*n)
+    // S.C. = O(n*n)
+    void rotate1(vector<vector<int>>& matrix) {
         int n = matrix.size();
+        vector<vector<int>> result(n, vector<int> (n, 0));
         
-        // Finding transpose of matrix
         for(int i = 0; i < n; i++) {
-            for(int j = i; j < n; j++) {    // Start j from i and not from 0 
-                swap(matrix[i][j] , matrix[j][i]);
+            for(int j = 0; j < n; j++) {
+                result[j][n-1-i] = matrix[i][j];
             }
         }
         
-        // Reverse each row of transpose matrix
-        // Used row as reference (&) as we need to make the changes of each row in matrix also
-        for(vector<int>& row: matrix) {
-            reverse(row.begin(), row.end());
-        }
+        matrix = result;
+    }
+    
+    void rotate(vector<vector<int>>& matrix) {
+        // Brute Force Approach
+        return rotate1(matrix);
+        
+        // // Optimal Approach
+        // return rotate2(matrix);
     }
 };
