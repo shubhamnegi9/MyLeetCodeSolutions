@@ -20,8 +20,31 @@ public:
         return count;
     }
     
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = o(n)
+    int subarraySum2(vector<int>& nums, int k) {
+        int n = nums.size();
+        unordered_map<int, int> mp;
+        mp[0] = 1;
+        
+        int sum = 0, count = 0;
+        for(int i = 0; i < n; i++) {
+            sum+=nums[i];
+            if(mp.find(sum-k) != mp.end()) {
+                count+=mp[sum-k];
+            }
+            mp[sum]++;
+        }
+        
+        return count;
+    }
+    
     int subarraySum(vector<int>& nums, int k) {
         // Brute Force Approach
-        return subarraySum1(nums, k);
+        // return subarraySum1(nums, k);
+        
+        // Optimal Approach
+        return subarraySum2(nums, k);
     }
 };
