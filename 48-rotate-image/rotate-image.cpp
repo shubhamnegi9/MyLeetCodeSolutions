@@ -16,11 +16,30 @@ public:
         matrix = result;
     }
     
+    // Optimal Approach
+    // T.C. = 2*O(n*n)
+    // S.C. = O(1)
+    void rotate2(vector<vector<int>>& matrix) {
+        int n = matrix.size();
+        
+        // Finding transpose of matrix
+        for(int i = 0; i < n; i++) {
+            for(int j = i; j < n; j++) {
+                swap(matrix[i][j], matrix[j][i]);
+            }
+        }
+        
+        // Reverse each row of matrix
+        for(vector<int> &row: matrix) {
+            reverse(row.begin(), row.end());
+        }
+    }
+    
     void rotate(vector<vector<int>>& matrix) {
         // Brute Force Approach
-        return rotate1(matrix);
+        // return rotate1(matrix);
         
-        // // Optimal Approach
-        // return rotate2(matrix);
+        // Optimal Approach
+        return rotate2(matrix);
     }
 };
