@@ -27,7 +27,7 @@ public:
     
     // Brute Force Approach 2
     // T.C. = O(rowIndex*rowIndex)
-    // S.C. = O(1) extra space
+    // S.C. = O(rowIndex*rowIndex) extra space
     vector<int> getRow2(int rowIndex) {
         vector<vector<int>> result(rowIndex+1);
             
@@ -41,11 +41,32 @@ public:
         return result[rowIndex];
     }
     
+    // Better Approach space-wise
+    // T.C. = O(rowIndex*rowIndex)
+    // S.C. = O(1) extra space
+    vector<int> getRow3(int rowIndex) {
+        vector<int> prev;
+        vector<int> curr(rowIndex+1, 1);
+        for(int i = 0; i < rowIndex+1; i++) {
+            for(int j = 1; j < i; j++) {
+                curr[j] = prev[j] + prev[j-1]; 
+            }
+            prev = curr;
+        }
+        
+        return curr;
+    }
+    
     vector<int> getRow(int rowIndex) {
-        // Brute Force Approach
+        // Brute Force Approach 1
         // return getRow1(rowIndex);
         
-        // Optimal Approach 1
-        return getRow2(rowIndex);
+        // Brute Force Approach 2
+        // return getRow2(rowIndex);
+        
+        // Better Approach space-wise
+        return getRow3(rowIndex);
+        
+        // Optimal Approach
     }
 };
