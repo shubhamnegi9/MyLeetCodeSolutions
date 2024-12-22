@@ -53,9 +53,9 @@ public:
     
     vector<vector<int>> generate(int numRows) {
         // Brute Force Approach
-        return generate1(numRows);
+        // return generate1(numRows);
         
         // Optimal Approach 1
-        // return generate2(numRows);
+        return generate2(numRows);
     }
 };
