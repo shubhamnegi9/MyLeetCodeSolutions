@@ -51,11 +51,30 @@ public:
         return result;  
     }
     
+    // Optimal Approach 2
+    // T.C. = O(numRows*numRows)
+    // S.C. = O(1) extra space
+    vector<vector<int>> generate3(int numRows) {
+        vector<vector<int>> result(numRows);
+        
+        for(int r = 0; r < numRows; r++) {
+            result[r] = vector<int>(r+1, 1);
+            for(int c = 1; c < r; c++) {
+                result[r][c] = result[r-1][c-1] + result[r-1][c];
+            }
+        }
+        
+        return result;
+    }
+    
     vector<vector<int>> generate(int numRows) {
         // Brute Force Approach
         // return generate1(numRows);
         
         // Optimal Approach 1
-        return generate2(numRows);
+        // return generate2(numRows);
+        
+        // Optimal Approach 2
+        return generate3(numRows);
     }
 };
