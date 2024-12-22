@@ -1,60 +1,32 @@
 class Solution {
 public:
-    // Approach 1: By creating whole Pascal Triangle and returning last row
+    
+    int findnCr(int n, int r) {
+        long long res = 1;
+        
+        for(int i = 0; i < r; i++) {
+            res = (long long) res * (n-i);
+            res /= (i+1);
+        }
+        
+        return (int) res;
+    }
+    
+    // Brute Force Approach
+    // T.C. = O(rowIndex*rowIndex)
+    // S.C. = O(1) extra space
     vector<int> getRow1(int rowIndex) {
-        int numRows = rowIndex+1;
-        vector<vector<int>> result(numRows);
+        vector<int> result(rowIndex+1);
         
-        for(int i = 0; i < numRows; i++) {
-            result[i] = vector<int>(i+1, 1);
-            
-            for(int j = 1; j < i; j++) {
-                result[i][j] = result[i-1][j] + result[i-1][j-1];
-            } 
-        }
-        
-        return result[rowIndex];
-    }
-    
-    // Approach 2: Space Optimized Approach
-    vector<int> getRow2(int rowIndex) {
-        vector<int> prev;
-        
-        for(int i = 0; i < rowIndex+1; i++) {
-            vector<int> curr(i+1, 1);
-            
-            for(int j = 1; j < i; j++) {
-                curr[j] = prev[j] + prev[j-1];
-            } 
-            
-            prev = curr;
-        }
-        
-        return prev;
-    
-    }
-    
-    vector<int> getRow3(int rowIndex) {
-        int numColumns = rowIndex+1;
-        vector<int> result(numColumns, 1);
-        
-        for(int i = 1; i < numColumns; i++) {
-            long long temp = (long long)result[i-1] * (numColumns-i);
-            temp/=i;
-            result[i] = (int)temp;
+        for(int c = 1; c <= rowIndex+1; c++) {
+            result[c-1] = findnCr(rowIndex, c-1);
         }
         
         return result;
     }
     
     vector<int> getRow(int rowIndex) {
-        // Approach 1
-        // return getRow1(rowIndex);
-        
-        
-        // Approach 2
-        // return getRow2(rowIndex);
-        
-        return getRow3(rowIndex);
+        // Brute Force Approach
+        return getRow1(rowIndex);
     }
 };
