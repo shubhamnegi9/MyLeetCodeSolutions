@@ -47,6 +47,9 @@ public:
         return result;
     }
     
+    // Optimal Approach
+    // T.C. = O(nlogn) for sorting + O(n^2)
+    // S.C. = O(no. of triplets) for vector for returning result
     vector<vector<int>> threeSum3(vector<int>& nums) {
         int n = nums.size();
         
@@ -54,15 +57,15 @@ public:
         
         vector<vector<int>> result;
         
-        for(int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++) {        // O(n)
             
             if(i > 0 && nums[i] == nums[i-1])
                 continue;
             
             int j = i+1;
             int k = n-1;
-            
-            while(j < k) {
+                
+            while(j < k) {                  // O(n)
                 int sum = nums[i]+nums[j]+nums[k];
 
                 if(sum < 0) {
