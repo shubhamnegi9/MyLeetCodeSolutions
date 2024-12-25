@@ -64,11 +64,61 @@ public:
         }
     }
     
+    // Optimal Approach using gap method witout extra space
+    void swapIfGreater(vector<int>& nums1, vector<int>& nums2, int p1, int p2) {
+        if(nums1[p1] > nums2[p2]) {
+            swap(nums1[p1], nums2[p2]);
+        }    
+    }
+    
+    void merge3(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        if(m == 0) {
+            nums1 = nums2;
+        }
+        
+        if(m != 0 && n != 0) {
+            int len = m+n;
+            int gap = len/2 + len%2;    // ceil value of len/2
+            
+            while(gap > 0) {
+                int left = 0;
+                int right = gap;
+                
+                while(right < len) {
+                    if(left < m && right >= m) {
+                        swapIfGreater(nums1, nums2, left, right-m);
+                    } 
+                    else if(left >= m) {
+                        swapIfGreater(nums2, nums2, left-m, right-m);
+                    }
+                    else {
+                        swapIfGreater(nums1, nums1, left, right);
+                    }
+                    left++;
+                    right++;
+                }
+                
+                if(gap == 1) {
+                    break;
+                }
+                
+                gap = gap/2 + gap%2;    // ceil value of gap/2
+            }
+            
+            // Copy nums2 to end of nums1
+            for(int i = m; i < m+n; i++) {
+                nums1[i] = nums2[i-m];
+            }
+        }
+    }
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         // Brute Force approach with extra space
         // merge1(nums1, m, nums2, n);
         
         // Optimal Approach using 2 pointer witout extra space
-        merge2(nums1, m, nums2, n);
+        // merge2(nums1, m, nums2, n);
+        
+        // Optimal Approach using gap method witout extra space
+        merge3(nums1, m, nums2, n);
     }
 };
