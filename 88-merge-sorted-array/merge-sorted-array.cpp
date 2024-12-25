@@ -64,13 +64,17 @@ public:
         }
     }
     
-    // Optimal Approach using gap method witout extra space
+
     void swapIfGreater(vector<int>& nums1, vector<int>& nums2, int p1, int p2) {
         if(nums1[p1] > nums2[p2]) {
             swap(nums1[p1], nums2[p2]);
         }    
     }
     
+    // Optimal Approach using gap method witout extra space
+    // T.C. = O(log(m+n)) for outer while loop for 'gap' * O(m+n) for inner while loop for right pointer
+    //        + O(n) for copy nums2 to end of nums1
+    // S.C. = O(1)
     void merge3(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         if(m == 0) {
             nums1 = nums2;
