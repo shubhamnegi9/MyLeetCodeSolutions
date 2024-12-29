@@ -45,15 +45,55 @@ public:
         return result;
     }
 
-    // vector<int> majorityElement3(vector<int>& nums) {
-    
-    // }
+    vector<int> majorityElement3(vector<int>& nums) {
+        int n = nums.size();
+        int ele1 = INT_MIN, ele2 = INT_MIN;
+        int count1 = 0, count2 = 0;
+        vector<int> result;
+
+        for(int i = 0; i < n; i++) {
+            if(count1 == 0 && nums[i] != ele2) {
+                ele1 = nums[i];
+                count1 = 1;
+            }
+            else if(count2 == 0 && nums[i] != ele1) {
+                ele2 = nums[i];
+                count2 = 1;
+            }
+            else if(nums[i] == ele1) {
+                count1++;
+            }
+            else if(nums[i] == ele2) {
+                count2++;
+            }
+            else {
+                count1--;
+                count2--;
+            }
+        }
+
+        count1 = 0, count2 = 0;
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == ele1) {
+                count1++;
+            }
+            if(nums[i] == ele2) {
+                count2++;
+            }
+        }
+        if(count1 >= (n/3)+1)
+            result.push_back(ele1);
+        if(count2 >= (n/3)+1)
+            result.push_back(ele2);
+
+        return result;
+    }
     
     vector<int> majorityElement(vector<int>& nums) {
         // return majorityElement1(nums);
 
-        return majorityElement2(nums);
+        // return majorityElement2(nums);
 
-        // return majorityElement3(nums);
+        return majorityElement3(nums);
     }
 };
