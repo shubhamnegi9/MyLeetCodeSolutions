@@ -27,18 +27,21 @@ public:
     }
 
     vector<int> majorityElement2(vector<int>& nums) {
-        set<int> st;
         int n = nums.size();
+        vector<int> result;
         unordered_map<int, int> mp;
 
         for(int ele: nums) {
             mp[ele]++;
-            if(mp[ele] > n/3) {
-                st.insert(ele);
+            if(mp[ele] == (n/3)+1) {
+                result.push_back(ele);
+            }
+            if(result.size() == 2) {
+                break;
             }
         }
 
-        vector<int> result(st.begin(), st.end());
+        sort(result.begin(), result.end());
         return result;
     }
 
@@ -47,9 +50,9 @@ public:
     // }
     
     vector<int> majorityElement(vector<int>& nums) {
-        return majorityElement1(nums);
+        // return majorityElement1(nums);
 
-        // return majorityElement2(nums);
+        return majorityElement2(nums);
 
         // return majorityElement3(nums);
     }
