@@ -36,10 +36,34 @@ public:
 
         return result;
     }
+
+    vector<int> generateRow(int n) {
+        int ans = 1;
+        vector<int> result;
+        result.push_back(ans);
+        
+        for(int i = 1; i < n; i++) {
+            ans *= (n-i);
+            ans /= i;
+            result.push_back(ans);
+        }
+
+        return result;
+    }
+
+    vector<vector<int>> generate3(int numRows) {
+        vector<vector<int>> result(numRows);
+        for(int i = 1; i <= numRows; i++) {
+            result[i-1] = generateRow(i);
+        }
+        return result;
+    }
     
     vector<vector<int>> generate(int numRows) {
         // return generate1(numRows);
 
-        return generate2(numRows);
+        // return generate2(numRows);
+
+        return generate3(numRows);
     }
 };
