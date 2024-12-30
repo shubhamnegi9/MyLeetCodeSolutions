@@ -27,7 +27,25 @@ public:
         return mergedIntervals;
     }
     
+    vector<vector<int>> merge2(vector<vector<int>>& intervals) {
+        int n = intervals.size();
+        sort(intervals.begin(), intervals.end());
+        vector<vector<int>> mergedIntervals;
+
+        for(int i = 0; i < n; i++) {
+            if(mergedIntervals.empty() || intervals[i][0] > mergedIntervals.back()[1]) 
+                mergedIntervals.push_back(intervals[i]);
+            else {
+                mergedIntervals.back()[1] = max(mergedIntervals.back()[1], intervals[i][1]);
+            }
+        }
+
+        return mergedIntervals;
+    }
+    
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        return merge1(intervals);
+        // return merge1(intervals);
+
+        return merge2(intervals);
     }
 };
