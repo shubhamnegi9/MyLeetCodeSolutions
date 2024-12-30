@@ -28,7 +28,36 @@ public:
         nums1 = mergedNums;
     }
 
+    void merge2(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        
+        int p1 = m-1, p2 = 0;
+
+        if(m > 0 && n > 0) {
+            while(p1 >= 0 && p2 < n) {
+                if(nums1[p1] > nums2[p2]) {
+                    swap(nums1[p1], nums2[p2]);
+                    p1--;
+                    p2++;
+                } else {
+                    break;
+                }
+            }
+
+            sort(nums1.begin(), nums1.begin()+m);
+            sort(nums2.begin(), nums2.end());
+
+            for(int i = m; i < m+n; i++) {
+                nums1[i] = nums2[i-m];
+            }
+        }
+        else if(n > 0) {
+            nums1 = nums2;
+        }
+    }
+
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        return merge1(nums1, m, nums2, n);
+        // return merge1(nums1, m, nums2, n);
+
+        return merge2(nums1, m, nums2, n);
     }
 };
