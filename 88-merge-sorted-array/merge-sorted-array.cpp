@@ -53,9 +53,50 @@ public:
         }
     }
 
+    void swapIfGreater(vector<int>& nums1, int p1, vector<int>& nums2, int p2) {
+        if(nums1[p1] > nums2[p2])
+            swap(nums1[p1], nums2[p2]);
+    }
+
+    void merge3(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int total = (m+n);
+        int gap = total/2 + total%2;
+
+        while(gap > 0) {
+            int left = 0;
+            int right = left+gap;
+
+            while(right < total) {
+                if(left < m && right >= m) {
+                    swapIfGreater(nums1, left, nums2, right-m);
+                } 
+                else if(left >= m) {
+                    swapIfGreater(nums2, left-m, nums2, right-m);
+                } 
+                else {
+                    swapIfGreater(nums1, left, nums1, right);
+                }
+                left++;
+                right++;
+            }
+
+            if(gap == 1) {
+                break;
+            }
+
+            gap = gap/2 + gap%2;
+        }
+
+        for(int i = m; i < m+n; i++) {
+            nums1[i] = nums2[i-m];
+        }
+    }   
+
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         // return merge1(nums1, m, nums2, n);
 
-        return merge2(nums1, m, nums2, n);
+        // return merge2(nums1, m, nums2, n);
+
+        return merge3(nums1, m, nums2, n);
     }
 };
