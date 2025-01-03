@@ -1,47 +1,61 @@
 class Solution {
 public:
+    // Brute Force Approach
+    // T.C. = O(n^2)
+    // S.C. = O(1)
+    int reversePairs1(vector<int>& nums) {
+        int n = nums.size();
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            for(int j = i+1; j < n; j++) {
+                if(nums[i] > 2*nums[j])
+                    count++;
+            }
+        }
+
+        return count;
+    }
+
     void merge(vector<int>& nums, int low, int mid, int high) {
         int left = low;
         int right = mid+1;
-        vector<int> mergedArr;
-
+        vector<int> temp;
+        
         while(left <= mid && right <= high) {
-            if(nums[left] < nums[right]) {
-                mergedArr.push_back(nums[left]);
+            if(nums[left] <= nums[right]) {
+                temp.push_back(nums[left]);
                 left++;
-            }
-            else {
-                mergedArr.push_back(nums[right]);
+            } else {
+                temp.push_back(nums[right]);
                 right++;
             }
         }
 
         while(left <= mid) {
-            mergedArr.push_back(nums[left]);
+            temp.push_back(nums[left]);
             left++;
         }
 
         while(right <= high) {
-            mergedArr.push_back(nums[right]);
+            temp.push_back(nums[right]);
             right++;
         }
 
         for(int i = low; i <= high; i++) {
-            nums[i] = mergedArr[i-low];
+            nums[i] = temp[i-low];
         }
     }
 
     int findReversePairCount(vector<int>& nums, int low, int mid, int high) {
         int count = 0;
         int right = mid+1;
-        // Iterate for all element in first array
+
         for(int left = low; left <= mid; left++) {
-            // Keep incrementing right pointer until reverse pair is found
-            while(right <= high && nums[left] > 2* (long long) nums[right]) {
+            // Cast nums[left] to long long and multiply by 2LL to ensure the multiplication happens in the long long domain, avoiding overflow.
+            while(right <= high && (long long) nums[left] > 2LL * nums[right]) {
                 right++;
             }
-            // Elements from (mid+1) till right gives count of reverse pair in current iteration
-            count += right - (mid+1);
+            count += (right-(mid+1));
         }
 
         return count;
@@ -49,24 +63,33 @@ public:
 
     int mergeSort(vector<int>& nums, int low, int high) {
         int count = 0;
+
         // Base case
-        if(low >= high) {
+        if(low >= high)
             return count;
-        }
-
-        int mid = low + (high - low)/2;
-
+        
+        int mid = low + (high-low)/2;
         count += mergeSort(nums, low, mid);
         count += mergeSort(nums, mid+1, high);
         // Before merging left and right parts, count the reverse pairs
         count += findReversePairCount(nums, low, mid, high);
         merge(nums, low, mid, high);
-
         return count;
+    }
+
+    // Optimal Approach
+    // T.C. = O(2*n*logn)
+    // S.C. = O(n)
+    int reversePairs2(vector<int>& nums) {
+        int n = nums.size();
+        return mergeSort(nums, 0, n-1);
     }
     
     int reversePairs(vector<int>& nums) {
-        int n = nums.size();
-        return mergeSort(nums, 0, n-1);
+        // Brute Force Approach
+        // return reversePairs1(nums);
+
+        // Optimal Approach
+        return reversePairs2(nums);
     }
 };
