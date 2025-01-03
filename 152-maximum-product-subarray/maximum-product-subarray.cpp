@@ -1,20 +1,21 @@
 class Solution {
 public:
-    int maxProduct(vector<int>& nums) {
+    // T.C. = O(n^2)
+    // S.C. = O(1)
+    int maxProduct1(vector<int>& nums) {
         int n = nums.size();
-        int prefix = 1, suffix = 1;
-
         int maxProd = INT_MIN;
         for(int i = 0; i < n; i++) {
-            if(prefix == 0)
-                prefix = 1;
-            if(suffix == 0)
-                suffix = 1;
-            prefix = prefix * nums[i];
-            suffix = suffix * nums[n-i-1];
-            maxProd = max(maxProd, max(prefix, suffix));
+            int prod = 1;
+            for(int j = i; j < n; j++) {
+                prod *= nums[j];
+                maxProd = max(maxProd, prod);
+            }
         }
-
         return maxProd;
+    }
+    
+    int maxProduct(vector<int>& nums) {
+        return maxProduct1(nums);
     }
 };
