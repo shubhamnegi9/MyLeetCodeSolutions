@@ -1,14 +1,19 @@
 class Solution {
 public:
-    int removeDuplicates(vector<int>& nums) {
-        int i = 0;
-        int n = nums.size();
-        for(int j = i+1; j < n; j++) {
-            if(nums[j] != nums[i]) {
-                nums[i+1] = nums[j];
-                i++;
-            }
+    // T.C. = O(n)
+    // S.C. = O(n) + O(n)
+    int removeDuplicates1(vector<int>& nums) {
+        set<int> st(nums.begin(), nums.end());
+        vector<int> temp(st.begin(), st.end());
+
+        int n = temp.size();       
+        for(int i = 0; i < n; i++) {
+            nums[i] = temp[i];
         }
-        return i+1;
+        return n;
+    }
+    
+    int removeDuplicates(vector<int>& nums) {
+        return removeDuplicates1(nums);
     }
 };
