@@ -1,20 +1,24 @@
 class Solution {
 public:
-    int majorityElement(vector<int>& nums) {
-        int majority = nums[0];
-        int count = 1;
-        
-        for(int i = 1; i < nums.size(); i++) {
-            if(count == 0) {
-                majority = nums[i];
-                count = 1;
-            } else if(majority == nums[i]) {
-                count++;
-            } else {
-                count--;
+    // T.C. = O(n^2)
+    // S.C. = O(1)
+    int majorityElement1(vector<int>& nums) {
+        int n = nums.size();
+
+        for(int i = 0; i < n; i++) {
+            int count = 0;
+            for(int j = i ; j < n; j++) {
+                if(nums[j] == nums[i])
+                    count++;
             }
+            if(count > n/2)
+                return nums[i];
         }
-        
-        return majority;
+
+        return -1;
+    }
+    
+    int majorityElement(vector<int>& nums) {
+        return majorityElement1(nums);
     }
 };
