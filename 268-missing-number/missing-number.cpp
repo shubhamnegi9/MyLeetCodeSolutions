@@ -32,9 +32,23 @@ public:
         return -1;
     }
     
+    // T.C. = O(n)
+    // S.C. = O(1)
+    int missingNumber3(vector<int>& nums) {
+        int n = nums.size();
+        int totalSum = n*(n+1)/2;
+        int sum = 0;
+        for(int& ele: nums) {
+            sum += ele;
+        }
+        return totalSum-sum;
+    }
+    
     int missingNumber(vector<int>& nums) {
         // return missingNumber1(nums);
 
-        return missingNumber2(nums);
+        // return missingNumber2(nums);
+
+        return missingNumber3(nums);
     }
 };
