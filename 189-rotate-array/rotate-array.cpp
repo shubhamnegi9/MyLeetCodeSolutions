@@ -34,10 +34,22 @@ public:
             nums[i] = temp[i];
         }
     }
+
+    // T.C. = O(n) + O(k) + O(n-k) = O(2n)
+    // S.C. = O(1)
+    void rotate3(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k%n;
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin(), nums.begin()+k);
+        reverse(nums.begin()+k, nums.end());
+    }
     
     void rotate(vector<int>& nums, int k) {
         // return rotate1(nums, k);
 
-        return rotate2(nums, k);
+        // return rotate2(nums, k);
+
+        return rotate3(nums, k);
     }
 };
