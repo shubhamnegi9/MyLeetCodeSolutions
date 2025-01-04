@@ -22,7 +22,29 @@ public:
         return nums;
     }
 
+    // T.C. = O(n)
+    // S.C. = O(n)
+    vector<int> rearrangeArray2(vector<int>& nums) {
+        int n = nums.size();
+        int positiveIdx = 0, negativeIdx = 1;
+        vector<int> result(n, 0);
+
+        for(int i = 0; i < n; i++) {
+            if(nums[i] >= 0) {
+                result[positiveIdx] = nums[i];
+                positiveIdx+=2;
+            } else {
+                result[negativeIdx] = nums[i];
+                negativeIdx+=2;
+            }
+        }
+
+        return result;
+    }
+
     vector<int> rearrangeArray(vector<int>& nums) {
-        return rearrangeArray1(nums);
+        // return rearrangeArray1(nums);
+
+        return rearrangeArray2(nums);
     }
 };
