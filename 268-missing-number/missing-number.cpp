@@ -44,17 +44,16 @@ public:
         return totalSum-sum;
     }
 
-    // T.C. = O(2*n)
+    // T.C. = O(n)
     // S.C. = O(1)
     int missingNumber4(vector<int>& nums) {
         int n = nums.size();
         int XR = 0;
-        for(int i = 0; i <= n; i++) {
+        for(int i = 0; i < n; i++) {
+            XR ^= nums[i];
             XR ^= i;
         }
-        for(int& ele: nums) {
-            XR ^= ele;
-        }
+        XR ^= n;
 
         return XR;
     }
