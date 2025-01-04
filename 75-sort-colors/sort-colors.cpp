@@ -30,10 +30,34 @@ public:
             nums[i] = 2;
         }
     }
+
+    // T.C. = O(n)
+    // S.C. = O(1)
+    void sortColors3(vector<int>& nums, int n) {
+        int left = 0, mid = 0, high = n-1;
+
+        while(mid <= high) {
+            if(nums[mid] == 0) {
+                swap(nums[left], nums[mid]);
+                left++;
+                mid++;
+            }
+            else if(nums[mid] == 1) {
+                mid++;
+            }
+            else {
+                swap(nums[mid], nums[high]);
+                high--;
+            }
+        }
+    }
+    
     void sortColors(vector<int>& nums) {
         int n = nums.size();
         // sortColors1(nums, n);
 
-        sortColors2(nums, n);
+        // sortColors2(nums, n);
+
+        sortColors3(nums, n);
     }
 };
