@@ -16,7 +16,7 @@ public:
         return maxProd;
     }
 
-    // Optimal Approach
+    // Optimal Approach 1
     // T.C. = O(n)
     // S.C. = O(1)
     int maxProduct2(vector<int>& nums) {
@@ -32,17 +32,39 @@ public:
 
             prefixProd *= nums[i];
             suffixProd *= nums[n-1-i];
-            maxProd = max(maxProd, max(prefixProd, suffixProd));
+            maxProd = max(maxProd, max(prefixProd, suffixProd));    // or maxProd = max({maxProd, prefixProd, suffixProd});
         }
 
         return maxProd;
     }
-    
+
+    // Optimal Approach 2
+    // T.C. = O(n)
+    // S.C. = O(1)
+    int maxProduct3(vector<int>& nums) {
+        int n = nums.size();
+        int currMax = nums[0];
+        int currMin = nums[0];
+        int maxProd = nums[0];
+
+        for(int i = 1; i < n; i++) {
+            int temp = max({nums[i], nums[i]*currMax, nums[i]*currMin});
+            currMin = min({nums[i], nums[i]*currMax, nums[i]*currMin});
+            currMax = temp;
+            maxProd = max(maxProd, currMax);
+        }
+
+        return maxProd;
+    }
+
     int maxProduct(vector<int>& nums) {
         // Brute Force
         // return maxProduct1(nums);
 
-        // Optimal Approach
-        return maxProduct2(nums);
+        // Optimal Approach 1
+        // return maxProduct2(nums);
+
+        // Optimal Approach 2
+        return maxProduct3(nums);
     }
 };
