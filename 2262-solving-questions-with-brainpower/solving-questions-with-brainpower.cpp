@@ -26,6 +26,24 @@ public:
         return dp[i] = max(take, skip);
     }
 
+    long long solveBottomUp(vector<vector<int>>& questions, int n) {
+        vector<long long> t(200001, 0);  // Taken large size 1d-DP table
+
+        // t[i] : Max points gained by questions from i to n-1
+        // return: t[0], i.e., Max points gained by questions from 0 to n-1
+
+        // corner case
+        if(n == 1) {
+            return questions[0][0];
+        }
+
+        // Finding maxPoints in reverse order
+        for(int i = n-1; i >= 0; i--) {
+            t[i] = max(questions[i][0] + t[i + questions[i][1] + 1], t[i+1]);
+        }
+
+        return t[0];
+    }
 
     long long mostPoints(vector<vector<int>>& questions) {
         int n = questions.size();
@@ -33,7 +51,10 @@ public:
         // return solve(questions, n, 0);
 
         // Using Top-Down Memoization Approach:
-        vector<long long> dp(n+1, -1);
-        return solveMemo(questions, n, 0, dp);
+        // vector<long long> dp(n+1, -1);
+        // return solveMemo(questions, n, 0, dp);
+
+        // Using Bottom-Up Approach:
+        return solveBottomUp(questions, n);
     }
 };
