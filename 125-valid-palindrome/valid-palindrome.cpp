@@ -1,16 +1,29 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string temp = "";
+        string str;
+
+        // filtering out non-alphanumeric characters
         for(char ch: s) {
             if(isalnum(ch)) {
-                temp+=ch;
+                str+=ch;
             }
         }
-        transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
-        cout << temp << endl;
-        string reversed = temp;
-        reverse(reversed.begin(), reversed.end());
-        return reversed == temp;
+
+        int i = 0;
+        int n = str.length();
+
+        if(n <= 1)
+            return true;
+
+        // Converting to lower case
+        transform(str.begin(), str.end(), str.begin(), ::tolower);
+
+        while(i < n/2) {
+            if(str[i] != str[n-i-1])
+                return false;
+            i++;
+        }
+        return true;
     }
 };
