@@ -45,6 +45,12 @@ public:
         reverse(nums.begin()+k, nums.end());
     }
     
+    // Using rotate STL
+    void rotate4(vector<int>& nums, int k, int n) {
+        k = k%n;
+        ::rotate(nums.begin(), nums.begin()+n-k, nums.end());
+    }
+    
     void rotate(vector<int>& nums, int k) {
         int n = nums.size();
         // Brute Force Approach
@@ -54,6 +60,9 @@ public:
         // return rotate2(nums, k, n);
 
         // Optimal Approach
-        return rotate3(nums, k, n);
+        // return rotate3(nums, k, n);
+
+        // Using rotate STL
+        return rotate4(nums, k, n);
     }
 };
