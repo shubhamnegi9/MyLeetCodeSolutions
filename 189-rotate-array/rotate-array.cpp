@@ -1,55 +1,46 @@
 class Solution {
 public:
-    // T.C. = O(n*k)
+    // Brute Force Approach
+    // T.C. = O(k*n)
     // S.C. = O(1)
-    void rotate1(vector<int>& nums, int k) {
-        int n = nums.size();
-        k = k%n;
-
-        while(k--) {
-            int temp = nums[n-1];
-            for(int i = n-1; i > 0; i--) {
+    void rotate1(vector<int>& nums, int k, int n) {
+        k = k % n;
+        while(k) {
+            int temp = nums.back();
+            for(int i = n-1; i >= 1; i--) {
                 nums[i] = nums[i-1];
             }
             nums[0] = temp;
+            k--;
         }
     }
 
+    // Better Approach
     // T.C. = O(k) + O(n-k) + O(k) = O(n+k)
     // S.C. = O(k)
-    void rotate2(vector<int>& nums, int k) {
-        int n = nums.size();
-        k = k%n;
+    void rotate2(vector<int>& nums, int k, int n) {
+        k = k % n;
+        vector<int> temp(k);
 
-        vector<int> temp;
         for(int i = n-k; i < n; i++) {
-            temp.push_back(nums[i]);
+            temp[i-n+k] = nums[i];
         }
 
         for(int i = n-k-1; i >= 0; i--) {
             nums[i+k] = nums[i];
-        } 
+        }
 
         for(int i = 0; i < k; i++) {
             nums[i] = temp[i];
         }
     }
-
-    // T.C. = O(n) + O(k) + O(n-k) = O(2n)
-    // S.C. = O(1)
-    void rotate3(vector<int>& nums, int k) {
-        int n = nums.size();
-        k = k%n;
-        reverse(nums.begin(), nums.end());
-        reverse(nums.begin(), nums.begin()+k);
-        reverse(nums.begin()+k, nums.end());
-    }
     
     void rotate(vector<int>& nums, int k) {
-        // return rotate1(nums, k);
+        int n = nums.size();
+        // Brute Force Approach
+        // return rotate1(nums, k, n);
 
-        // return rotate2(nums, k);
-
-        return rotate3(nums, k);
+        // Better Approach
+        return rotate2(nums, k, n);
     }
 };
