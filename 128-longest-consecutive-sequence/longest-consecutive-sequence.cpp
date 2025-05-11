@@ -88,6 +88,33 @@ public:
         return maxCount;
     }
     
+    // Optimal Approach
+    // T.C. = O(n) + O(2n)
+    // S.C. = O(n)
+    int longestConsecutive4(vector<int>& nums, int n) {
+        int maxCount = 1, count = 0;
+
+        if(n == 0)
+            return 0;
+
+        unordered_set<int> st(nums.begin(), nums.end());
+
+        // Iterate in set (Not in given array)
+        for(auto ele: st) { 
+            if(st.find(ele-1) == st.end()) {
+                int currEle = ele;
+                count = 1;
+                while(st.find(currEle+1) != st.end()) {
+                    count++;
+                    currEle++;
+                }
+                maxCount = max(maxCount, count);
+            }
+        }
+
+        return maxCount;
+    }
+    
     int longestConsecutive(vector<int>& nums) {
         int n = nums.size();
         // Brute Force Approach
@@ -97,6 +124,9 @@ public:
         // return longestConsecutive2(nums, n);
 
         // Better Approach
-        return longestConsecutive3(nums, n);
+        // return longestConsecutive3(nums, n);
+
+        // Optimal Approach
+        return longestConsecutive4(nums, n);
     }
 };
