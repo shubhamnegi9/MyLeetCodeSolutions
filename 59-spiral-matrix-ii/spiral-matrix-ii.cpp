@@ -1,56 +1,41 @@
 class Solution {
 public:
     vector<vector<int>> generateMatrix(int n) {
-        vector<vector<int>> matrix(n, vector<int> (n, 0));
-        int top = 0;
-        int bottom = n-1;
-        int left = 0;
-        int right = n-1;
-
-        int id = 0, num = 1; 
+        int ele = 1;
+        int top = 0, bottom = n-1, left = 0, right = n-1;
+        vector<vector<int>> mat(n, vector<int>(n, 0));
 
         while(top <= bottom && left <= right) {
-
-            if(id == 0) {
-                // Left to Right
-                for(int i = left; i <= right; i++) {
-                    matrix[top][i] = num;
-                    num++;
-                }
-                top++;  // Increment the constant 'top' in loop
+            for(int i = left; i <= right; i++) {
+                mat[top][i] = ele;
+                ele++;
             }
+            top++;
 
-            if(id == 1) {
-                // Top to Bottom
-                for(int i = top; i <= bottom; i++) {
-                    matrix[i][right] = num;
-                    num++;
-                }
-                right--;    // Decrement the constant 'right' in loop
-            }   
+            for(int i = top; i <= bottom; i++) {
+                mat[i][right]= ele;
+                ele++;
+            }
+            right--;
 
-            if(id == 2) {
-                // Right to Left
+            if(top <= bottom) {
                 for(int i = right; i >= left; i--) {
-                    matrix[bottom][i] = num;
-                    num++;
+                    mat[bottom][i] = ele;
+                    ele++;
                 }
-                bottom--;   // Decrement the constant 'bottom' in loop
+                bottom--;
             }
 
-            if(id == 3) { 
-                // Bottom to Top
+            if(left <= right) {
                 for(int i = bottom; i >= top; i--) {
-                    matrix[i][left] = num;
-                    num++;
+                    mat[i][left] = ele;
+                    ele++;
                 }
-                left++; // Increment the constant 'left' in loop
+                left++;
             }
-
-            id = (id+1)%4;  // Increment the 'id' mod 4 so it repeates after reaching 3
 
         }
 
-        return matrix;
+        return mat;
     }
 };
