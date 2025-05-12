@@ -72,9 +72,9 @@ public:
         // return generate1(numRows);
 
         // Optimal Approach
-        return generate2(numRows);
+        // return generate2(numRows);
 
         // Another Optimal Approach
-        // return generate3(numRows);
+        return generate3(numRows);
     }
 };
