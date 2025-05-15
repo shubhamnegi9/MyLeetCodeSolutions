@@ -42,11 +42,53 @@ public:
 
     }
 
+    // Optimal Approach using XOR
+    vector<int> findErrorNumsOptimal2(vector<int>& nums) {
+        
+        int XR = 0, n = nums.size();
+
+        for(int i = 0; i < n; i++) {
+            XR ^= nums[i];
+            XR ^= (i+1);
+        }
+
+        int rightmostSetBit = XR & ~(XR-1);
+        
+        int oneBit = 0, zeroBit = 0;
+        for(int i = 0; i < n; i++) {
+            if((nums[i] & rightmostSetBit) != 0) {
+                oneBit ^= nums[i];
+            } else {
+                zeroBit ^= nums[i];
+            }
+
+            if(((i+1) & rightmostSetBit) != 0) {
+                oneBit ^= (i+1);
+            } else {
+                zeroBit ^= (i+1);
+            }
+        }
+
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == zeroBit)
+                count++;
+        }
+
+        if(count == 0)  // zeroBit is missing
+            return {oneBit, zeroBit};   
+        else    // zeroBit is repeating
+            return {zeroBit, oneBit};
+    }
+
     vector<int> findErrorNums(vector<int>& nums) {
         // Better Approach
         // return findErrorNumsBetter(nums);
 
-        // Optimal Approach
-        return findErrorNumsOptimal(nums);
+        // Optimal Approach using sum
+        // return findErrorNumsOptimal(nums);
+
+        // Optimal Approach using XOR
+        return findErrorNumsOptimal2(nums);
     }
 };
