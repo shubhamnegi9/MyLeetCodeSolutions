@@ -1,102 +1,62 @@
 class Solution {
 public:
-    
+    // Brute Force Approach
+    // T.C. = 2*O(m+n)
+    // S.C. = O(m+n) 
     void merge1(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        vector<int> mergedNums;
-
-        int p1 = 0, p2 = 0;
-
-        while(p1 < m && p2 < n) {
-            if(nums1[p1] <= nums2[p2]) {
-                mergedNums.push_back(nums1[p1]);
-                p1++;
+        vector<int> temp;
+        int i = 0, j = 0;
+        
+        while(i < m && j < n) {
+            if(nums1[i] <= nums2[j]) {
+                temp.push_back(nums1[i]);
+                i++;
             } else {
-                mergedNums.push_back(nums2[p2]);
-                p2++;
+                temp.push_back(nums2[j]);
+                j++;
             }
         }
 
-        while(p1 < m) {
-            mergedNums.push_back(nums1[p1]);
-            p1++;
-        }
-        while(p2 < n) {
-            mergedNums.push_back(nums2[p2]);
-            p2++;
+        while(i < m) {
+            temp.push_back(nums1[i]);
+            i++;
         }
 
-        nums1 = mergedNums;
+        while(j < n) {
+            temp.push_back(nums2[j]);
+            j++;
+        }
+
+        for(int i = 0; i < m+n; i++) {
+            nums1[i] = temp[i];
+        }
     }
 
+    // Optimal Approach 1
+    // T.C. = O(min(m,n)) + O(mlogm) + O(nlogn)
+    // S.C. = O(1) 
     void merge2(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        if(m > 0 && n > 0) {
-            int p1 = m-1, p2 = 0;
-            while(p1 >= 0 && p2 < n) {
-                if(nums1[p1] > nums2[p2]) {
-                    swap(nums1[p1], nums2[p2]);
-                    p1--;
-                    p2++;
-                } else {
-                    break;
-                }
-            }
+        int i = m-1, j = 0;
 
-            sort(nums1.begin(), nums1.begin()+m);
-            sort(nums2.begin(), nums2.end());
-
-            for(int i = m; i < m+n; i++) {
-                nums1[i] = nums2[i-m];
-            }
+        while(i >= 0 && j < n && nums1[i] > nums2[j]) {
+            swap(nums1[i], nums2[j]);
+            i--;
+            j++;
         }
-        else if(n > 0) {
-            nums1 = nums2;
-        }
-    }
 
-    void swapIfGreater(vector<int>& nums1, int p1, vector<int>& nums2, int p2) {
-        if(nums1[p1] > nums2[p2])
-            swap(nums1[p1], nums2[p2]);
-    }
-
-    void merge3(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int total = (m+n);
-        int gap = total/2 + total%2;
-
-        while(gap > 0) {
-            int left = 0;
-            int right = left+gap;
-
-            while(right < total) {
-                if(left < m && right >= m) {
-                    swapIfGreater(nums1, left, nums2, right-m);
-                } 
-                else if(left >= m) {
-                    swapIfGreater(nums2, left-m, nums2, right-m);
-                } 
-                else {
-                    swapIfGreater(nums1, left, nums1, right);
-                }
-                left++;
-                right++;
-            }
-
-            if(gap == 1) {
-                break;
-            }
-
-            gap = gap/2 + gap%2;
-        }
+        sort(nums1.begin(), nums1.begin()+m);
+        sort(nums2.begin(), nums2.end());
 
         for(int i = m; i < m+n; i++) {
             nums1[i] = nums2[i-m];
         }
-    }   
-
+    }
+    
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        // return merge1(nums1, m, nums2, n);
+        // Brute Force Approach
+        // merge1(nums1, m, nums2, n);
 
-        // return merge2(nums1, m, nums2, n);
-
-        return merge3(nums1, m, nums2, n);
+        // Optimal Approach 1
+        merge2(nums1, m, nums2, n);
     }
 };
