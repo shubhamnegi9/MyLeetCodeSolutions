@@ -51,12 +51,60 @@ public:
             nums1[i] = nums2[i-m];
         }
     }
+
+    void swapIfGreater(vector<int>& nums1, vector<int>& nums2, int i, int j) {
+        if(nums1[i] > nums2[j])
+            swap(nums1[i], nums2[j]);
+    }
+
+    // Optimal Approach 2 (Using Gap Method)
+    // T.C. = O(log(m+n)) * O(2n)
+    // S.C. = O(1) 
+    void merge3(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        int len = m+n;
+        int gap = len/2 + len%2;
+
+        while(gap > 0) {
+            int left = 0, right = left+gap;
+
+            while(right < len) {
+                // left pointer is in first array and right pointer is in second array
+                if(left < m && right >= m) {
+                    swapIfGreater(nums1, nums2, left, right-m);
+                } 
+                // left pointer and right pointer are in second array
+                else if(left >= m) {
+                    swapIfGreater(nums2, nums2, left-m, right-m);
+                }
+                // left pointer and right pointer are in first array
+                else {
+                    swapIfGreater(nums1, nums1, left, right);
+                }
+
+                left++;
+                right++;
+            }
+
+            if(gap == 1) {
+                break;
+            }
+
+            gap = gap/2 + gap%2;
+        }
+
+        for(int i = m; i < m+n; i++) {
+            nums1[i] = nums2[i-m];
+        }
+    }
     
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         // Brute Force Approach
         // merge1(nums1, m, nums2, n);
 
         // Optimal Approach 1
-        merge2(nums1, m, nums2, n);
+        // merge2(nums1, m, nums2, n);
+
+        // Optimal Approach 2
+        merge3(nums1, m, nums2, n);
     }
 };
