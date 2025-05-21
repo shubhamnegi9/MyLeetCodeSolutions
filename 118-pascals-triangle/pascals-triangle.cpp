@@ -28,8 +28,36 @@ public:
         return result;
     }
 
+    vector<int> generateRow(int n) {
+        long long ans = 1;
+        vector<int> result;
+        result.push_back(ans);
+
+        for(int i = 1; i < n; i++) {
+            ans *= (n-i);
+            ans /= i;
+            result.push_back(ans);
+        }
+        return result;
+    }
+
+    // Optimal Approach 1
+    // T.C. = O(n*n)
+    // S.C. = O(1) for solving problem
+    vector<vector<int>> generate2(int numRows) {
+        vector<vector<int>> result;
+        for(int n = 1; n <= numRows; n++) {
+            result.push_back(generateRow(n));
+        }
+
+        return result;
+    }
+    
     vector<vector<int>> generate(int numRows) {
         // Brute Force Approach
         return generate1(numRows);
+
+        // Optimal Approach 1
+        return generate2(numRows);
     }
 };
