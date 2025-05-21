@@ -52,12 +52,31 @@ public:
 
         return result;
     }
+
+    // Optimal Approach 2
+    // T.C. = O(n*n)
+    // S.C. = O(1) for solving problem
+    vector<vector<int>> generate3(int numRows) {
+        vector<vector<int>> result(numRows);
+
+        for(int i = 0; i < numRows; i++) {
+            result[i] = vector<int>(i+1, 1);
+            for(int j = 1; j < i; j++) {
+                result[i][j] = result[i-1][j]+result[i-1][j-1];
+            }
+        }
+
+        return result;
+    }
     
     vector<vector<int>> generate(int numRows) {
         // Brute Force Approach
         // return generate1(numRows);
 
         // Optimal Approach 1
-        return generate2(numRows);
+        // return generate2(numRows);
+
+        // Optimal Approach 2
+        return generate3(numRows);
     }
 };
