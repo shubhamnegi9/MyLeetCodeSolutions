@@ -25,8 +25,33 @@ public:
         return result;
     }
     
+    vector<int> generateRow(int n) {
+        vector<int> result;
+        long long ans = 1;
+        result.push_back(ans);
+
+        for(int i = 1; i < n; i++) {
+            ans *= (n-i);
+            ans /= i;
+            result.push_back(ans);
+        }
+
+        return result;
+    }
+
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(n)
+    vector<int> getRow2(int rowIndex) {
+        return generateRow(rowIndex+1);
+
+    }
+    
     vector<int> getRow(int rowIndex) {
         // Brute Force Approach
-        return getRow1(rowIndex);
+        // return getRow1(rowIndex);
+
+        // Optimal Approach
+        return getRow2(rowIndex);
     }
 };
