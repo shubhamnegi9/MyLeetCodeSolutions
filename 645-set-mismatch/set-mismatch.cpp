@@ -71,6 +71,47 @@ public:
         return {repeating, missing};
     }
     
+    vector<int> findErrorNums4(vector<int>& nums, int n) {
+        int XR = 0;
+
+        for(int i = 0; i < n; i++) {
+            XR ^= nums[i];
+            XR ^= (i+1);
+        }
+
+        // rightmost set bit num
+        int rightMostSetBitNum = XR & -XR;
+
+        int zeroBit = 0, oneBit = 0;
+
+        for(int i = 0; i < n; i++) {
+            if((nums[i] & rightMostSetBitNum) != 0) { // Keep both the conditions inside bracket
+                oneBit ^= nums[i];
+            } else {
+                zeroBit ^= nums[i];
+            }
+
+            if(((i+1) & rightMostSetBitNum) != 0) { // Keep both the conditions inside bracket
+                oneBit ^= (i+1);
+            } else {
+                zeroBit ^= (i+1);
+            }
+        }
+
+        int count = 0;
+        for(int i = 0; i < n; i++) {
+            if(nums[i] == zeroBit)
+                count++;
+        }
+
+        if(count == 0) {
+            return {oneBit, zeroBit};
+        } else {
+            return {zeroBit, oneBit};
+        }
+
+    }
+
     vector<int> findErrorNums(vector<int>& nums) {
         int n = nums.size();
         // Brute Force Approach
@@ -80,6 +121,9 @@ public:
         // return findErrorNums2(nums, n);
 
         // Optimal Approach using sum
-        return findErrorNums3(nums, n);
+        // return findErrorNums3(nums, n);
+
+        // Optimal Approach using XOR
+        return findErrorNums4(nums, n);
     }
 };
