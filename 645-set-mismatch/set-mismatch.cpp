@@ -50,6 +50,26 @@ public:
 
         return {repeating, missing};
     }
+
+    // Optimal Approach using sum
+    vector<int> findErrorNums3(vector<int>& nums, int n) {
+        long long S = 0, S2 = 0;
+        long long Sn = ((long long)n*(n+1))/2;
+        long long S2n = ((long long)n*(n+1)*(2*n+1))/6;
+
+        for(int&ele: nums) {
+            S += ele;
+            S2 += ele*ele;
+        }
+
+        int diff = S - Sn;                  // repeating-missing
+        int add = (S2 - S2n)/(S - Sn);      // repeating+missing
+
+        int repeating = (diff+add)/2;
+        int missing = repeating - diff;
+
+        return {repeating, missing};
+    }
     
     vector<int> findErrorNums(vector<int>& nums) {
         int n = nums.size();
@@ -57,6 +77,9 @@ public:
         // return findErrorNums1(nums, n);
 
         // Better Approach
-        return findErrorNums2(nums, n);
+        // return findErrorNums2(nums, n);
+
+        // Optimal Approach using sum
+        return findErrorNums3(nums, n);
     }
 };
