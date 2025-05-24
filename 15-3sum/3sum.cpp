@@ -51,64 +51,24 @@ public:
     // T.C. = O(nlogn) for sorting + O(n^2)
     // S.C. = O(m) for vector for returning answer
     vector<vector<int>> threeSum3(vector<int>& nums, int n) {
-        // vector<vector<int>> result;
-        
-        // sort(nums.begin(), nums.end());
-
-        // for(int i = 0; i < n; i++) {
-        //     if(i > 0 && nums[i] == nums[i-1])
-        //         continue;
-            
-        //     int j = i+1, k = n-1;
-        //     while(j < k) {
-        //         long long sum = nums[i]+nums[j];
-        //         sum += nums[k];
-
-        //         if(sum < 0) {
-        //             j++;
-        //         } else if(sum > 0) {
-        //             k--;
-        //         } else {
-        //             result.push_back({nums[i], nums[j], nums[k]});
-        //             j++;
-        //             k--;
-        //         }
-
-        //         while(j < k && nums[j] == nums[j-1]) {
-        //             j++;
-        //         }
-
-        //         while(j < k && nums[k] == nums[k+1]) {
-        //             k--;
-        //         }
-        //     }
-        // }
-
-        // return result;
-
-        
-        sort(nums.begin(), nums.end());
-        
         vector<vector<int>> result;
         
-        for(int i = 0; i < n; i++) {        // O(n)
-            
+        sort(nums.begin(), nums.end());
+
+        for(int i = 0; i < n; i++) {
             if(i > 0 && nums[i] == nums[i-1])
                 continue;
             
-            int j = i+1;
-            int k = n-1;
-                
-            while(j < k) {                  // O(n)
-                int sum = nums[i]+nums[j]+nums[k];
+            int j = i+1, k = n-1;
+            while(j < k) {
+                long long sum = nums[i]+nums[j];
+                sum += nums[k];
 
                 if(sum < 0) {
                     j++;
-                }
-                else if(sum > 0) {
+                } else if(sum > 0) {
                     k--;
-                }
-                else {
+                } else {
                     result.push_back({nums[i], nums[j], nums[k]});
                     j++;
                     k--;
@@ -123,7 +83,7 @@ public:
                 }
             }
         }
-        
+
         return result;
     }
     
