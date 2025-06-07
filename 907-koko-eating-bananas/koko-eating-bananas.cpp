@@ -1,36 +1,67 @@
 class Solution {
 public:
-    bool canEatAllBananas(vector<int> piles, int k, int h) {
-        int actualHours = 0;
-        for(int bananas: piles) {
-            if(k >= bananas) {
-                actualHours++;  // Can eat all bananas in 1 hour
-            }
-            else {
-                actualHours += (bananas/k); // Takes (bananas/k) hours to eat bananas
-                if(bananas % k > 0) {
-                    actualHours++;      // Remaining bananas can be eaten in 1 hour
-                }
+
+    int findMax(vector<int>& piles) {
+        int max = INT_MIN;
+        for(int& ele: piles) {
+            if(ele > max)
+                max = ele;
+        }
+        return max;
+    }
+
+    long calculateTotalHour(vector<int>& piles, int k) {
+        long totalHours = 0;
+
+        for(int i = 0; i < piles.size(); i++) {
+            // Convert piles[i] and k to double otherwise it will lead to integer division 
+            // and ceil will not work (We can also make any one of them as double)
+            totalHours += ceil((double)piles[i] / (double)k);
+        }
+
+        return totalHours;
+    }
+
+    // Brute Force Approach
+    // T.C. = O(max(piles) * n), n = size of piles
+    // S.C. = O(1)
+    int minEatingSpeed1(vector<int>& piles, int h) {
+        int max = findMax(piles);
+
+        for(int k = 1; k <= max; k++) {
+            long long totalH = calculateTotalHour(piles, k);
+            if(totalH <= h) {
+                return k;
             }
         }
-        
-        return actualHours <= h;
+
+        return -1;
+    }
+
+    // Optimal Approach
+    // T.C. = O(log(max(piles)) * n), n = size of piles
+    // S.C. = O(1)
+    int minEatingSpeed2(vector<int>& piles, int h) {
+        int low = 1, high = *max_element(piles.begin(), piles.end());
+
+        while(low <= high) {
+            int mid = low+(high-low)/2;
+            long totalH = calculateTotalHour(piles, mid);
+            if(totalH <= h) {
+                high = mid-1;
+            } else {
+                low = mid+1;
+            }
+        }
+
+        return low;
     }
     
     int minEatingSpeed(vector<int>& piles, int h) {
-        int l = 1;                                          // Minimum banannas which can be eaten in 1 hour
-        int r = *max_element(piles.begin(), piles.end());   // Maximum banannas which can be eaten in 1 hour
-        
-        while(l < r) {
-            int mid = l + (r-l)/2;
-        
-            if(canEatAllBananas(piles, mid, h)) {
-                r = mid;    // Shifting search range to left to get smaller value of k
-            } else {
-                l = mid+1;  // Shifting search range to right to get larger value of k
-            }
-        }
-        
-        return l;
+        // Brute Force Approach
+        // return minEatingSpeed1(piles, h);
+
+        // Optimal Approach
+        return minEatingSpeed2(piles, h);
     }
 };
