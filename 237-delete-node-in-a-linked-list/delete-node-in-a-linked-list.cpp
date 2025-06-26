@@ -10,7 +10,8 @@ class Solution {
 public:
     void deleteNode(ListNode* node) {
         // Making current node value as next node value
-        node->val = node->next->val;
+        node->val = node->next->val;    
+
         // Removing next node from Linked List
         node->next = node->next->next;
     }
