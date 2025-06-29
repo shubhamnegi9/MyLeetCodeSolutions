@@ -10,47 +10,32 @@
  */
 class Solution {
 public:
-    // Using Brute Force
-    // T.C. = O(2n), S.C. = O(1)
-    ListNode* middleNodeUsingBrute(ListNode* head) {
-        int len = 0;
+    // Brute Force Approach
+    // T.C. = O(n) + O(n/2)
+    // S.C. = O(1)
+    ListNode* middleNode1(ListNode* head) {
+        int count = 0;
         ListNode* temp = head;
-        while(temp != NULL) {
-            len++;
-            temp = temp -> next;
+        while(temp) {
+            count++;
+            temp = temp->next;
         }
 
-        int mid = len/2;
+        int middleOfNode = (count/2)+1;
+
         temp = head;
-        int i = 0;
-        while(temp != NULL) {
-            if(i == mid)
-                head = temp;
-            i++;
-            temp = temp -> next;
-        } 
-
-        return head;
-    }
-
-    // Using Slow and Fast Pointer Approach
-    ListNode* middleNodeUsingOptimal(ListNode* head) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-
-        while(fast != NULL && fast->next != NULL) {
-            slow = slow-> next;
-            fast = fast->next->next;
+        while(temp) {
+            middleOfNode--;
+            if(middleOfNode == 0)
+                break;
+            temp = temp->next;
         }
 
-        return slow;
+        return temp;
     }
-
+    
     ListNode* middleNode(ListNode* head) {
-        // Using Brute Force
-        // return middleNodeUsingBrute(head);
-
-        // Using Optimal Approach
-        return middleNodeUsingOptimal(head);
+        // Brute Force Approach
+        return middleNode1(head);
     }
 };
