@@ -32,9 +32,29 @@ public:
 
         return head;
     }
+
+    // Optimal Approach (Iterative Way)
+    // T.C. = O(n)
+    // S.C. = O(1)
+    ListNode* reverseList2(ListNode* head) {
+        ListNode* temp = head;
+        ListNode* prev = NULL;
+
+        while(temp) {
+            ListNode* front = temp->next;
+            temp->next = prev;
+            prev = temp;
+            temp = front;   
+        }
+
+        return prev;    // prev will be head of reversed LL
+    }
     
     ListNode* reverseList(ListNode* head) {
         // Brute Force Approach
-        return reverseList1(head);
+        // return reverseList1(head);
+
+        // Optimal Approach (Iterative Way)
+        return reverseList2(head);
     }
 };
