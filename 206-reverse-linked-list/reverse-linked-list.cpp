@@ -49,12 +49,31 @@ public:
 
         return prev;    // prev will be head of reversed LL
     }
+
+    // Optimal Approach (Recursive Way)
+    // T.C. = O(n) for n recursive calls
+    // S.C. = O(n) recursive stack space
+    ListNode* reverseList3(ListNode* head) {
+        // Base Case
+        if(head == NULL || head->next == NULL) {
+            return head;
+        }
+
+        ListNode* newHead = reverseList3(head->next);
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = NULL;
+        return newHead;
+    }
     
     ListNode* reverseList(ListNode* head) {
         // Brute Force Approach
         // return reverseList1(head);
 
         // Optimal Approach (Iterative Way)
-        return reverseList2(head);
+        // return reverseList2(head);
+
+        // Optimal Approach (Recursive Way)
+        return reverseList3(head);
     }
 };
