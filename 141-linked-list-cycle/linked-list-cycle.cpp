@@ -26,9 +26,30 @@ public:
 
         return false;
     }
+
+    // Optimal Approach
+    // T.C. = O(n) in worst case
+    // S.C. = O(1) 
+    bool hasCycle2(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if(slow == fast)
+                return true;
+        }
+
+        return false;
+    }
     
     bool hasCycle(ListNode *head) {
         // Brute Force Approach
-        return hasCycle1(head);
+        // return hasCycle1(head);
+
+        // Optimal Approach
+        return hasCycle2(head);
     }
 };
