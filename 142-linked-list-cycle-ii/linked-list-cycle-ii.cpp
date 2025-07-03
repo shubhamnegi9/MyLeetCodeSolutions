@@ -20,9 +20,33 @@ public:
             if(mpp.find(temp) != mpp.end()) {
                 return temp;
             } 
-            
+
             mpp[temp] = 1;
             temp = temp->next;
+        }
+
+        return NULL;
+    }
+
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(1)
+    ListNode *detectCycle2(ListNode *head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if(slow == fast) {
+                slow = head;
+                while(slow != fast) {
+                    slow = slow->next;
+                    fast = fast->next;
+                }
+                return slow;    // OR   return fast;
+            }
         }
 
         return NULL;
@@ -30,6 +54,9 @@ public:
     
     ListNode *detectCycle(ListNode *head) {
         // Brute Force Approach
-        return detectCycle1(head);
+        // return detectCycle1(head);
+
+        // Optimal Approach
+        return detectCycle2(head);
     }
 };
