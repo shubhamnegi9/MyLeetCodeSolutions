@@ -47,9 +47,38 @@ public:
         delete middle;
         return head;
     }
+
+    // Optimal Approach
+    // T.C. = O(n/2) for moving fast pointer 
+    // S.C. = O(1)
+    ListNode* deleteMiddle2(ListNode* head) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+
+        // Edge Case
+        if(head == NULL || head->next == NULL)
+            return NULL;
+
+        // Intially move fast pointer by 2 steps and skip moving of slow pointer
+        fast = fast->next->next;
+
+        while(fast != NULL && fast->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }   
+
+        // At this point, slow pointer will be pointing to one node before the middle of linked list
+        ListNode* middle = slow->next;
+        slow->next = slow->next->next;
+        delete middle;
+        return head;
+    }
     
     ListNode* deleteMiddle(ListNode* head) {
         // Brute Force Approach
-        return deleteMiddle1(head);
+        // return deleteMiddle1(head);
+
+        // Optimal Approach
+        return deleteMiddle2(head);
     }
 };
