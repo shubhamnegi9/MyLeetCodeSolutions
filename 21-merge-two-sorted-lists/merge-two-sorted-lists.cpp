@@ -51,9 +51,52 @@ public:
 
         return head;
     }
+
+    // Optimal Approach
+    // T.C. = O(n1+n2), n1 = size of list1, n2 = size of list2
+    // S.C. = O(1)
+    ListNode* mergeTwoLists2(ListNode* list1, ListNode* list2) {
+        ListNode* t1 = list1;
+        ListNode* t2 = list2;
+
+        // Edge Cases
+        if(t1 == NULL)
+            return t2;
+        if(t2 == NULL)
+            return t1;
+        if(t1 == NULL && t2 == NULL)
+            return NULL;
+
+        // Creating dummy node for changing the links
+        ListNode* dNode = new ListNode(-1);
+        ListNode* temp = dNode;
+
+        while(t1 != NULL && t2 != NULL) {
+            if(t1->val < t2->val) {
+                temp->next = t1;
+                temp = t1;  // OR temp = temp->next;
+                t1 = t1->next;
+            }
+            else {
+                temp->next = t2;
+                temp = t2;  // OR temp = temp->next;
+                t2 = t2->next;
+            }
+        }
+
+        if(t1 != NULL) 
+            temp->next = t1;
+        else
+            temp->next = t2;
+        
+        return dNode->next;
+    }
     
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         // Brute Force Approach
-        return mergeTwoLists1(list1, list2);
+        // return mergeTwoLists1(list1, list2);
+
+        // Optimal Approach
+        return mergeTwoLists2(list1, list2);
     }
 };
