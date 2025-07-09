@@ -35,9 +35,55 @@ public:
 
         return NULL;
     }
+
+    ListNode* findCollisionPoint(ListNode *t1, ListNode *t2, int d) {
+        while(d) {
+            d--;
+            t2 = t2->next;
+        }
+
+        while(t1 != t2) {
+            t1 = t1->next;
+            t2 = t2->next;
+        }
+
+        return t1;      // OR  return t2;
+    }
+    
+    // Better Approach
+    // T.C. = O(n1) + O(n2) + O(n2-n1) + O(n1) = O(n1+2*n2)
+    // S.C. = O(1)
+    ListNode *getIntersectionNode2(ListNode *headA, ListNode *headB) {
+        // Edge Case
+        if(headA == NULL || headB == NULL)
+            return NULL;
+        
+        ListNode* tempA = headA;
+        ListNode* tempB = headB;
+        int n1 = 0, n2 = 0;
+
+        while(tempA) {
+            n1++;
+            tempA = tempA->next;
+        }
+
+        while(tempB) {
+            n2++;
+            tempB = tempB->next;
+        }
+
+        if(n1 < n2) {
+            return findCollisionPoint(headA, headB, n2-n1);
+        } else {
+            return findCollisionPoint(headB, headA, n1-n2);
+        }
+    }
     
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         // Brute Force Approach
-        return getIntersectionNode1(headA, headB);
+        // return getIntersectionNode1(headA, headB);
+
+        // Better Approach
+        return getIntersectionNode2(headA, headB);
     }
 };
