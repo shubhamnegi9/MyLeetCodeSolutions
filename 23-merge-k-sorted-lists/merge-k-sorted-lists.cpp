@@ -49,9 +49,59 @@ public:
 
         return arrayToLinkedList(arr);      // O(M), M = K*N
     }
+
+    ListNode* mergeTwoLinkedLists(ListNode* list1, ListNode* list2) {   // O(n1+n2)
+        ListNode* t1 = list1;   
+        ListNode* t2 = list2;
+
+        ListNode* dNode = new ListNode(-1);
+        ListNode* temp = dNode;
+
+        while(t1 != NULL && t2 != NULL) {
+            if(t1->val < t2->val) {
+                temp->next = t1;
+                temp = t1;
+                t1 = t1->next;
+            } else {
+                temp->next = t2;
+                temp = t2;
+                t2 = t2->next;
+            }
+        }
+
+        if(t1 != NULL)
+            temp->next = t1;
+        if(t2 != NULL)
+            temp->next = t2;
+        
+        return dNode->next;
+    }
+
+
+    // Better Approach (Space optimized approach)
+    // T.C. = O(n1+n2) + O(n1+n2+n3) + ...
+    //      = O(2N) + O(3N) + ...
+    //      = O(N) + O(2n) + O(3N) + ...
+    //      = O(n*(k*(k+1))/2)
+    // S.C. = O(1)
+    ListNode* mergeKLists2(vector<ListNode*>& lists) {
+        // Egde Case
+        if(lists.empty())
+            return NULL;
+
+        ListNode* head = lists[0];
+        for(int i = 1; i < lists.size(); i++) {
+            ListNode* temp = lists[i];
+            head = mergeTwoLinkedLists(head, temp);
+        }
+        return head;
+    }
     
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         // Brute Force Approach
-        return mergeKLists1(lists);
+        // return mergeKLists1(lists);
+
+        // Better Approach (Space optimized approach)
+        return mergeKLists2(lists);
     }
 };
