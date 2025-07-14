@@ -97,11 +97,47 @@ public:
         return head;
     }
     
+    // Optimal Approach
+    // T.C. = O(K*logk) + O(k*N*3*logK)
+    // S.C. = O(K)
+    ListNode* mergeKLists3(vector<ListNode*>& lists) {
+        typedef pair<int, ListNode*> P;
+        priority_queue<P, vector<P>, greater<P>> pq;    // Min Heap
+
+        for(int i = 0; i < lists.size(); i++) {     // O(K*logK)
+            // Egde case
+            if(lists[i] != NULL)
+                pq.push({lists[i]->val, lists[i]});      // Push head of all k linked lists in pq as pair
+        }
+
+        ListNode* dNode = new ListNode(-1);
+        ListNode* temp = dNode;
+
+        while(!pq.empty()) {                        // O(K*N*3*logK)
+            pair<int, ListNode*> p = pq.top();      // Minimum pair from pq
+            pq.pop();
+
+            temp->next = p.second;
+            temp = temp->next;
+
+            // Add p.second->next in pq only if it is not NULL
+            if(p.second->next != NULL) {
+                ListNode* nextNode = p.second->next;
+                pq.push({nextNode->val, nextNode});
+            }
+        }
+
+        return dNode->next;
+    }
+    
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         // Brute Force Approach
         // return mergeKLists1(lists);
 
         // Better Approach (Space optimized approach)
-        return mergeKLists2(lists);
+        // return mergeKLists2(lists);
+
+        // Optimal Approach
+        return mergeKLists3(lists);
     }
 };
