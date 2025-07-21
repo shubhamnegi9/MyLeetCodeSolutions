@@ -100,9 +100,9 @@ public:
     
     Node* copyRandomList(Node* head) {
         // Brute Force Approach
-        // return copyRandomList1(head);
+        return copyRandomList1(head);
 
         // Optimal Approach
-        return copyRandomList2(head);
+        // return copyRandomList2(head);
     }
 };
