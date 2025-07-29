@@ -25,10 +25,10 @@ public:
     
     int hammingWeight(int n) {
         // Approach 1 
-        return hammingWeight1(n);
+        // return hammingWeight1(n);
 
         // Approach 2
-        // return hammingWeight2(n);
+        return hammingWeight2(n);
 
         // Approach 3 (Using STL function)
         // return __builtin_popcount(n);
