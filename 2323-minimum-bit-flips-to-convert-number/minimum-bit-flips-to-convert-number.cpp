@@ -1,70 +1,35 @@
 class Solution {
 public:
-    
-    // Approach 1: Counting different bits one by one
+    // Using left shift operator
     int minBitFlips1(int start, int goal) {
-        
         int count = 0;
-        while(start > 0 || goal > 0) {
-            
-            if((start & 1) != (goal & 1)) {
-                count++;
-            }
-            
-            start >>= 1;
-            goal >>= 1;
+        int ans = start ^ goal;
+
+        for(int i = 0; i <= 31; i++) {
+            if(ans & (1 << i))
+                count += 1;
         }
-        
+
         return count;
     }
-    
-    // Approach-2: Using XOR
+
+    // Using right shift operator
     int minBitFlips2(int start, int goal) {
-        
-        int XOR = start ^ goal;
         int count = 0;
-        
-        while(XOR) {
-            count += (XOR & 1);
-            XOR >>= 1;
+        int ans = start ^ goal;
+
+        for(int i = 0; i <= 31; i++) {
+            count += ((ans>>i) & 1);
         }
-        
+
         return count;
     }
-    
-    // Approach-3: Using Brian Kernighan’s Algorithm 
-    int minBitFlips3(int start, int goal) {
-    
-        int XOR = start ^ goal;
-        int count = 0;
-        
-        while(XOR) {
-            XOR = XOR & (XOR-1);
-            count++;
-        }
-        
-        return count;
-    }
-    
-    // Approach-4: Using __builtin_popcount()
-    int minBitFlips4(int start, int goal) {
-        
-        int XOR = start ^ goal;
-        return __builtin_popcount(XOR);
-    }
-    
-    
+
     int minBitFlips(int start, int goal) {
-        // Approach 1
+        // Using left shift operator
         // return minBitFlips1(start, goal);
-        
-        // Approach 2
-        // return minBitFlips2(start, goal);
-        
-        // Approach 3
-        // return minBitFlips3(start, goal);
-        
-        // Approach 4
-        return minBitFlips4(start, goal);
+
+        // Using right shift operator
+        return minBitFlips2(start, goal);
     }
 };
