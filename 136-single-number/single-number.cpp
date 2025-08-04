@@ -18,9 +18,23 @@ public:
 
         return -1;
     }
+
+    // Optimal Approach using bit manipulation
+    int singleNumber2(vector<int>& nums) {
+        int XOR = 0;
+
+        for(int& num: nums) {
+            XOR ^= num;
+        }
+
+        return XOR;
+    }
     
     int singleNumber(vector<int>& nums) {
         // Brute Force Approach
-        return singleNumber1(nums);
+        // return singleNumber1(nums);
+
+        // Optimal Approach using bit manipulation
+        return singleNumber2(nums);
     }
 };
