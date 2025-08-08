@@ -77,10 +77,10 @@ public:
         // return singleNumber1(nums);
 
         // Better Approach
-        // return singleNumber2(nums);
+        return singleNumber2(nums);
 
         // More Better Approach
-        return singleNumber3(nums);
+        // return singleNumber3(nums);
 
         // Optimal Approach
         // return singleNumber4(nums);
