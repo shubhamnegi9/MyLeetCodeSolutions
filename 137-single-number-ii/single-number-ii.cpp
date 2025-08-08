@@ -80,9 +80,9 @@ public:
         // return singleNumber2(nums);
 
         // More Better Approach
-        // return singleNumber3(nums);
+        return singleNumber3(nums);
 
         // Optimal Approach
-        return singleNumber4(nums);
+        // return singleNumber4(nums);
     }
 };
