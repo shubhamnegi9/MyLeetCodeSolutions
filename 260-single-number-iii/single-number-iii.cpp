@@ -46,9 +46,9 @@ public:
     
     vector<int> singleNumber(vector<int>& nums) {
         // Brute Force Approach
-        // return singleNumber1(nums);
+        return singleNumber1(nums);
 
         // Optimal Approach
-        return singleNumber2(nums);
+        // return singleNumber2(nums);
     }
 };
