@@ -74,10 +74,10 @@ public:
 
     int singleNumber(vector<int>& nums) {
         // Brute Force Approach
-        // return singleNumber1(nums);
+        return singleNumber1(nums);
 
         // Better Approach
-        return singleNumber2(nums);
+        // return singleNumber2(nums);
 
         // More Better Approach
         // return singleNumber3(nums);
