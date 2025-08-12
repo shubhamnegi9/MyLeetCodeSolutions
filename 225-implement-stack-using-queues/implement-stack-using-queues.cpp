@@ -15,12 +15,16 @@ public:
     }
     
     int pop() {
+        if(q.empty())
+            return -1;
         int x = q.front();
         q.pop();
         return x;
     }
     
     int top() {
+        if(q.empty())
+            return -1;
         return q.front();
     }
     
