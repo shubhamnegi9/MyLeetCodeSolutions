@@ -1,6 +1,7 @@
 class MinStack {
 public:
-    stack<pair<int, int>> st;
+    stack<long> st;
+    long mini = INT_MAX;
 
     MinStack() {
         
@@ -8,22 +9,46 @@ public:
     
     void push(int val) {
         if(st.empty()) {
-            st.push({val, val});
-        } else {
-            st.push({val, min(val, st.top().second)});
+            st.push(val);
+            mini = val;
+        }
+        else {
+            if(val < mini) {
+                st.push((long)2*val - mini);      // Push modified value in stack
+                mini = val;                       // Replace mini with smaller value
+            } else {
+                st.push(val);
+            }
         }
     }
     
     void pop() {
+        if(st.empty())
+            return;
+
+        long x = st.top();
         st.pop();
+
+        if(x < mini) {
+            mini = 2*mini - x;      // Restoring previous value of mini
+        }
     }
     
     int top() {
-        return st.top().first;
+        if(st.empty())
+            return -1;
+
+        long x = st.top();
+
+        if(x < mini) {
+            return mini;            // Return mini as top of stack for modified array
+        } else {
+            return x;               // Return x as top of stack
+        }
     }
     
     int getMin() {
-        return st.top().second;
+        return mini;
     }
 };
 
