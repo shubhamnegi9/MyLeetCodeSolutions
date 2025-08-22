@@ -112,6 +112,8 @@ public:
 
     // Optimal Approach using 2 pointer 
     // (by comparing heights of buildings)
+    // T.C. = O(n)
+    // S.C. = O(1)
     int trap5(vector<int>& height, int n) {
         int i = 0, j = n-1;
         int leftMax = 0, rightMax = 0;
@@ -138,7 +140,10 @@ public:
         return sum;
     }
 
-
+    // Optimal Approach using 2 pointer 
+    // (by comparing leftMax and rightMax)
+    // T.C. = O(n)
+    // S.C. = O(1)
     int trap6(vector<int>& height, int n) {
         int i = 1, j = n-2;
         int leftMax = height[0], rightMax = height[n-1];
@@ -182,8 +187,10 @@ public:
 
         // Optimal Approach using 2 pointer 
         // (by comparing heights of buildings)
-        return trap5(height, n);
+        // return trap5(height, n);
 
-        // return trap6(height, n);
+        // Optimal Approach using 2 pointer 
+        // (by comparing leftMax and rightMax)
+        return trap6(height, n);
     }
 };
