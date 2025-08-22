@@ -86,10 +86,10 @@ public:
         // return trap1(height, n);
 
         // Better Approach using prefixMax and suffixMax array
-        return trap2(height, n);
+        // return trap2(height, n);
 
         // Better Approach using only suffixMax array 
-        // return trap3(height, n);
+        return trap3(height, n);
 
     }
 };
