@@ -103,8 +103,63 @@ public:
                 sum += (min(height[st.top()], height[i]) - height[poppedIdx]) * distance;
 
             }
-            
+
             st.push(i);     // Push index not height 
+        }
+
+        return sum;
+    }
+
+    // Optimal Approach using 2 pointer 
+    // (by comparing heights of buildings)
+    int trap5(vector<int>& height, int n) {
+        int i = 0, j = n-1;
+        int leftMax = 0, rightMax = 0;
+        int sum = 0;
+
+        while(i < j) {
+            if(height[i] <= height[j]) {
+                if(height[i] < leftMax) {
+                    sum += (leftMax - height[i]);   // Amount of water above current ith building
+                } else {    
+                    leftMax = height[i];            // Update leftMax
+                }
+                i++;
+            } else {
+                if(height[j] < rightMax) {
+                    sum += (rightMax - height[j]);  // Amount of water above current ith building
+                } else { 
+                    rightMax = height[j];           // Update rightMax
+                }
+                j--;
+            }
+        }
+
+        return sum;
+    }
+
+
+    int trap6(vector<int>& height, int n) {
+        int i = 1, j = n-2;
+        int leftMax = height[0], rightMax = height[n-1];
+        int sum = 0;
+
+        while(i <= j) {
+            if(leftMax <= rightMax) {
+                if(height[i] < leftMax) {
+                    sum += (leftMax - height[i]);   // Amount of water above current ith building
+                } else {    
+                    leftMax = height[i];            // Update leftMax
+                }
+                i++;
+            } else {
+                if(height[j] < rightMax) {
+                    sum += (rightMax - height[j]);  // Amount of water above current ith building
+                } else { 
+                    rightMax = height[j];           // Update rightMax
+                }
+                j--;
+            }
         }
 
         return sum;
@@ -123,6 +178,12 @@ public:
         // return trap3(height, n);
 
         // Better Approach using stack
-        return trap4(height, n);
+        // return trap4(height, n);
+
+        // Optimal Approach using 2 pointer 
+        // (by comparing heights of buildings)
+        return trap5(height, n);
+
+        // return trap6(height, n);
     }
 };
