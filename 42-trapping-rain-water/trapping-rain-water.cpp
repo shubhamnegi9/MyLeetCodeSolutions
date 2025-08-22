@@ -77,7 +77,38 @@ public:
 
         return sum;
     }
-    
+
+    // Better Approach using stack
+    // T.C. = O(n) for tarversing in array + O(n) for popping n elements from stack in worst case
+    // S.C. = O(n) for stack
+    int trap4(vector<int>& height, int n) {
+        int sum = 0;
+        stack<int> st;
+
+        for(int i = 0; i < n; i++) {
+            while(!st.empty() && height[i] > height[st.top()]) {    // Maintaining monotonic decreasing stack
+                int poppedIdx = st.top();   // Storing index of popped building to find its height later
+                st.pop();
+
+                if(st.empty()) {    
+                    break;  // There was no taller building on left of popped building, so no water will be trapped over popped building 
+                }
+
+                /* Otherwise if there are elements in stack, then the top element of stack will be a taller building on left of popped building (Since we are maintaining monotonic decreasing stack). And current ith building will be a taller building on right of popped building. So water will be trapped over popped building */
+
+                // Calculating distance between two taller buildings on left and right
+                int distance = i - st.top() - 1;   
+
+                // Calculating water trapped over popped building and adding to sum
+                sum += (min(height[st.top()], height[i]) - height[poppedIdx]) * distance;
+
+            }
+            
+            st.push(i);     // Push index not height 
+        }
+
+        return sum;
+    }
     
     int trap(vector<int>& height) {
         int n = height.size();
@@ -89,7 +120,9 @@ public:
         // return trap2(height, n);
 
         // Better Approach using only suffixMax array 
-        return trap3(height, n);
+        // return trap3(height, n);
 
+        // Better Approach using stack
+        return trap4(height, n);
     }
 };
