@@ -1,127 +1,118 @@
 class Solution {
 public:
-    // Brute Force
+    // Brute Force Approach
     // T.C. = O(n^3)
-    // S.C. = O(n)
-    int sumSubarrayMinsBrute(vector<int>& arr) {
-        int n  = arr.size();
-        long sum = 0;
-        int M = 1e9+7;  // 1e9 stands for 1 × 10^9
+    // S.C. = O(n) for subArr
+    int sumSubarrayMins1(vector<int>& arr) {
+        int n = arr.size();
+        int sum = 0;
+        int mod = 1e9+7;    // 1e9 stands for 1 × 10^9
+
         for(int i = 0; i < n; i++) {
             vector<int> subArr;
             for(int j = i; j < n; j++) {
                 subArr.push_back(arr[j]);
                 int minEle = *min_element(subArr.begin(), subArr.end());
-                sum = (sum+minEle)%M;
+                sum = (sum + minEle) % mod;
             }
         }
+
         return sum;
     }
 
-    // Better Brute
-    // T.C.  = O(n^2)
-    // S.C. = O(1)
-    int sumSubarrayMinsBetter(vector<int>& arr) {
-        int n  = arr.size();
-        long sum = 0;
-        int M = 1e9+7;  // 1e9 stands for 1 × 10^9
+    // Better Brute Force Approach
+    // T.C. = O(n^2)
+    // S.C. = O(1) 
+    int sumSubarrayMins2(vector<int>& arr) {
+        int n = arr.size();
+        int sum = 0;
+        int mod = 1e9+7;    // 1e9 stands for 1 × 10^9
+
         for(int i = 0; i < n; i++) {
             int minEle = arr[i];
             for(int j = i; j < n; j++) {
                 minEle = min(minEle, arr[j]);
-                sum = (sum+minEle)%M;
+                sum = (sum + minEle) % mod;
             }
         }
+
         return sum;
     }
     
-    // Optimal Approach 
-    // T.C. = O(n) + O(n) + O(n) = O(3n) = O(n)
-    // S.C. = O(n)
-    vector<int> getNextSmallerToLeft(vector<int>& arr, int n) {
-        /* NSL - Vector for storing indexes of the element on left hand side which are just 
-        smaller than current element. If no smaller element is found on left, -1 is stored.
-        */
-        vector<int> NSL(n);  
-        stack<int> s;
+    // Optimal Approach
+    vector<int> findNSE(vector<int>& arr, int n) {
+        stack<int> st;
+        vector<int> nseIdx(n, n);       // In case of no NSE, value will be n
 
-        // Filling NSL vector from 0 to n-1
-        for(int i = 0; i < n; i++) {
-            // If stack is empty initially, -1 is stored
-            if(s.empty()) {
-                NSL[i] = -1;
-            }
-            else {
-                // Keep popping until larger(or equal) element found 
-                // NOTE: (>=) sign is placed to handle corner case for duplicate elements
-                while(!s.empty() && arr[s.top()] >= arr[i]) {
-                    s.pop();
-                }
-                // Store -1 if stack becomes empty, else store top element of stack
-                NSL[i] = s.empty() ? -1 : s.top();
-            }
-            // Finally push current index in stack
-            s.push(i);
-        }
-
-        return NSL;
-    }
-
-    vector<int> getNextSmallerToRight(vector<int>& arr, int n) {
-        /* NSL - Vector for storing indexes of the element on right hand side which are just 
-        smaller than current element. If no smaller element is found on left, n is stored.
-        */
-        vector<int> NSR(n);
-        stack<int> s;
-
-        // Filling NSR vector from n-1 to 0
         for(int i = n-1; i >= 0; i--) {
-            // If stack is empty initially, n is stored
-            if(s.empty()) {
-                NSR[i] = n;
+        // We need to find next smaller element, so if we get greater or equal element on top of stack, remove it
+            while(!st.empty() && arr[st.top()] >= arr[i]) {
+                st.pop();
             }
-            else {
-                // Keep popping until larger element found 
-                while(!s.empty() && arr[s.top()] > arr[i]) {
-                    s.pop();
-                }
-                // Store n if stack becomes empty, else store top element of stack
-                NSR[i] = s.empty() ? n : s.top();
-            }
-            // Finally push current index in stack
-            s.push(i);
+
+            nseIdx[i] = st.empty() ? n : st.top();       // In case of no NSE, value will be n
+
+            st.push(i);     // Push index in stack not element
         }
 
-        return NSR;
+        return nseIdx;
     }
 
-    int sumSubarrayMinsOptimal(vector<int>& arr) {
-        int n = arr.size();
-        int M = 1e9+7;  // 1e9 stands for 1 × 10^9
+    vector<int> findPSEE(vector<int>& arr, int n) {
+        stack<int> st;
+        vector<int> pseeIdx(n, -1);      // In case of no PSEE, value will be -1
 
-        vector<int> NSL = getNextSmallerToLeft(arr, n);
-        vector<int> NSR = getNextSmallerToRight(arr, n);
-
-        long long res = 0;
         for(int i = 0; i < n; i++) {
-            // Number of subarrays on left side in which current element is minumum
-            long long  leftSide = (i - NSL[i]);
-            // Number of subarrays on right side in which current element is minumum
-            long long  rightSide = (NSR[i] - i);
-            // Total number of subarrays in which current element is minimum
-            long long  ways = leftSide * rightSide;
-            res = (res + (arr[i] * ways)) % M;
+        // We need to find previous smaller or equal element, so if we get greater element on top of stack, remove it
+            while(!st.empty() && arr[st.top()] > arr[i]) {
+                st.pop();
+            }
+
+            pseeIdx[i] = st.empty() ? -1 : st.top();    // In case of no PSEE, value will be -1
+
+            st.push(i);     // Push index in stack not element
         }
 
-        return res;
+        return pseeIdx;
+    }
+
+    // Optimal Approach
+    // T.C. = O(2n) for finding nse + O(2n) for finding psee + O(n) for finding contribution of each element as minimum in total = O(5n)
+    // S.C. = O(2n) + O(2n) = O(4n)
+    int sumSubarrayMins3(vector<int>& arr) {
+        int n = arr.size();
+        long long sum = 0;
+        int mod = 1e9+7;    // 1e9 stands for 1 × 10^9
+
+        // Array storing next smaller element indices of elements
+        vector<int> nseIdx = findNSE(arr, n);       
+        // Array storing previous smaller or equal element indices of elements
+        vector<int> pseeIdx = findPSEE(arr, n);
+
+        for(int i = 0; i < n; i++) {
+            // Number of elements on left of arr[i] (including arr[i]) which are greater than arr[i] so that arr[i] will be minimum in the subarrays formed using them
+            long long leftSide = i - pseeIdx[i];
+
+            // Number of elements on right of arr[i] (including arr[i]) which are greater than or equal to arr[i] so that arr[i] will be minimum in the subarrays formed using them
+            long long rightSide = nseIdx[i] - i;
+
+            // Total number of subarrays formed where arr[i] is minimum
+            long long totalSubArr = (leftSide * rightSide)*1LL;
+
+            sum = (sum + (totalSubArr*arr[i])%mod)%mod;
+        }
+
+        return sum;
     }
     
     int sumSubarrayMins(vector<int>& arr) {
+        // Brute Force Approach
+        // return sumSubarrayMins1(arr);
 
-        // return sumSubarrayMinsBrute(arr);
+        // Better Brute Force Approach
+        // return sumSubarrayMins2(arr);
 
-        // return sumSubarrayMinsBetter(arr);
-
-        return sumSubarrayMinsOptimal(arr);
+        // Optimal Approach
+        return sumSubarrayMins3(arr);
     }
 };
