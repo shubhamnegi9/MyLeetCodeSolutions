@@ -60,9 +60,9 @@ public:
     vector<int> asteroidCollision(vector<int>& asteroids) {
 
         // Using stack
-        return asteroidCollision1(asteroids);
+        // return asteroidCollision1(asteroids);
 
         // Using list
-        // return asteroidCollision2(asteroids);
+        return asteroidCollision2(asteroids);
     }
 };
