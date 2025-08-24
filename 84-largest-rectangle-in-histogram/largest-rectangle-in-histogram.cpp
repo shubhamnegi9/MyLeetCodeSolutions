@@ -45,9 +45,46 @@ public:
 
         return maxArea;
     }
+
+    // Optimal Approach
+    // T.C. = O(n) for traversing in array + O(n) for all stack operations = O(2n)
+    // S.C. = O(n) for stack 
+    int largestRectangleArea2(vector<int>& heights) {
+        int n = heights.size();
+        stack<int> st;
+        int maxArea = 0;
+
+        for(int i = 0; i < n; i++) {
+            // Pop the elements from stack only when element at top of stack is greater (not equal) than current element 
+            while(!st.empty() && heights[st.top()] > heights[i]) {
+                int poppedIdx = st.top();
+                st.pop();
+
+                // Find NSE and PSE indices and area for the popped elements only
+                int nseIdx = i;
+                int pseIdx = st.empty() ? -1 : st.top();
+                maxArea = max(maxArea, heights[poppedIdx] * (nseIdx - pseIdx - 1));
+            }
+            st.push(i);     // Push index not element
+        }
+
+        while(!st.empty()) {
+            int poppedIdx = st.top();
+            st.pop();
+
+            int nseIdx = n;     // NSE index for remainging elements in stack will always be n
+            int pseIdx = st.empty() ? -1 : st.top();
+            maxArea = max(maxArea, heights[poppedIdx] * (nseIdx - pseIdx - 1));
+        }
+
+        return maxArea;
+    }
     
     int largestRectangleArea(vector<int>& heights) {
         // Brute Force Approach
-        return largestRectangleArea1(heights);
+        // return largestRectangleArea1(heights);
+
+        // Optimal Approach
+        return largestRectangleArea2(heights);
     }
 };
