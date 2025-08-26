@@ -33,12 +33,13 @@ public:
             }
 
             // Maintaining monotonic decreasing deque
-            while(!dq.empty() && nums[dq.back()] <= nums[i]) {
+            while(!dq.empty() && nums[dq.back()] < nums[i]) {
                 dq.pop_back();
             }
 
             dq.push_back(i);     // Push index not element
 
+            // First window will form when i reaches k-1
             if(i >= k-1) {
                 maxList.push_back(nums[dq.front()]);      // nums[dq.front()] will give maximum of k size window
             }
