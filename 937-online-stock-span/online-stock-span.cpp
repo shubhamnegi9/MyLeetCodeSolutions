@@ -1,26 +1,24 @@
 class StockSpanner {
 public:
-    vector<int> arr;
-    int count;
+    stack<pair<int, int>> st;      
+    int ind;
     StockSpanner() {
-        arr = {};       // Empty vector
-        count = 0;
+        st.empty();
+        ind = -1;
     }
     
     int next(int price) {
-        arr.push_back(price);
-        count = 1;      // Make count = 1 on each day as we need to include current day always in stock span
+        ind++;
 
-        int n = arr.size();
-        for(int i = n-2; i >= 0; i--) {     // Start iteration from day previous to current day
-            if(arr[i] <= price) {
-                count++;
-            } else {
-                break;      // break because we need to consider only consecutive days for which the stock price was less than or equal to the price of that day
-            }
+        while(!st.empty() && st.top().first <= price) {     // st.top().first will give price value
+            st.pop();
         }
-
-        return count;
+        // After popping all less than or equal elements from stack, PGE will be at top of stack
+        int ans = ind - (st.empty() ? -1 : st.top().second);    // st.top().second will give day index
+        
+        st.push({price, ind});  // Push current element after calculating ans
+        
+        return ans;
     }
 };
 
