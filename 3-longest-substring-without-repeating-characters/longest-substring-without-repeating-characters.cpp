@@ -48,11 +48,39 @@ public:
         return maxLen;
     }
     
+    // Another Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(256)
+    int lengthOfLongestSubstring3(string s) {
+        int n = s.length();
+        int maxLen = 0;
+        int l = 0, r = 0;
+        int hash[256];
+        memset(hash, 0, sizeof(hash));    
+
+        while(r < n) {
+            while(l < r && hash[s[r]] == 1) {   // Move l ahead until hash[s[r]] becomes 0
+                hash[s[l]] = 0;
+                l++;
+            }
+
+            int len = r-l+1;
+            maxLen = max(maxLen, len);
+            hash[s[r]] = 1;             
+            r++;
+        }
+
+        return maxLen;
+    }
+
     int lengthOfLongestSubstring(string s) {
         // Brute Force Approach
         // return lengthOfLongestSubstring1(s);
 
         // Optimal Approach
-        return lengthOfLongestSubstring2(s);
+        // return lengthOfLongestSubstring2(s);
+
+        // Another Optimal Approach
+        return lengthOfLongestSubstring3(s);
     }
 };
