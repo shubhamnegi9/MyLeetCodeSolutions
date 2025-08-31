@@ -78,9 +78,9 @@ public:
         // return longestOnes1(nums, k);
 
         // Better Approach
-        // return longestOnes2(nums, k);
+        return longestOnes2(nums, k);
 
         // Optimal Approach
-        return longestOnes3(nums, k);
+        // return longestOnes3(nums, k);
     }
 };
