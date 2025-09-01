@@ -53,11 +53,43 @@ public:
         return maxLen;
     }
     
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(1)
+    int totalFruit3(vector<int>& fruits) {
+        int n = fruits.size(), l = 0, r = 0, maxLen = 0;
+        map<int, int> mpp;
+
+        while(r < n) {
+            mpp[fruits[r]]++;
+
+            // Shrinking of window by only 1 time
+            if(mpp.size() > 2) {
+                mpp[fruits[l]]--;
+                // If value in map becomes 0, then remove from map
+                if(mpp[fruits[l]] == 0) {
+                    mpp.erase(fruits[l]);
+                }
+                l++;
+            }
+
+            if(mpp.size() <= 2) {
+                maxLen = max(maxLen, r-l+1);
+            }
+            r++;
+        }
+
+        return maxLen;
+    }
+
     int totalFruit(vector<int>& fruits) {
         // Brute Force Approach
         // return totalFruit1(fruits);
 
         // Better Approach
-        return totalFruit2(fruits);
+        // return totalFruit2(fruits);
+
+        // Optimal Approach
+        return totalFruit3(fruits);
     }
 };
