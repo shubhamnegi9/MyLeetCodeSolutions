@@ -44,12 +44,33 @@ public:
 
         return count;
     }
+
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(3)
+    int numberOfSubstrings3(string s) {
+        int n = s.length(), count = 0;
+        vector<int> lastSeen(3, -1);
+
+        for(int i = 0; i < n; i++) {
+            lastSeen[s[i]-'a'] = i;
+
+            if(lastSeen[0] != -1 && lastSeen[1] != -1 && lastSeen[2] != -1) {   // Valid substring ending at i 
+                count += min({lastSeen[0], lastSeen[1], lastSeen[2]}) + 1;
+            } 
+        }
+
+        return count;
+    }
     
     int numberOfSubstrings(string s) {
         // Brute Force Approach
         // return numberOfSubstrings1(s);
 
         // Better Approach
-        return numberOfSubstrings2(s);
+        // return numberOfSubstrings2(s);
+
+        // Optimal Approach
+        return numberOfSubstrings3(s);
     }
 };
