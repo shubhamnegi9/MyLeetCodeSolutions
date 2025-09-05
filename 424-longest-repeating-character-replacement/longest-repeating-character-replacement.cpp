@@ -90,9 +90,9 @@ public:
         // return characterReplacement1(s, k);
 
         // Better Approach
-        // return characterReplacement2(s, k);
+        return characterReplacement2(s, k);
 
         // Optimal Approach
-        return characterReplacement3(s, k);
+        // return characterReplacement3(s, k);
     }
 };
