@@ -40,12 +40,46 @@ public:
 
         return count;
     }
+
+    int countSubarraysAtmostSum(vector<int>& nums, int goal) {
+        // Egde case
+        if(goal < 0) {
+            return 0;
+        }
+
+        int n = nums.size(), l = 0, r = 0, sum = 0, count = 0;
+
+        while(r < n) {
+            sum += nums[r];
+
+            while(sum > goal) {
+                sum -= nums[l];
+                l++;
+            }
+            if(sum <= goal) {
+                count += (r-l+1);   // Increase count by size of valid window
+            }
+            r++;
+        }
+
+        return count;
+    }
+
+    // Optimal Approach
+    // T.C. = O(2*2n)
+    // S.C. = O(1)
+    int numSubarraysWithSum3(vector<int>& nums, int goal) {
+        return countSubarraysAtmostSum(nums, goal) - countSubarraysAtmostSum(nums, goal-1);
+    }
     
     int numSubarraysWithSum(vector<int>& nums, int goal) {
         // Brute Force Approach
         // return numSubarraysWithSum1(nums, goal);
 
         // Better Approach
-        return numSubarraysWithSum2(nums, goal);
+        // return numSubarraysWithSum2(nums, goal);
+
+        // Optimal Approach
+        return numSubarraysWithSum3(nums, goal);
     }
 };
