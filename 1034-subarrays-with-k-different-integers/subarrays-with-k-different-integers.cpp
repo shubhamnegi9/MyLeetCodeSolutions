@@ -1,82 +1,62 @@
 class Solution {
 public:
-    //Total count of subarrays having <= k distict elements
-    int slidingWindow(vector<int>& nums, int k) {
-        unordered_map<int, int> mp;
-        int n = nums.size();
-        int i = 0, j = 0;
-        int count = 0;
-
-        while(j < n) {
-            mp[nums[j]]++;
-
-            while(mp.size() > k) {
-                //shrink the window
-                mp[nums[i]]--;
-                if(mp[nums[i]] == 0)
-                    mp.erase(nums[i]);  // Remove entry from map
-                i++;
-            }
-
-            count += (j-i+1);
-            j++;
-        }
-
-        return count;
-    }
-
-    //Approach-1 (Standard Sliding Window twice - A very good Pattern of Sliding Window Problems)
-    //T.C : O(n)
-    //S.C : O(n)
+    // Brute Force Approach
+    // T.C. = O(n^2)
+    // S.C. = O(n) for set
     int subarraysWithKDistinct1(vector<int>& nums, int k) {
-        return slidingWindow(nums, k) - slidingWindow(nums, k-1);
-    }
+        int n = nums.size(), count = 0;
 
-
-    //Approach-2 (One Pass Flow)
-    //T.C : O(n)
-    //S.C : O(n)
-    int subarraysWithKDistinct2(vector<int>& nums, int k) {
-        unordered_map<int, int> mp;
-        int n = nums.size();
-        int i = 0, j = 0, i_largest = 0;
-        int count = 0;
-
-        while(j < n) {
-            mp[nums[j]]++;
-
-            // Handling Invalid Subarray
-            // Shrink the window
-            while(mp.size() > k) {
-                mp[nums[i]]--;
-                if(mp[nums[i]] == 0)
-                    mp.erase(nums[i]);  // Remove entry from map
-                i++;
-                i_largest = i;  // Move i_largest to i
+        for(int i = 0; i < n; i++) {
+            set<int> st;
+            for(int j = i; j < n; j++) {
+                st.insert(nums[j]);
+                if(st.size() == k) {
+                    count++;
+                } else if(st.size()> k){
+                    break;
+                }
             }
-
-            // Handling to find smallest valid subarray ending at j
-            while(mp[nums[i]] > 1) {
-                mp[nums[i]]--;
-                i++;
-            }
-
-            // Smallest valid subarray ending at j found
-            if(mp.size() == k) {
-                count += (i - i_largest + 1);
-            } 
-
-            j++;
         }
 
         return count;
     }
 
+    // Optimal Approach
+    // T.C. = 2*O(2n) 
+    // S.C. = O(n) for map
+    int subarraysWithAtmostKDistinct(vector<int>& nums, int k) {
+        int n = nums.size(), l = 0, r = 0, count = 0;
+        map<int, int> mpp;
+
+        while(r < n) {
+            mpp[nums[r]]++;
+
+            while(mpp.size() > k) {
+                mpp[nums[l]]--;
+                if(mpp[nums[l]] == 0)
+                    mpp.erase(nums[l]);
+                l++;
+            }
+
+            if(mpp.size() <= k) {
+                count += (r-l+1);   // Increase count by size of window
+            }
+
+            r++;
+        }
+
+        return count;
+    }
+    
+    int subarraysWithKDistinct2(vector<int>& nums, int k) {
+        return subarraysWithAtmostKDistinct(nums, k) - subarraysWithAtmostKDistinct(nums, k-1);
+    }
+    
     int subarraysWithKDistinct(vector<int>& nums, int k) {
-        // Approach 1 
+        // Brute Force Approach
         // return subarraysWithKDistinct1(nums, k);
 
-        // Approach 2
+        // Optimal Approach
         return subarraysWithKDistinct2(nums, k);
     }
 };
