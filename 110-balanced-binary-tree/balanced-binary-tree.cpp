@@ -18,6 +18,8 @@ public:
     }
 
     // Brute Force Approach
+    // T.C. = O(n^2)
+    // S.C. = O(n)
     bool isBalanced1(TreeNode* root) {
         // If node is null, then tree is balanced
         if(root == NULL)
@@ -39,9 +41,34 @@ public:
         return true;
     }
 
+    int dfsHeight(TreeNode* root) {
+        if(root == NULL)
+            return 0;
+        
+        int lh = dfsHeight(root->left);
+        if(lh == -1)
+            return -1;
+        int rh = dfsHeight(root->right);
+        if(rh == -1)
+            return -1;
+        if(abs(lh - rh) > 1)
+            return -1;
+        
+        return 1 + max(lh, rh);
+    }
+
+    // Optimal Approach
+    // T.C = O(n)
+    // S.C. = O(n)
+    bool isBalanced2(TreeNode* root) {
+        return dfsHeight(root) == -1 ? false : true;
+    }
+
     bool isBalanced(TreeNode* root) {
         // Brute Force Approach
-        return isBalanced1(root);
+        // return isBalanced1(root);
 
+        // Optimal Approach
+        return isBalanced2(root);
     }
 };
