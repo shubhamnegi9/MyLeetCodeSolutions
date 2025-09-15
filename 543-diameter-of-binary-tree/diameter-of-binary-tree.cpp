@@ -11,25 +11,31 @@
  */
 class Solution {
 public:
-    int findDiameter(TreeNode* root, int& res) {
-        // Base Case
+    int findHeight(TreeNode* root) {
         if(root == NULL)
             return 0;
         
-        // Length of longest path in left subtree
-        int l = findDiameter(root->left, res);
-        // Length of longest path in right subtree
-        int r = findDiameter(root->right, res);
-        // Diameter at current node 
-        res = max(res, l+r);
-
-        // Diameter returned to parent node
-        return 1+max(l, r);
+        return 1 + max(findHeight(root->left), findHeight(root->right));
     }
 
+    // Brute Force Approach
+    // T.C. = O(n^2)
+    // S.C. = O(1) extra space, O(h) recursive stack space
+    void diameterOfBinaryTree1(TreeNode* root, int &maxi) {
+        if(root == NULL)
+            return;
+        
+        int lh = findHeight(root->left);
+        int rh = findHeight(root->right);
+        maxi = max(maxi, lh+rh);
+        diameterOfBinaryTree1(root->left, maxi);
+        diameterOfBinaryTree1(root->right, maxi);
+    }
+    
     int diameterOfBinaryTree(TreeNode* root) {
-        int res = INT_MIN;
-        findDiameter(root, res);
-        return res;
+        int maxi = 0;
+        // Brute Force Approach
+        diameterOfBinaryTree1(root, maxi);
+        return maxi;
     }
 };
