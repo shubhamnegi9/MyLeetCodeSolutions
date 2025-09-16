@@ -11,39 +11,42 @@
  */
 class Solution {
 public:
-    
-    // Using DFS
-    bool isSameTreeDFS(TreeNode* p, TreeNode* q) {
-        if(p == NULL && q == NULL)
-            return true;    // Same Tree
+    // Using preorder traversal
+    bool isSameTree1(TreeNode* p, TreeNode* q) {
+        if(p == NULL || q == NULL)
+            return (p == q); // If p and q are null then return true, else if any of them is not null then return false
         
-        if(p == NULL || q == NULL) {    // Same as (p == NULL and q != NULL) || (p != NULL and q == NULL)
-            return false;   // Not Same Tree
-        }
-
-        // Checking for values at nodes
-        if(p->val != q->val) {
-            return false;   // Not Same Tree
-        }
-
-        // Checking for equalness of left subtree as well as right subtreee using recurison
-        return isSameTreeDFS(p->left, q->left) && isSameTreeDFS(p->right, q->right);
-
+        return (p->val == q->val) &&
+            isSameTree(p->left, q->left) &&
+            isSameTree(p->right, q->right);
     }
 
-    // Using BFS
-    bool isSameTreeBFS(TreeNode* p, TreeNode* q) {
-        if(p == NULL && q == NULL)
-            return true;    // Same Tree
+    // Using inorder traversal
+    bool isSameTree2(TreeNode* p, TreeNode* q) {
+        if(p == NULL || q == NULL)
+            return (p == q); // If p and q are null then return true, else if any of them is not null then return false
         
-        if(p == NULL || q == NULL) {    // Same as (p == NULL and q != NULL) || (p != NULL and q == NULL)
-            return false;   // Not Same Tree
-        }
+        return isSameTree(p->left, q->left) &&
+            (p->val == q->val) &&
+            isSameTree(p->right, q->right);
+    }
+    
+    // Using postorder traversal
+    bool isSameTree3(TreeNode* p, TreeNode* q) {
+        if(p == NULL || q == NULL)
+            return (p == q); // If p and q are null then return true, else if any of them is not null then return false
+        
+        return isSameTree(p->left, q->left) &&
+            isSameTree(p->right, q->right) &&
+            (p->val == q->val);
+    }
 
-        // Queue for BFS traversal
-        queue<TreeNode*> q1;
-        queue<TreeNode*> q2;
-
+    // Using level order traversal
+    bool isSameTree4(TreeNode* p, TreeNode* q) {
+        if(p == NULL || q == NULL)
+            return (p == q); // If p and q are null then return true, else if any of them is not null then return false
+        
+        queue<TreeNode*> q1, q2;
         q1.push(p);
         q2.push(q);
 
@@ -53,41 +56,43 @@ public:
             TreeNode* node2 = q2.front();
             q2.pop();
 
-            // Checking for values at nodes
+            // If node values are not same return false.
+            // Note that we have not returned true for same nodes here as we need to check for further nodes also in case of same nodes.
             if(node1->val != node2->val) {
-                return false;   // Not Same Tree
+                return false;       
             }
-            
-            // If left subtree of both nodes are not null, then push them into queue
-            if(node1->left != NULL && node2->left != NULL) {
+
+            if(node1->left && node2->left) {
                 q1.push(node1->left);
                 q2.push(node2->left);
             }
-            // Left subtree of any node is null
-            else if(node1->left != NULL || node2->left != NULL) {
-                return false;   // Not Same Tree
+            else if(node1->left || node2->left) {
+                return false;   // Not same left nodes
             }
 
-            // If right subtree of both nodes are not null, then push them into queue
-            if(node1->right != NULL && node2->right != NULL) {
+            if(node1->right && node2->right) {
                 q1.push(node1->right);
                 q2.push(node2->right);
             }
-            // Right subtree of any node is null
-            else if(node1->right != NULL || node2->right != NULL) {
-                return false;   // Not Same Tree
+            else if(node1->right || node2->right) {
+                return false;   // Not same right nodes
             }
-
         }
 
-        return true;    // Same Tree
+        return true;    // Finally return true
     }
 
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        // Using DFS
-        // return isSameTreeDFS(p, q);
+        // Using preorder traversal
+        // return isSameTree1(p, q);
 
-        // Using BFS
-        return isSameTreeBFS(p, q);
+        // Using inmorder traversal
+        // return isSameTree2(p, q);
+
+        // Using postorder traversal
+        // return isSameTree3(p, q);
+
+        // Using level order traversal
+        return isSameTree4(p, q);
     }
 };
