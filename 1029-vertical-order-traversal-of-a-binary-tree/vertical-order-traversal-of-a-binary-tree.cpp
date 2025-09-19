@@ -11,7 +11,8 @@
  */
 class Solution {
 public:
-    vector<vector<int>> verticalTraversal(TreeNode* root) {
+    // Using Iterative Level Order Traversal
+    vector<vector<int>> verticalTraversalUsingLevelOrder(TreeNode* root) {
         vector<vector<int>> ans;
         if(root == NULL)
             return ans;
@@ -52,5 +53,40 @@ public:
         }
 
         return ans;
+    }
+
+    void preorder(TreeNode* node, map<int, map<int, multiset<int>>>& mpp, int x, int y) {
+        if(node == NULL)
+            return;
+        
+        mpp[x][y].insert(node->val);
+
+        preorder(node->left, mpp, x-1, y+1);
+        preorder(node->right, mpp, x+1, y+1);
+    }
+
+    vector<vector<int>> verticalTraversalUsingPreOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        map<int, map<int, multiset<int>>> mpp;
+
+        preorder(root, mpp, 0, 0);
+
+        for(auto p: mpp) {
+            vector<int> col;
+            for(auto q: p.second) {
+                col.insert(col.end(), q.second.begin(), q.second.end());
+            }
+            ans.push_back(col);
+        }
+
+        return ans;
+    }
+    
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        // Using Iterative Level Order Traversal
+        // return verticalTraversalUsingLevelOrder(root);
+
+        // Using Recursive Preorder Traversal
+        return verticalTraversalUsingPreOrder(root);
     }
 };
