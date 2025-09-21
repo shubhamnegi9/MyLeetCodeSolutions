@@ -52,9 +52,32 @@ public:
 
         return LCA;
     }
+
+    // Optimal Approach
+    TreeNode* lowestCommonAncestor2(TreeNode* root, TreeNode* p, TreeNode* q) {
+        if(root == NULL || root == p || root == q) {
+            return root;
+        }
+
+        TreeNode* left = lowestCommonAncestor2(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor2(root->right, p, q);
+
+        if(left == NULL) {
+            return right;   // right can be non-null or null
+        }
+        else if(right == NULL) {
+            return left;    // left can be non-null or null
+        }
+        else {
+            return root;    // left an right are non-null and root is LCA
+        }
+    }
     
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         // Brute Force Approach
-        return lowestCommonAncestor1(root, p, q);
+        // return lowestCommonAncestor1(root, p, q);
+
+        // Optimal Approach
+        return lowestCommonAncestor2(root, p, q);
     }
 };
