@@ -30,7 +30,9 @@ public:
                 auto p = q.front();
                 q.pop();
                 TreeNode* node = p.first;
-                long long int index = p.second - minIdx;      // Modified index
+                // Taken unsigned long long so that overflow does not happen while calculating  
+                // 2*index+1 and 2*index+2
+                unsigned long long index = p.second - minIdx;      // Modified index
                 if(i == 0)  
                     firstIdx = index;
                 if(i == size-1)
