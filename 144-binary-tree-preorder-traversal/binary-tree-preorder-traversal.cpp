@@ -12,25 +12,37 @@
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if(root == NULL)
-            return result;
-        
-        stack<TreeNode*> st;
-        st.push(root);
+        // Morris Preorder Travrsal
+        vector<int> preorder;
+        TreeNode* curr = root;
 
-        while(!st.empty()) {
-            TreeNode* node = st.top();
-            st.pop();
-            result.push_back(node->val);
+        while(curr != NULL) {
+            // Case 1
+            if(curr->left == NULL) {
+                preorder.push_back(curr->val);
+                // Before moving to right, push curr value to preorder
+                curr = curr->right;
+            }
+            // Case 2
+            else {
+                TreeNode* prev = curr->left;
 
-            // Push right node first and then left node
-            if(node->right)
-                st.push(node->right);
-            if(node->left)
-                st.push(node->left);
+                while(prev->right != NULL && prev->right != curr) {
+                    prev = prev->right;
+                }
+
+                if(prev->right == NULL) {
+                    prev->right = curr;
+                    // Before moving to left, push curr value to preorder
+                    preorder.push_back(curr->val);
+                    curr = curr->left;
+                } 
+                else {
+                    prev->right = NULL;
+                    curr = curr->right;
+                }
+            }
         }
-
-        return result;
+        return preorder;
     }
 };
