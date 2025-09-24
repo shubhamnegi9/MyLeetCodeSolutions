@@ -11,28 +11,43 @@
  */
 class Solution {
 public:
+    // T.C. = O(n) + O(n) amortized = O(n)
+    // S.C. = O(1)
     vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> result;
-        if(root == NULL)
-            return result;
+        // Using Morris Inorder Traversal
+        vector<int> inorder;
+        TreeNode* curr = root;
 
-        stack<TreeNode*> st;
-        TreeNode* node = root;
+        while(curr != NULL) {
+            // Case 1
+            if(curr->left == NULL) {
+                // Push curr value in inorder and move curr to right
+                inorder.push_back(curr->val);
+                curr = curr->right;
+            }
+            // Case 2
+            else {
+                TreeNode* prev = curr->left;
 
-        while(true) {
-            if(node != NULL) {
-                st.push(node);
-                node = node->left;
-            } else {
-                if(st.empty()) 
-                    break;
-                node = st.top();
-                st.pop();
-                result.push_back(node->val);
-                node = node->right;
+                while(prev->right != NULL && prev->right != curr) {
+                    prev = prev->right;
+                }
+
+                if(prev->right == NULL) {
+                    // Create threaded link to curr and move curr to left
+                    prev->right = curr;
+                    curr = curr->left;
+                }
+                else {
+                    // Remove threaded link to curr and move curr to right
+                    prev->right = NULL;
+                    // Push curr value in inorder
+                    inorder.push_back(curr->val);
+                    curr = curr->right;
+                }
             }
         }
 
-        return result;
+        return inorder;
     }
 };
