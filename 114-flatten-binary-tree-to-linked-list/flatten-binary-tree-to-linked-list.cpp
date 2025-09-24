@@ -27,6 +27,9 @@ public:
         prev = root;
     }
 
+    // Approach 2 (Iterative Stack Way)
+    // T.C. = O(n)
+    // S.C. = O(n)
     void flatten2(TreeNode* root) {
         if(root == NULL)
             return;
@@ -49,11 +52,38 @@ public:
         }
     }
 
+    // Approach 3 (Morris Traversal)
+    // T.C. = O(n)
+    // S.C. = O(1)
+    void flatten3(TreeNode* root) {
+        if(root == NULL)
+            return;
+        
+        TreeNode* curr = root;
+
+        while(curr != NULL) {
+            if(curr->left != NULL) {
+                TreeNode* prev = curr->left;
+                while(prev->right) {
+                    prev = prev->right;
+                }
+
+                prev->right = curr->right;
+                curr->right = curr->left;
+                curr->left = NULL;
+            }
+            curr = curr->right;
+        }
+    }
+
     void flatten(TreeNode* root) {
         // Approach 1 
         // return flatten1(root);
 
         // Approach 2
-        return flatten2(root);
+        // return flatten2(root);
+
+        // Approach 3
+        return flatten3(root);
     }
 };
