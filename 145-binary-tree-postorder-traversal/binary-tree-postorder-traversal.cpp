@@ -11,62 +11,44 @@
  */
 class Solution {
 public:
-    
-    vector<int> postorderTraversalUsing2Stack(TreeNode* root) {
-        vector<int> result;
-
-        if(root == NULL)
-            return result;
-
-        stack<TreeNode*> st1;
-        stack<TreeNode*> st2;
-
-        st1.push(root);
-
-        while(!st1.empty()) {
-            TreeNode* node = st1.top();
-            st1.pop();
-            st2.push(node);
-            if(node->left)
-                st1.push(node->left);
-            if(node->right)
-                st1.push(node->right);
-        }
-
-        while(!st2.empty()) {
-            result.push_back(st2.top()->val);
-            st2.pop();
-        }
-
-        return result;
-
-    }
-
-    vector<int> postorderTraversalUsing1Stack(TreeNode* root) {
-        vector<int> result;
-        if(root == NULL)
-            return result;
-        
-        stack<TreeNode*> st;
-        st.push(root);
-
-        while(!st.empty()) {
-            TreeNode* node = st.top();
-            st.pop();
-            result.push_back(node->val);
-            if(node->left)
-                st.push(node->left);
-            if(node->right)
-                st.push(node->right);
-        }
-
-        reverse(result.begin(), result.end());
-        return result;
-    }
-    
     vector<int> postorderTraversal(TreeNode* root) {
-        // return postorderTraversalUsing2Stack(root);
+        // Morris Postorder Traversal
+        vector<int> ans;
+        TreeNode* curr = root;
 
-        return postorderTraversalUsing1Stack(root);
+        // Order of traversal: (Root Right Left)
+        while(curr != NULL) {
+            // Case 1
+            if(curr->right == NULL) {
+                ans.push_back(curr->val);
+                curr = curr->left;
+            }
+            // Case 2
+            else {
+                TreeNode* prev = curr->right;
+
+                // Finding leftmost node in right subtree
+                while(prev->left != NULL && prev->left != curr) {
+                    prev = prev->left;
+                }
+
+                if(prev->left == NULL) {
+                    // Create thread from prev to curr
+                    prev->left = curr;
+                    ans.push_back(curr->val);
+                    curr = curr->right;
+                }
+                else {
+                    // Remove thread from prev to curr
+                    prev->left = NULL;
+                    curr = curr->left;
+                }
+            }
+        }
+
+        // Reverse ans vector to get postorder traversal
+        // (Root Right Left) ----> (Left Right Root)
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
