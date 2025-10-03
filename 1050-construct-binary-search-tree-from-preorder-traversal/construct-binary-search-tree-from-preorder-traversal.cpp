@@ -48,8 +48,36 @@ public:
         return buildTree(preorder, inorder);
     }
 
+    TreeNode* buildTreeOptimal(vector<int>& preorder, int& i, int upperBound) {
+        // Base case
+        if(i == preorder.size() || preorder[i] > upperBound) {
+            return NULL;
+        }
+
+        TreeNode* root = new TreeNode(preorder[i]);
+        i++;
+
+        // For left subtree, upper bound will be current node's value
+        root->left = buildTreeOptimal(preorder, i, root->val);
+        // For right subtree, upper bound will be upper bound of current node
+        root->right = buildTreeOptimal(preorder, i, upperBound);
+
+        return root;
+    }
+
+    // Optimal Approach
+    // T.C. = O(3n) = O(n)
+    // S.C. = O(1) extra space (O(h) recursive stack space)
+    TreeNode* bstFromPreorder2(vector<int>& preorder) {
+        int i = 0;
+        return buildTreeOptimal(preorder, i, INT_MAX);
+    }
+
     TreeNode* bstFromPreorder(vector<int>& preorder) {
         // Better Approach
-        return bstFromPreorder1(preorder);
+        // return bstFromPreorder1(preorder);
+
+        // Optimal Approach
+        return bstFromPreorder2(preorder);
     }
 };
