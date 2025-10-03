@@ -37,10 +37,37 @@ public:
 
         sort(ans.begin(), ans.end());
         return ans[k-1];
-    }   
+    }  
+
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(h)
+    void inorder(TreeNode* root, int k, int& count, int& ans) {
+        if(root == NULL)
+            return;
+        
+        inorder(root->left, k, count, ans);
+
+        count++;
+        if(count == k) {
+            ans = root->val;
+            return;
+        }
+
+        inorder(root->right, k, count, ans);
+    } 
+
+    int kthSmallest2(TreeNode* root, int k) {
+        int count = 0, ans = 0;
+        inorder(root, k, count, ans);
+        return ans;
+    }
     
     int kthSmallest(TreeNode* root, int k) {
         // Brute Force Approach
-        return kthSmallest1(root, k);
+        // return kthSmallest1(root, k);
+
+        // Optimal Approach
+        return kthSmallest2(root, k);
     }
 };
