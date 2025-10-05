@@ -9,6 +9,41 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+class BSTIterator{
+    stack<TreeNode*> st;
+    bool reverse = false;
+
+    public:
+    BSTIterator(TreeNode* root, bool isReverse) {
+        reverse = isReverse;
+        pushAll(root);
+    }
+
+    int next() {
+        TreeNode* temp = st.top();
+        st.pop();
+        if(!reverse) {
+            pushAll(temp->right);
+        } else {
+            pushAll(temp->left);
+        }
+        return temp->val;
+    }
+
+    private:
+    void pushAll(TreeNode* root) {
+        while(root != NULL) {
+            st.push(root);
+            if(!reverse) {
+                root = root->left;
+            } else {
+                root = root->right;
+            }
+        }
+    }
+};
+    
 class Solution {
 public:
     
@@ -45,9 +80,38 @@ public:
 
         return false;
     }
+
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = 2*O(h)
+    bool findTarget2(TreeNode* root, int k) {
+        if(root == NULL)
+            return false;
+
+        // Creating 2 objects for BSTIterator class 
+        BSTIterator l(root, false);
+        BSTIterator r(root, true);
+
+        int n1 = l.next(), n2 = r.next();
+
+        while(n1 < n2) {
+            if(n1+n2 == k) {
+                return true;
+            }
+            else if(n1+n2 < k) {
+                n1 = l.next();
+            } else {
+                n2 = r.next();
+            }
+        }
+        return false;
+    }
     
     bool findTarget(TreeNode* root, int k) {
         // Brute Force Approach
-        return findTarget1(root, k);
+        // return findTarget1(root, k);
+
+        // Optimal Approach
+        return findTarget2(root, k);
     }
 };
