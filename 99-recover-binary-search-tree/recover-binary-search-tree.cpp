@@ -10,6 +10,12 @@
  * };
  */
 class Solution {
+private:
+TreeNode* prev;
+TreeNode* first;
+TreeNode* middle;
+TreeNode* last;
+
 public:
     void inorder(TreeNode* root, vector<int>& v) {
         if(root == NULL)
@@ -48,8 +54,49 @@ public:
         inorderAgain(root, v, i);
     }
     
+    void inorderOptimal(TreeNode* node) {
+        if(node == NULL)
+            return;
+        
+        inorderOptimal(node->left);
+
+        // Condition for violation
+        if(prev != NULL && node->val < prev->val) {
+            // First violation
+            if(first == NULL) {
+                first = prev;
+                middle = node;
+            }
+            // Second Violation
+            else {
+                last = node;
+            }
+        }
+        prev = node;
+    
+        inorderOptimal(node->right);
+    }
+
+    // Optimal Approach
+    // T.C. = O(n)
+    // S.C. = O(1)
+    void recoverTree2(TreeNode* root) {
+        first = middle = last = NULL;
+        prev = new TreeNode(INT_MIN);
+
+        inorderOptimal(root);
+
+        if(first && last)           // First violation
+            swap(first->val, last->val);
+        else if(first && middle)    // Second violation
+            swap(first->val, middle->val);
+    }
+    
     void recoverTree(TreeNode* root) {
         // Brute Force Approach
-        recoverTree1(root);
+        // recoverTree1(root);
+
+        // Optimal Approach
+        recoverTree2(root); 
     }
 };
