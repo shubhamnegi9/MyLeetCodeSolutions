@@ -1,45 +1,54 @@
 class Solution {
 public:
-    // T.C. = O(2n)
-    // S.C. = O(n) 
+    // Brute Force Approach
     void moveZeroes1(vector<int>& nums) {
+        vector<int> v;
         int n = nums.size();
-        vector<int> temp;
-        for(int i = 0; i < n; i++) {
-            if(nums[i] != 0)
-                temp.push_back(nums[i]);
+
+        for(int& num: nums) {
+            if(num != 0)
+                v.push_back(num);
         }
 
-        int size = temp.size();
-        for(int i = 0; i < size; i++) {
-            nums[i] = temp[i];
+        int nz = v.size();
+
+        for(int i = 0; i < nz; i++) {
+            nums[i] = v[i];
         }
-        for(int i = size; i < n; i++) {
+
+        for(int i = nz; i < n; i++) {
             nums[i] = 0;
         }
     }
 
-    // T.C. = O(2n)
-    // S.C. = O(1)
+    // Optimal Approach
     void moveZeroes2(vector<int>& nums) {
         int n = nums.size();
-        int i = 0;
-        while(i < n && nums[i] != 0) {
-            i++;
+        int i = -1;
+
+        for(int j = 0; j < n; j++) {
+            if(nums[j] == 0) {
+                i = j;
+                break;
+            }
         }
-        if(i < n) {
-            for(int j = i+1; j < n; j++) {
-                if(nums[j] != 0) {
-                    swap(nums[i], nums[j]);
-                    i++;
-                }
+
+        if(i == -1)
+            return;
+        
+        for(int j = i+1; j < n; j++) {
+            if(nums[j] != 0) {
+                swap(nums[i], nums[j]);
+                i++;
             }
         }
     }
 
     void moveZeroes(vector<int>& nums) {
-        // return moveZeroes1(nums);
+        // Brute Force Approach
+        // moveZeroes1(nums);
 
-        return moveZeroes2(nums);
+        // Optimal Approach
+        moveZeroes2(nums);
     }
 };
