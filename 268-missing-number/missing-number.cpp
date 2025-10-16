@@ -1,70 +1,53 @@
 class Solution {
 public:
-    // T.C. = O(n^2)
-    // S.C. = O(1)
+    // Brute Force Approach
     int missingNumber1(vector<int>& nums) {
         int n = nums.size();
-        for(int i = 0; i <= n; i++) {
-            int found = false;
-            for(int& ele: nums) {
-                if(ele == i) {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found)
-                return i;
-        }
-        return -1;
-    }
-
-    // T.C. = O(n) for inserting in set + O(n) for finding missing number
-    // S.C. = O(n) for set
-    int missingNumber2(vector<int>& nums) {
-        int n = nums.size();
         unordered_set<int> st(nums.begin(), nums.end());
-        
+
         for(int i = 0; i <= n; i++) {
             if(st.find(i) == st.end()) {
                 return i;
             }
         }
+
         return -1;
     }
-    
-    // T.C. = O(n)
-    // S.C. = O(1)
-    int missingNumber3(vector<int>& nums) {
+
+    // Optimal Approach using sum
+    int missingNumber2(vector<int>& nums) {
         int n = nums.size();
-        int totalSum = n*(n+1)/2;
-        int sum = 0;
-        for(int& ele: nums) {
-            sum += ele;
+        int S = n*(n+1)/2;
+        int S2 = 0;
+
+        for(int& num: nums) {
+            S2+=num;
         }
-        return totalSum-sum;
+
+        return S - S2;
     }
 
-    // T.C. = O(n)
-    // S.C. = O(1)
-    int missingNumber4(vector<int>& nums) {
+    int missingNumber3(vector<int>& nums) {
+        int XOR = 0;
         int n = nums.size();
-        int XR = 0;
-        for(int i = 0; i < n; i++) {
-            XR ^= nums[i];
-            XR ^= i;
-        }
-        XR ^= n;
 
-        return XR;
+        for(int i = 0; i < n; i++) {
+            XOR ^= nums[i];
+            XOR ^= i;
+        }
+        XOR ^= n;
+
+        return XOR;
     }
     
     int missingNumber(vector<int>& nums) {
+        // Brute Force Approach
         // return missingNumber1(nums);
 
+        // Optimal Approach using sum
         // return missingNumber2(nums);
 
-        // return missingNumber3(nums);
-
-        return missingNumber4(nums);
+        // Optimal Approach using XOR
+        return missingNumber3(nums);
     }
 };
